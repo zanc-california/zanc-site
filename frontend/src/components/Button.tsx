@@ -24,13 +24,13 @@ const Button: React.FC<ButtonProps> = ({
   const variantClasses = {
     primary: disabled 
       ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
-      : 'bg-primary-800 text-white hover:bg-primary-700 focus:ring-primary-500',
+      : 'bg-[#1a3c2a] text-white hover:bg-primary-800 focus:ring-primary-600 border-2 border-transparent',
     secondary: disabled 
       ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
-      : 'bg-accent-400 text-white hover:bg-accent-500 focus:ring-accent-400',
+      : 'bg-[#1a3c2a] text-white hover:bg-primary-800 focus:ring-primary-600 border-2 border-transparent',
     outline: disabled 
-      ? 'border border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed' 
-      : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-primary-500',
+      ? 'border-2 border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed' 
+      : 'border-2 border-primary-700 text-primary-800 bg-white hover:bg-primary-50 focus:ring-primary-500',
   };
   
   const sizeClasses = {

@@ -39,13 +39,21 @@ const Insurance = () => {
                   >
                     {options.map((opt) => (
                       <option key={opt.url} value={opt.url}>
-                        {opt.label}
+                        {opt.label}{opt.price ? ` — ${opt.price}` : ''}
                       </option>
                     ))}
                   </select>
-                  <a href={selectedUrl} target="_blank" rel="noopener noreferrer" className="inline-block">
-                    <Button variant="primary">Pay with Stripe</Button>
-                  </a>
+                  {(() => {
+                    const selected = options.find((o) => o.url === selectedUrl);
+                    return (
+                      <div className="flex flex-wrap items-center gap-3">
+                        {selected?.price && <span className="text-lg font-semibold text-primary-800">{selected.price}</span>}
+                        <a href={selectedUrl} target="_blank" rel="noopener noreferrer" className="inline-block">
+                          <Button variant="primary">Pay with Stripe</Button>
+                        </a>
+                      </div>
+                    );
+                  })()}
                 </div>
               ) : (
                 <p className="text-amber-700 text-sm">Insurance payment links are not configured. Add VITE_STRIPE_INSURANCE_* vars in Vercel and .env.local.</p>

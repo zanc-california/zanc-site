@@ -6,31 +6,34 @@ import { supabase } from '../lib/supabase';
 const News = () => {
   const [newsItems, setNewsItems] = useState<Array<{ id: string; title: string; excerpt: string | null; date: string; slug: string }>>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchNews = async () => {
-      const { data, error: err } = await supabase
-        .from('news')
-        .select('id, title, excerpt, published_at, slug')
-        .eq('published', true)
-        .order('published_at', { ascending: false });
+      try {
+        const { data, error: err } = await supabase
+          .from('news')
+          .select('id, title, excerpt, published_at, slug')
+          .eq('published', true)
+          .order('published_at', { ascending: false });
 
-      if (err) {
-        setError(err.message);
+        if (err) {
+          setNewsItems([]);
+        } else {
+          setNewsItems(
+            (data || []).map((row) => ({
+              id: row.id,
+              title: row.title,
+              excerpt: row.excerpt || '',
+              date: row.published_at ? new Date(row.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '',
+              slug: row.slug,
+            }))
+          );
+        }
+      } catch {
         setNewsItems([]);
-      } else {
-        setNewsItems(
-          (data || []).map((row) => ({
-            id: row.id,
-            title: row.title,
-            excerpt: row.excerpt || '',
-            date: row.published_at ? new Date(row.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '',
-            slug: row.slug,
-          }))
-        );
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     fetchNews();
   }, []);
@@ -40,9 +43,6 @@ const News = () => {
       <PageHeader title="News & Updates" />
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 text-red-800 rounded-lg">{error}</div>
-          )}
           {loading ? (
             <div className="text-center py-12 text-gray-500">Loading...</div>
           ) : newsItems.length === 0 ? (

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import Button from '../components/Button';
-import { getMembershipMonthlyLink, getMembershipYearlyLink } from '../lib/stripe';
+import { getMembershipMonthlyLink, getMembershipYearlyLink, getMembershipPrices } from '../lib/stripe';
 
 type BillingOption = 'monthly' | 'yearly';
 
@@ -13,6 +13,7 @@ const Membership = () => {
 
   const paymentLink = billing === 'monthly' ? monthlyLink : yearlyLink;
   const hasOptions = monthlyLink || yearlyLink;
+  const prices = getMembershipPrices();
 
   return (
     <div>
@@ -42,26 +43,28 @@ const Membership = () => {
                       <button
                         type="button"
                         onClick={() => setBilling('yearly')}
-                        className={`px-4 py-2 rounded-md border-2 font-medium transition-colors ${
+                        className={`px-4 py-2 rounded-md border-2 font-medium transition-colors text-left ${
                           billing === 'yearly'
                             ? 'border-primary-600 bg-primary-50 text-primary-800'
                             : 'border-gray-300 text-gray-700 hover:border-primary-400'
                         }`}
                       >
-                        Yearly
+                        <span className="block">Yearly</span>
+                        {prices.yearly && <span className="block text-sm font-semibold text-primary-700">{prices.yearly}</span>}
                       </button>
                     )}
                     {monthlyLink && (
                       <button
                         type="button"
                         onClick={() => setBilling('monthly')}
-                        className={`px-4 py-2 rounded-md border-2 font-medium transition-colors ${
+                        className={`px-4 py-2 rounded-md border-2 font-medium transition-colors text-left ${
                           billing === 'monthly'
                             ? 'border-primary-600 bg-primary-50 text-primary-800'
                             : 'border-gray-300 text-gray-700 hover:border-primary-400'
                         }`}
                       >
-                        Monthly
+                        <span className="block">Monthly</span>
+                        {prices.monthly && <span className="block text-sm font-semibold text-primary-700">{prices.monthly}</span>}
                       </button>
                     )}
                   </div>

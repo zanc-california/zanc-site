@@ -60,8 +60,8 @@ const NewsArticle = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {dateStr && <p className="text-sm text-gray-500 mb-6">Published on {dateStr}</p>}
           {article.cover_image_url && (
-            <div className="mb-8 rounded-lg overflow-hidden">
-              <img src={article.cover_image_url} alt={article.title} className="w-full h-auto object-cover" />
+            <div className="mb-8 rounded-lg overflow-hidden aspect-video w-full bg-gray-100">
+              <img src={article.cover_image_url} alt={article.title} className="w-full h-full object-cover" />
             </div>
           )}
           <div

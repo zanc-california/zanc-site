@@ -174,11 +174,11 @@ const NewsDetail = () => {
           </div>
           
           {newsItem.imageUrl && (
-            <div className="mb-8 rounded-lg overflow-hidden">
-              <img 
+            <div className="mb-8 rounded-lg overflow-hidden aspect-video w-full bg-gray-100">
+              <img
                 src={newsItem.imageUrl}
                 alt={newsItem.title}
-                className="w-full h-auto object-cover"
+                className="w-full h-full object-cover"
               />
             </div>
           )}

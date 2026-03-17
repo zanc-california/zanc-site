@@ -3,52 +3,47 @@ import PageHeader from '../components/PageHeader';
 import BoardMember from '../components/BoardMember';
 
 const About = () => {
-  // Board members data
+  // Board members (2026–2028)
   const boardMembers = [
     {
       id: 1,
       name: 'Mabvuto Kaela',
       position: 'President',
-      imageUrl: '/images/members/president.jpg'
+      imageUrl: '/images/members/president.jpg',
     },
     {
       id: 2,
-      name: 'Kasamba Sikapizye',
+      name: 'Beene Naulapwa',
       position: 'Vice President',
-      imageUrl: '/images/members/vice-president.jpg'
+      imageUrl: '/images/members/secretary.jpg',
     },
     {
       id: 3,
-      name: 'Atupele Munde Mazala',
+      name: 'Mujina Masumba',
       position: 'Treasurer',
-      imageUrl: '/images/members/treasurer.jpg'
     },
     {
       id: 4,
-      name: 'John Doe',
+      name: 'Susanna Kaela',
       position: 'Vice Treasurer',
-      imageUrl: ''
     },
     {
       id: 5,
-      name: 'Beene Naulapwa',
+      name: 'Colleen Alvarez',
       position: 'Secretary',
-      imageUrl: '/images/members/secretary.jpg'
     },
-  
     {
       id: 6,
-      name: 'Lusayo Munde',
+      name: 'Catherine Semayo',
       position: 'Vice Secretary',
-      imageUrl: '/images/members/vice-secretary.jpg'
-    }
+    },
   ];
 
   return (
     <div>
       <PageHeader title="About" />
       
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-primary-800 mb-6 font-heading">Our Mission</h2>
@@ -70,10 +65,10 @@ const About = () => {
         </div>
       </section>
       
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section className="py-12 md:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl md:text-3xl font-bold text-primary-800 mb-10 text-center font-heading">Board Members</h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 justify-items-center">
             {boardMembers.map(member => (
               <BoardMember 
@@ -84,10 +79,13 @@ const About = () => {
               />
             ))}
           </div>
+          <p className="mt-8 text-center text-sm text-gray-600 max-w-2xl mx-auto">
+            Additional appointed invitees to the board (5 positions) will be announced soon.
+          </p>
         </div>
       </section>
       
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-primary-800 mb-6 font-heading">Our History</h2>
@@ -105,6 +103,11 @@ const About = () => {
               preservation, and community service. We look forward to many more years of connecting Zambians 
               across California and making meaningful contributions both locally and in Zambia.
             </p>
+            <div className="pt-4">
+              <a href="/membership" className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-md bg-[#1a3c2a] text-white hover:bg-primary-800 focus:ring-2 focus:ring-offset-2 focus:ring-primary-600">
+                Join ZANC
+              </a>
+            </div>
           </div>
         </div>
       </section>

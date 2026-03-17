@@ -103,7 +103,9 @@ export default function AdminGallery() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {items.map((item) => (
           <div key={item.id} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-            <img src={item.image_url} alt={item.caption || ''} className="w-full h-40 object-cover" />
+            <div className="aspect-square w-full bg-gray-100">
+              <img src={item.image_url} alt={item.caption || ''} className="w-full h-full object-cover" />
+            </div>
             <div className="p-2 text-sm text-gray-600 truncate">{item.caption || item.category || '—'}</div>
             <div className="p-2 flex gap-2">
               <input

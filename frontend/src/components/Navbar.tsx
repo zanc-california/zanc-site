@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Facebook, Linkedin, Menu, X, Settings } from 'lucide-react';
+import { Facebook, Linkedin, Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -52,14 +52,6 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center space-x-4 border-l border-gray-200 pl-4">
-            <Link
-              to="/admin"
-              className="flex items-center space-x-1 text-gray-500 hover:text-primary-800 transition-colors"
-              title="Admin"
-            >
-              <Settings size={20} />
-              <span className="hidden sm:inline text-sm font-medium">Admin</span>
-            </Link>
             <a href="https://facebook.com" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-primary-800" aria-label="Facebook">
               <Facebook size={20} />
             </a>
@@ -77,9 +69,6 @@ const Navbar = () => {
                   {label}
                 </Link>
               ))}
-              <Link to="/admin" className={mobileLinkClass('/admin')} onClick={() => setIsMenuOpen(false)}>
-                Admin
-              </Link>
             </div>
           </div>
         )}
