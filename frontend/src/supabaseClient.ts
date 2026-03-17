@@ -1,8 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL!,
-  import.meta.env.VITE_SUPABASE_ANON_KEY!
-);
-
+// Re-export for legacy imports (e.g. SignIn, SignUp). New code should use lib/supabase.
+import { supabase } from './lib/supabase';
+export { supabase };
 export default supabase;

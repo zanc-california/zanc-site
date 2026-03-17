@@ -1,7 +1,8 @@
-# Ignore environment files
+# Ignore environment files and key dumps (never commit secrets)
 .env
 .env.local
 .env.*
+keys-to-delete-after.md
 
 # Node modules
 node_modules/

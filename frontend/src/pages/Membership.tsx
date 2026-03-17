@@ -1,0 +1,92 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import PageHeader from '../components/PageHeader';
+import Button from '../components/Button';
+import { getMembershipMonthlyLink, getMembershipYearlyLink } from '../lib/stripe';
+
+type BillingOption = 'monthly' | 'yearly';
+
+const Membership = () => {
+  const monthlyLink = getMembershipMonthlyLink();
+  const yearlyLink = getMembershipYearlyLink();
+  const [billing, setBilling] = useState<BillingOption>('yearly');
+
+  const paymentLink = billing === 'monthly' ? monthlyLink : yearlyLink;
+  const hasOptions = monthlyLink || yearlyLink;
+
+  return (
+    <div>
+      <PageHeader title="Membership" />
+      <section className="py-12 md:py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-primary-800 mb-6 font-heading">Join ZANC</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div>
+              <p className="text-gray-700 mb-6 leading-relaxed">
+                Becoming a member of ZANC connects you with fellow Zambians in California and gives you access to our
+                network, resources, and events.
+              </p>
+              <ul className="list-disc pl-5 space-y-2 text-gray-700 mb-6">
+                <li>Invitations to exclusive cultural and networking events</li>
+                <li>Regular updates on community news and activities</li>
+                <li>Opportunities to participate in community service projects</li>
+                <li>Access to mentorship and professional development resources</li>
+                <li>Voting rights in organizational elections</li>
+              </ul>
+
+              {hasOptions ? (
+                <div className="space-y-4">
+                  <p className="text-sm font-medium text-gray-700">Choose your billing</p>
+                  <div className="flex flex-wrap gap-3">
+                    {yearlyLink && (
+                      <button
+                        type="button"
+                        onClick={() => setBilling('yearly')}
+                        className={`px-4 py-2 rounded-md border-2 font-medium transition-colors ${
+                          billing === 'yearly'
+                            ? 'border-primary-600 bg-primary-50 text-primary-800'
+                            : 'border-gray-300 text-gray-700 hover:border-primary-400'
+                        }`}
+                      >
+                        Yearly
+                      </button>
+                    )}
+                    {monthlyLink && (
+                      <button
+                        type="button"
+                        onClick={() => setBilling('monthly')}
+                        className={`px-4 py-2 rounded-md border-2 font-medium transition-colors ${
+                          billing === 'monthly'
+                            ? 'border-primary-600 bg-primary-50 text-primary-800'
+                            : 'border-gray-300 text-gray-700 hover:border-primary-400'
+                        }`}
+                      >
+                        Monthly
+                      </button>
+                    )}
+                  </div>
+                  <a href={paymentLink} target="_blank" rel="noopener noreferrer" className="inline-block">
+                    <Button variant="primary">Join ZANC — Pay with Stripe</Button>
+                  </a>
+                </div>
+              ) : (
+                <p className="text-amber-700 text-sm">Membership payment links are not configured. Add VITE_STRIPE_MEMBERSHIP_MONTHLY and VITE_STRIPE_MEMBERSHIP_YEARLY in Vercel and .env.local.</p>
+              )}
+            </div>
+            <div className="bg-primary-50 p-6 rounded-lg border border-primary-200">
+              <h3 className="text-xl font-semibold text-primary-800 mb-4 font-heading">Forms</h3>
+              <p className="text-gray-700 mb-4">
+                Download the membership application form, complete it, and submit per the instructions. Payment can be made via the button above.
+              </p>
+              <Link to="/forms">
+                <Button variant="outline" className="w-full">Download Membership Form</Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Membership;

@@ -1,34 +1,43 @@
 # ZANC — Association of Zambians in California
 
-Website and membership/insurance application for the Association of Zambians in California.
+Content site with payments for the **Association of Zambians in California**.
 
 **Repo:** [github.com/zanc-california/zanc-site](https://github.com/zanc-california/zanc-site) · **Live site:** [zanc-site.vercel.app](https://zanc-site.vercel.app)
 
-## Repository layout
+## Architecture (frontend-only)
 
-- **`frontend/`** — React (Vite, TypeScript, Tailwind) SPA. Auth via Supabase; API calls to backend.
-- **`backend/`** — Express API (Node, Prisma, PostgreSQL). Stripe payments; optional Supabase webhook.
-- **`docs/`** — Additional documentation (if present).
+- **Frontend** — Vite + React + Tailwind, deployed on **Vercel**
+- **Supabase** — Auth (admin only), Database (news, gallery, admins), Storage (images)
+- **Stripe** — Payment Links for membership and insurance (no backend; optional Edge Function later)
+- **No Express/Node backend** — no server to host
 
-## Quick start (developers)
+```
+zanc-site/
+├── frontend/           # SPA (Vercel)
+│   ├── src/
+│   │   ├── pages/      # Home, About, News, Gallery, Membership, Insurance, Forms, etc.
+│   │   ├── admin/     # Admin login, dashboard, news CRUD, gallery CRUD
+│   │   ├── components/
+│   │   └── lib/       # supabase.ts, stripe.ts
+│   └── public/forms/  # PDFs: membership-application.pdf, insurance-application.pdf
+├── supabase/
+│   └── migrations/    # Schema: news, gallery, admins + RLS
+├── HANDOFF.md
+└── README.md
+```
 
-- **Frontend:** `cd frontend && npm install && cp .env.example .env.local` (fill in values), then `npm run dev` (port 5173).
-- **Backend:** `cd backend && npm install && cp .env.example .env` (fill in values), `npx prisma migrate dev`, then `npm run dev` (port 4000).
-- Set `VITE_BACKEND_URL` in frontend to your backend URL; backend needs PostgreSQL, Supabase, and Stripe env vars.
+## Quick start
+
+1. **Supabase:** Create a project. Run the SQL in `supabase/migrations/001_initial_schema.sql` (Table Editor or SQL Editor). Create an `images` storage bucket (public read, authenticated write). Add your first admin user to Auth, then insert their UUID into the `admins` table.
+2. **Stripe:** Create two Payment Links (membership, insurance) in the Dashboard. Set success/cancel URLs to your frontend (e.g. `https://zanc-site.vercel.app/payment-success` and `/payment-cancel`).
+3. **Frontend:** `cd frontend && npm install && cp .env.example .env.local` — fill in Supabase URL/anon key and Stripe Payment Link URLs. `npm run dev` (port 5173).
+4. **Forms:** Add PDFs to `frontend/public/forms/`: `membership-application.pdf`, `insurance-application.pdf`.
 
 ## Deployment
 
-| Component | Where | Notes |
-|-----------|--------|--------|
-| Frontend | [Vercel](https://vercel.com/leverage-labs/zanc-site) | Root: `frontend/`, Framework: Vite, auto-deploy on push to `main` |
-| Backend | Railway / Render / etc. | Root: `backend/`, needs env vars and `npx prisma migrate deploy` |
+- **Vercel** — Connect repo, root directory `frontend/`, add env vars from `.env.example`. No backend to deploy.
+- **Supabase** — Hosted by Supabase. Run migrations and create bucket as above.
 
 ## Migration and ownership
 
-**If you are migrating the site or handing off ownership to ZANC**, see **[HANDOFF.md](./HANDOFF.md)**. It covers:
-
-- Migrating to a new host (your GitHub/Vercel first, or straight into ZANC’s accounts).
-- Full checklist for handing the project over to ZANC when they’re ready.
-- Environment variable list for Frontend and Backend.
-
-No ZANC member needs to run the migration; it can be done once by the person performing the move.
+See **[HANDOFF.md](./HANDOFF.md)** for handoff and env reference.

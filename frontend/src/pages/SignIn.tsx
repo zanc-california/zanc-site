@@ -1,3 +1,4 @@
+// TODO: Re-enable member accounts when ready. This page is not in app routes (simplified frontend-only site).
 import React, { useState, useEffect } from 'react';
 import supabase from '../supabaseClient';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
