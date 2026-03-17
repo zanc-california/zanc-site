@@ -35,7 +35,7 @@ const Navbar = () => {
   return (
     <header className={`sticky top-0 z-40 ${isScrolled ? 'bg-white/90 backdrop-blur shadow-sm' : 'bg-white'} border-b border-mist`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav className={`flex justify-between items-center ${isScrolled ? 'py-3' : 'py-4'} transition-all`}>
+        <nav className="flex justify-between items-center py-4">
           <Link to="/" className="flex items-center gap-3">
             <span className="inline-flex items-center justify-center h-9 w-9 rounded-md bg-copper-glow border border-mist">
               <span className="font-heading font-bold text-copper">Z</span>

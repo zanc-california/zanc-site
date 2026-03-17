@@ -7,7 +7,7 @@ const formFiles = [
 ];
 
 const SUBMIT_INSTRUCTIONS =
-  'Download, complete, and return your application to ZANC via email at info@zanc.org or mail to our PO Box address. For questions, contact the ZANC Secretary.';
+  'Download, complete, and return your application to ZANC via email at zancsac@gmail.com or mail to our PO Box address. For questions, contact the ZANC Secretary.';
 
 const Forms = () => {
   return (

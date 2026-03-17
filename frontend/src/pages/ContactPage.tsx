@@ -20,7 +20,7 @@ const ContactPage = () => {
               <div className="space-y-6 mb-8">
                 <div>
                   <h3 className="text-lg font-medium text-primary-800 mb-1">Email</h3>
-                  <p className="text-gray-700">info@zanc.org</p>
+                  <p className="text-gray-700">zancsac@gmail.com</p>
                 </div>
                 
                 <div>
@@ -43,7 +43,7 @@ const ContactPage = () => {
                   <a 
                     href="https://facebook.com" 
                     target="_blank" 
-                    rel="noreferrer" 
+                    rel="noopener noreferrer" 
                     className="text-gray-500 hover:text-primary-800 transition-colors"
                   >
                     <span className="sr-only">Facebook</span>
@@ -54,7 +54,7 @@ const ContactPage = () => {
                   <a 
                     href="https://linkedin.com" 
                     target="_blank" 
-                    rel="noreferrer" 
+                    rel="noopener noreferrer" 
                     className="text-gray-500 hover:text-primary-800 transition-colors"
                   >
                     <span className="sr-only">LinkedIn</span>

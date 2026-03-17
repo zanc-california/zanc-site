@@ -1,18 +1,11 @@
-import { useState } from 'react';
 import PageHeader from '../components/PageHeader';
 import Button from '../components/Button';
-import { getMembershipMonthlyLink, getMembershipYearlyLink, getMembershipPrices } from '../lib/stripe';
-
-type BillingOption = 'monthly' | 'yearly';
+import { getMembershipNorCalMonthlyLink, getMembershipNorCalYearlyLink, getMembershipOutOfStateYearlyLink } from '../lib/stripe';
 
 const Membership = () => {
-  const monthlyLink = getMembershipMonthlyLink();
-  const yearlyLink = getMembershipYearlyLink();
-  const [billing, setBilling] = useState<BillingOption>('yearly');
-
-  const paymentLink = billing === 'monthly' ? monthlyLink : yearlyLink;
-  const hasOptions = monthlyLink || yearlyLink;
-  const prices = getMembershipPrices();
+  const norcalMonthlyLink = getMembershipNorCalMonthlyLink();
+  const norcalYearlyLink = getMembershipNorCalYearlyLink();
+  const outStateYearlyLink = getMembershipOutOfStateYearlyLink();
 
   return (
     <div>
@@ -40,7 +33,7 @@ const Membership = () => {
 
               <div className="mt-5">
                 <p className="text-4xl font-heading font-bold text-copper">$10<span className="text-base text-slate font-normal">/mo</span></p>
-                <p className="text-sm text-slate mt-1">$120/year</p>
+                <p className="text-sm text-slate mt-1">$80/year</p>
               </div>
 
               <ul className="mt-5 space-y-2 text-slate text-sm">
@@ -50,25 +43,20 @@ const Membership = () => {
               </ul>
 
               <div className="mt-6 flex flex-wrap gap-3">
-                {monthlyLink && (
-                  <a href={monthlyLink} target="_blank" rel="noopener noreferrer" className="inline-block">
+                {norcalMonthlyLink && (
+                  <a href={norcalMonthlyLink} target="_blank" rel="noopener noreferrer" className="inline-block">
                     <Button variant="accent">Join — Monthly</Button>
                   </a>
                 )}
-                {yearlyLink && (
-                  <a href={yearlyLink} target="_blank" rel="noopener noreferrer" className="inline-block">
+                {norcalYearlyLink && (
+                  <a href={norcalYearlyLink} target="_blank" rel="noopener noreferrer" className="inline-block">
                     <Button variant="primary">Join — Yearly</Button>
                   </a>
                 )}
-                {!monthlyLink && !yearlyLink && (
+                {!norcalMonthlyLink && !norcalYearlyLink && (
                   <p className="text-amber-700 text-sm">Membership payment links are not configured.</p>
                 )}
               </div>
-              {(prices.monthly || prices.yearly) && (
-                <p className="mt-3 text-xs text-slate">
-                  Display prices (env): {prices.monthly ?? '—'} / {prices.yearly ?? '—'}
-                </p>
-              )}
             </div>
 
             <div className="bg-white rounded-xl border border-mist p-6 shadow-sm">
@@ -78,8 +66,8 @@ const Membership = () => {
               </div>
 
               <div className="mt-5">
-                <p className="text-4xl font-heading font-bold text-copper">$5<span className="text-base text-slate font-normal">/mo</span></p>
-                <p className="text-sm text-slate mt-1">$60/year</p>
+                <p className="text-4xl font-heading font-bold text-copper">$40<span className="text-base text-slate font-normal">/yr</span></p>
+                <p className="text-sm text-slate mt-1">Out of State</p>
               </div>
 
               <ul className="mt-5 space-y-2 text-slate text-sm">
@@ -89,17 +77,12 @@ const Membership = () => {
               </ul>
 
               <div className="mt-6 flex flex-wrap gap-3">
-                {monthlyLink && (
-                  <a href={monthlyLink} target="_blank" rel="noopener noreferrer" className="inline-block">
-                    <Button variant="outline">Join — Monthly</Button>
-                  </a>
-                )}
-                {yearlyLink && (
-                  <a href={yearlyLink} target="_blank" rel="noopener noreferrer" className="inline-block">
+                {outStateYearlyLink && (
+                  <a href={outStateYearlyLink} target="_blank" rel="noopener noreferrer" className="inline-block">
                     <Button variant="outline">Join — Yearly</Button>
                   </a>
                 )}
-                {!monthlyLink && !yearlyLink && (
+                {!outStateYearlyLink && (
                   <p className="text-amber-700 text-sm">Membership payment links are not configured.</p>
                 )}
               </div>
@@ -110,7 +93,7 @@ const Membership = () => {
             <div className="bg-cloud rounded-xl border border-mist p-6">
               <h3 className="text-lg font-heading font-semibold text-zambia-green">Membership Application Form</h3>
               <p className="text-slate mt-2 text-sm">
-                Download, complete, and return your application via email at info@zanc.org or mail to our PO Box address.
+                Download, complete, and return your application via email at zancsac@gmail.com or mail to our PO Box address.
               </p>
               <div className="mt-4">
                 <a href="/forms/membership-application.pdf" download className="inline-block">

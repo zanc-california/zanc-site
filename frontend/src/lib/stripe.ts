@@ -3,21 +3,21 @@
  * Env vars are set in .env.local and Vercel.
  */
 
-// Membership — Monthly vs Yearly
-export function getMembershipMonthlyLink(): string {
+// Membership — NorCal vs Out-of-State
+export function getMembershipNorCalMonthlyLink(): string {
   return import.meta.env.VITE_STRIPE_MEMBERSHIP_MONTHLY ?? '';
 }
 
-export function getMembershipYearlyLink(): string {
+export function getMembershipNorCalYearlyLink(): string {
   return import.meta.env.VITE_STRIPE_MEMBERSHIP_YEARLY ?? '';
 }
 
-/** Optional display prices (set in Vercel / .env.local). e.g. "25/month" or "$50/year" */
-export function getMembershipPrices(): { monthly?: string; yearly?: string } {
-  return {
-    monthly: import.meta.env.VITE_MEMBERSHIP_MONTHLY_PRICE ?? undefined,
-    yearly: import.meta.env.VITE_MEMBERSHIP_YEARLY_PRICE ?? undefined,
-  };
+export function getMembershipOutOfStateYearlyLink(): string {
+  // Provided by user; can be overridden by env for production.
+  return (
+    import.meta.env.VITE_STRIPE_MEMBERSHIP_OUTSTATE_YEARLY ??
+    'https://buy.stripe.com/test_9B6bIU7NggPLeVX7pRdQQ08'
+  );
 }
 
 // Insurance — one option per tier
