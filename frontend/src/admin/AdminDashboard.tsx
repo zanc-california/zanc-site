@@ -19,6 +19,20 @@ export default function AdminDashboard() {
           <h3 className="text-lg font-semibold text-primary-800 mb-2">Gallery</h3>
           <p className="text-gray-600 text-sm">Upload and manage gallery images.</p>
         </Link>
+        <Link
+          to="/admin/suggestions"
+          className="block p-6 bg-white rounded-lg border border-gray-200 hover:shadow-md transition-shadow"
+        >
+          <h3 className="text-lg font-semibold text-primary-800 mb-2">Suggestions</h3>
+          <p className="text-gray-600 text-sm">Review community suggestions and mark status.</p>
+        </Link>
+        <Link
+          to="/admin/opportunities"
+          className="block p-6 bg-white rounded-lg border border-gray-200 hover:shadow-md transition-shadow"
+        >
+          <h3 className="text-lg font-semibold text-primary-800 mb-2">Opportunities</h3>
+          <p className="text-gray-600 text-sm">Create and manage opportunities listings.</p>
+        </Link>
       </div>
       <p className="mt-6 text-sm text-gray-500">
         Payments are managed directly in the <a href="https://dashboard.stripe.com" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">Stripe Dashboard</a>.

@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Facebook, Linkedin, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;
@@ -11,38 +12,49 @@ const Navbar = () => {
   const navLinks = [
     { to: '/', label: 'Home' },
     { to: '/about', label: 'About' },
-    { to: '/news', label: 'News' },
+    { to: '/news', label: 'Events & News' },
+    { to: '/community', label: 'Community' },
     { to: '/gallery', label: 'Gallery' },
-    { to: '/membership', label: 'Membership' },
+    { to: '/membership', label: 'Join ZANC' },
     { to: '/insurance', label: 'Insurance' },
-    { to: '/forms', label: 'Forms' },
   ];
 
   const linkClass = (path: string) =>
-    `font-medium transition-colors ${isActive(path) ? 'text-primary-800 border-b-2 border-primary-800' : 'text-gray-600 hover:text-primary-800'}`;
+    `font-medium transition-colors ${isActive(path) ? 'text-zambia-green border-b-2 border-copper' : 'text-slate hover:text-zambia-green'}`;
 
   const mobileLinkClass = (path: string) =>
-    `font-medium px-3 py-2 rounded-md transition-colors ${isActive(path) ? 'text-primary-800 bg-gray-100' : 'text-gray-600 hover:text-primary-800 hover:bg-gray-50'}`;
+    `font-medium px-3 py-3 rounded-md transition-colors ${isActive(path) ? 'text-zambia-green bg-cloud' : 'text-slate hover:text-zambia-green hover:bg-cloud'}`;
+
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 10);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className={`sticky top-0 z-40 ${isScrolled ? 'bg-white/90 backdrop-blur shadow-sm' : 'bg-white'} border-b border-mist`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="py-4 border-b border-gray-200">
-          <h1 className="text-xl sm:text-2xl font-bold text-primary-800 text-center">
-            ZAMBIAN ASSOCIATION IN NORTHERN CALIFORNIA
-          </h1>
-        </div>
+        <nav className={`flex justify-between items-center ${isScrolled ? 'py-3' : 'py-4'} transition-all`}>
+          <Link to="/" className="flex items-center gap-3">
+            <span className="inline-flex items-center justify-center h-9 w-9 rounded-md bg-copper-glow border border-mist">
+              <span className="font-heading font-bold text-copper">Z</span>
+            </span>
+            <div className="leading-tight">
+              <div className="font-heading font-bold text-zambia-green text-base sm:text-lg">ZANC</div>
+              <div className="text-xs sm:text-sm text-slate">Zambian Association in Northern California</div>
+            </div>
+          </Link>
 
-        <nav className="flex justify-between items-center py-3">
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center gap-3">
             <button
-              className="md:hidden"
+              className="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-md border border-mist bg-white hover:bg-cloud"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
-            <div className="hidden md:flex md:space-x-6">
+            <div className="hidden md:flex items-center gap-6">
               {navLinks.map(({ to, label }) => (
                 <Link key={to} to={to} className={linkClass(to)}>
                   {label}
@@ -50,20 +62,11 @@ const Navbar = () => {
               ))}
             </div>
           </div>
-
-          <div className="flex items-center space-x-4 border-l border-gray-200 pl-4">
-            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-primary-800" aria-label="Facebook">
-              <Facebook size={20} />
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-primary-800" aria-label="LinkedIn">
-              <Linkedin size={20} />
-            </a>
-          </div>
         </nav>
 
         {isMenuOpen && (
-          <div className="md:hidden py-2 border-t border-gray-200">
-            <div className="flex flex-col space-y-1 py-3">
+          <div className="md:hidden pb-4">
+            <div className="rounded-lg border border-mist bg-white shadow-sm p-2">
               {navLinks.map(({ to, label }) => (
                 <Link key={to} to={to} className={mobileLinkClass(to)} onClick={() => setIsMenuOpen(false)}>
                   {label}

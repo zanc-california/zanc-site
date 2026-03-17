@@ -26,3 +26,25 @@ export type GalleryRow = {
   display_order: number;
   created_at: string;
 };
+
+export type SuggestionRow = {
+  id: string;
+  name: string;
+  email: string;
+  category: string;
+  message: string;
+  status: string;
+  created_at: string;
+};
+
+export type OpportunityRow = {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  location: string | null;
+  link: string | null;
+  posted_by: string | null;
+  active: boolean;
+  created_at: string;
+};

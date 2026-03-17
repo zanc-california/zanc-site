@@ -8,15 +8,17 @@ import NewsArticle from './pages/NewsArticle';
 import Gallery from './pages/Gallery';
 import Membership from './pages/Membership';
 import Insurance from './pages/Insurance';
-import Forms from './pages/Forms';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import ContactPage from './pages/ContactPage';
 import DonatePage from './pages/DonatePage';
+import Community from './pages/Community';
 import AdminLayout from './admin/AdminLayout';
 import AdminLogin from './admin/AdminLogin';
 import AdminDashboard from './admin/AdminDashboard';
 import AdminNews from './admin/AdminNews';
 import AdminGallery from './admin/AdminGallery';
+import AdminSuggestions from './admin/AdminSuggestions';
+import AdminOpportunities from './admin/AdminOpportunities';
 import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentCancelled from './pages/PaymentCancelled';
 
@@ -31,7 +33,8 @@ function App() {
         <Route path="/gallery" element={<Layout><Gallery /></Layout>} />
         <Route path="/membership" element={<Layout><Membership /></Layout>} />
         <Route path="/insurance" element={<Layout><Insurance /></Layout>} />
-        <Route path="/forms" element={<Layout><Forms /></Layout>} />
+        <Route path="/community" element={<Layout><Community /></Layout>} />
+        <Route path="/forms" element={<Navigate to="/membership" replace />} />
         <Route path="/privacy-policy" element={<Layout><PrivacyPolicy /></Layout>} />
         <Route path="/contact" element={<Layout><ContactPage /></Layout>} />
         <Route path="/donate" element={<Layout><DonatePage /></Layout>} />
@@ -43,6 +46,8 @@ function App() {
         <Route path="/admin" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
         <Route path="/admin/news" element={<AdminLayout><AdminNews /></AdminLayout>} />
         <Route path="/admin/gallery" element={<AdminLayout><AdminGallery /></AdminLayout>} />
+        <Route path="/admin/suggestions" element={<AdminLayout><AdminSuggestions /></AdminLayout>} />
+        <Route path="/admin/opportunities" element={<AdminLayout><AdminOpportunities /></AdminLayout>} />
 
         {/* Legacy redirects */}
         <Route path="/success" element={<Navigate to="/payment-success" replace />} />

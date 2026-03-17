@@ -4,6 +4,17 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Copper & Redwood (Overhaul.md)
+        'zambia-green': {
+          DEFAULT: '#1B5E20',
+          light: '#2E7D32',
+        },
+        golden: '#C8A951',
+        'bay-blue': '#3D7B9E',
+        fog: '#F0EDE8',
+        redwood: '#5D2E0C',
+        mist: '#E8E4DD',
+        cloud: '#FAFAF7',
         primary: {
           50: '#e6f4ea', // light green
           100: '#b7e0c3',
@@ -17,6 +28,9 @@ export default {
           900: '#021a08',
         },
         copper: {
+          DEFAULT: '#B87333',
+          light: '#D4956B',
+          glow: '#F5E6D3',
           50: '#fff6ed',
           100: '#ffe1c3',
           200: '#ffc285',
@@ -42,8 +56,9 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        heading: ['Poppins', 'sans-serif'],
+        heading: ['\"General Sans\"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        body: ['\"Satoshi\"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['\"Satoshi\"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
     },
   },

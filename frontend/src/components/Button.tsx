@@ -2,7 +2,7 @@ import React from 'react';
 
 interface ButtonProps {
   children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'outline';
+  variant?: 'primary' | 'secondary' | 'outline' | 'accent';
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   onClick?: () => void;
@@ -24,13 +24,16 @@ const Button: React.FC<ButtonProps> = ({
   const variantClasses = {
     primary: disabled 
       ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
-      : 'bg-[#1a3c2a] text-white hover:bg-primary-800 focus:ring-primary-600 border-2 border-transparent',
+      : 'bg-zambia-green text-white hover:bg-zambia-green-light focus:ring-zambia-green border-2 border-transparent',
     secondary: disabled 
       ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
-      : 'bg-[#1a3c2a] text-white hover:bg-primary-800 focus:ring-primary-600 border-2 border-transparent',
+      : 'bg-zambia-green text-white hover:bg-zambia-green-light focus:ring-zambia-green border-2 border-transparent',
     outline: disabled 
       ? 'border-2 border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed' 
-      : 'border-2 border-primary-700 text-primary-800 bg-white hover:bg-primary-50 focus:ring-primary-500',
+      : 'border-2 border-mist text-slate bg-white hover:bg-cloud focus:ring-bay-blue',
+    accent: disabled
+      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+      : 'bg-copper text-white hover:bg-copper-light focus:ring-copper border-2 border-transparent',
   };
   
   const sizeClasses = {

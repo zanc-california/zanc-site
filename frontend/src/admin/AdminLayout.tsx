@@ -52,6 +52,8 @@ export default function AdminLayout({ children }: Props) {
               <Link to="/admin" className="text-gray-600 hover:text-primary-800">Dashboard</Link>
               <Link to="/admin/news" className="text-gray-600 hover:text-primary-800">News</Link>
               <Link to="/admin/gallery" className="text-gray-600 hover:text-primary-800">Gallery</Link>
+              <Link to="/admin/suggestions" className="text-gray-600 hover:text-primary-800">Suggestions</Link>
+              <Link to="/admin/opportunities" className="text-gray-600 hover:text-primary-800">Opportunities</Link>
               <a href="/" className="text-gray-500 text-sm">View site</a>
               <button type="button" onClick={handleSignOut} className="text-sm text-red-600 hover:underline">
                 Sign out

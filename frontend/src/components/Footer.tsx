@@ -1,52 +1,56 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-white border-t border-gray-200 py-8">
+    <footer className="bg-zambia-green text-white border-t border-zambia-green-light">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
-          {/* Logo and flag */}
-          <div className="flex items-center gap-3 mb-2 md:mb-0">
-            <img src="/images/logo.jpg" alt="ZANC Logo" className="h-10 w-10 rounded-full border-2 border-copper-400 bg-white" />
-            <img src="/images/flag.jpg" alt="Zambian Flag" className="h-8 w-auto border-2 border-copper-400 rounded shadow-sm" />
+        <div className="py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <div className="flex items-center gap-3">
+              <span className="inline-flex items-center justify-center h-10 w-10 rounded-md bg-copper-glow border border-copper/30">
+                <span className="font-heading font-bold text-copper">Z</span>
+              </span>
+              <div>
+                <div className="font-heading font-bold text-white">ZANC</div>
+                <div className="text-sm text-white/80">Zambian Association in Northern California</div>
+              </div>
+            </div>
+            <p className="mt-4 text-sm text-white/80 max-w-sm">
+              Zambian heritage, Bay Area community. Connecting members across Northern California and beyond since 1995.
+            </p>
           </div>
-          {/* Links */}
-          <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-8">
-            <Link 
-              to="/contact" 
-              className="text-gray-600 hover:text-primary-800 transition-colors text-sm font-medium"
-            >
-              Contact
-            </Link>
-            <Link 
-              to="/privacy-policy" 
-              className="text-gray-600 hover:text-primary-800 transition-colors text-sm font-medium"
-            >
-              Privacy Policy
-            </Link>
-            <Link 
-              to="/donate" 
-              className="text-gray-600 hover:text-primary-800 transition-colors text-sm font-medium"
-            >
-              Donate
-            </Link>
+
+          <div className="md:justify-self-center">
+            <h3 className="font-heading font-semibold text-white mb-3">Links</h3>
+            <ul className="space-y-2 text-sm">
+              <li><Link to="/about" className="text-white/80 hover:text-copper transition-colors">About</Link></li>
+              <li><Link to="/news" className="text-white/80 hover:text-copper transition-colors">Events &amp; News</Link></li>
+              <li><Link to="/membership" className="text-white/80 hover:text-copper transition-colors">Join ZANC</Link></li>
+              <li><Link to="/insurance" className="text-white/80 hover:text-copper transition-colors">Insurance</Link></li>
+              <li><Link to="/donate" className="text-white/80 hover:text-copper transition-colors">Donate</Link></li>
+              <li><Link to="/privacy-policy" className="text-white/80 hover:text-copper transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/contact" className="text-white/80 hover:text-copper transition-colors">Contact</Link></li>
+            </ul>
           </div>
-          {/* Social Icons */}
-          <div className="flex items-center gap-4">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-copper-500 hover:text-primary-500 transition-colors">
-              <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.595 0 0 .592 0 1.326v21.348C0 23.408.595 24 1.326 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.406 24 24 23.408 24 22.674V1.326C24 .592 23.406 0 22.675 0"/></svg>
-            </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="text-copper-500 hover:text-primary-500 transition-colors">
-              <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557a9.83 9.83 0 0 1-2.828.775 4.932 4.932 0 0 0 2.165-2.724c-.951.564-2.005.974-3.127 1.195a4.916 4.916 0 0 0-8.38 4.482C7.691 8.095 4.066 6.13 1.64 3.161c-.542.929-.856 2.01-.857 3.17 0 2.188 1.115 4.117 2.823 5.247a4.904 4.904 0 0 1-2.229-.616c-.054 2.281 1.581 4.415 3.949 4.89a4.936 4.936 0 0 1-2.224.084c.627 1.956 2.444 3.377 4.6 3.417A9.867 9.867 0 0 1 0 21.543a13.94 13.94 0 0 0 7.548 2.209c9.058 0 14.009-7.496 14.009-13.986 0-.21 0-.423-.016-.634A9.936 9.936 0 0 0 24 4.557z"/></svg>
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-copper-500 hover:text-primary-500 transition-colors">
-              <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.974 1.246 2.241 1.308 3.608.058 1.266.069 1.646.069 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.974.974-2.241 1.246-3.608 1.308-1.266.058-1.646.069-4.85.069s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.974-.974-1.246-2.241-1.308-3.608C2.175 15.647 2.163 15.267 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.974-.974 2.241-1.246 3.608-1.308C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.013 7.052.072 5.775.131 4.602.425 3.635 1.392 2.668 2.359 2.374 3.532 2.315 4.808 2.256 6.088 2.243 6.497 2.243 12c0 5.503.013 5.912.072 7.192.059 1.276.353 2.449 1.32 3.416.967.967 2.14 1.261 3.416 1.32 1.28.059 1.689.072 7.192.072s5.912-.013 7.192-.072c1.276-.059 2.449-.353 3.416-1.32.967-.967 1.261-2.14 1.32-3.416.059-1.28.072-1.689.072-7.192s-.013-5.912-.072-7.192c-.059-1.276-.353-2.449-1.32-3.416C19.449.425 18.276.131 17 .072 15.72.013 15.311 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-            </a>
-          </div>
-          {/* Copyright */}
-          <div className="text-gray-500 text-sm mt-4 md:mt-0 text-center md:text-right w-full md:w-auto">
-            &copy; {new Date().getFullYear()} Zambian Association in Northern California. All rights reserved.
+
+          <div className="md:justify-self-end">
+            <h3 className="font-heading font-semibold text-white mb-3">Follow</h3>
+            <div className="flex items-center gap-4">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-white/80 hover:text-copper transition-colors">
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.595 0 0 .592 0 1.326v21.348C0 23.408.595 24 1.326 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.406 24 24 23.408 24 22.674V1.326C24 .592 23.406 0 22.675 0"/></svg>
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-white/80 hover:text-copper transition-colors">
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-white/80 hover:text-copper transition-colors">
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.974 1.246 2.241 1.308 3.608.058 1.266.069 1.646.069 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.974.974-2.241 1.246-3.608 1.308-1.266.058-1.646.069-4.85.069s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.974-.974-1.246-2.241-1.308-3.608C2.175 15.647 2.163 15.267 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.974-.974 2.241-1.246 3.608-1.308C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.013 7.052.072 5.775.131 4.602.425 3.635 1.392 2.668 2.359 2.374 3.532 2.315 4.808 2.256 6.088 2.243 6.497 2.243 12c0 5.503.013 5.912.072 7.192.059 1.276.353 2.449 1.32 3.416.967.967 2.14 1.261 3.416 1.32 1.28.059 1.689.072 7.192.072s5.912-.013 7.192-.072c1.276-.059 2.449-.353 3.416-1.32.967-.967 1.261-2.14 1.32-3.416.059-1.28.072-1.689.072-7.192s-.013-5.912-.072-7.192c-.059-1.276-.353-2.449-1.32-3.416C19.449.425 18.276.131 17 .072 15.72.013 15.311 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+              </a>
+            </div>
+            <p className="mt-4 text-xs text-white/70">
+              &copy; {new Date().getFullYear()} Zambian Association in Northern California. All rights reserved.
+            </p>
           </div>
         </div>
       </div>

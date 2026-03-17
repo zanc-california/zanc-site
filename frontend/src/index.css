@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    font-family: theme('fontFamily.body');
+    background-color: theme('colors.fog');
+    color: #1A1A1A;
+  }
+
+  body {
+    background-color: theme('colors.fog');
+    color: #1A1A1A;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: theme('fontFamily.heading');
+  }
+
+  a {
+    color: theme('colors.bay-blue');
+  }
+}
