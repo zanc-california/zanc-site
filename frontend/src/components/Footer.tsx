@@ -46,7 +46,7 @@ const Footer = () => {
           </div>
           {/* Copyright */}
           <div className="text-gray-500 text-sm mt-4 md:mt-0 text-center md:text-right w-full md:w-auto">
-            &copy; {new Date().getFullYear()} Association of Zambians in California. All rights reserved.
+            &copy; {new Date().getFullYear()} Zambian Association in Northern California. All rights reserved.
           </div>
         </div>
       </div>

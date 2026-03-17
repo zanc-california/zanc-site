@@ -29,7 +29,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="py-4 border-b border-gray-200">
           <h1 className="text-xl sm:text-2xl font-bold text-primary-800 text-center">
-            ASSOCIATION OF ZAMBIANS IN CALIFORNIA
+            ZAMBIAN ASSOCIATION IN NORTHERN CALIFORNIA
           </h1>
         </div>
 

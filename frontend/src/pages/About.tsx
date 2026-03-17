@@ -3,7 +3,7 @@ import PageHeader from '../components/PageHeader';
 import BoardMember from '../components/BoardMember';
 
 const About = () => {
-  // Board members (2026–2028)
+  // Board members (2026–2028) — elections held February 2026
   const boardMembers = [
     {
       id: 1,
@@ -34,7 +34,7 @@ const About = () => {
     },
     {
       id: 6,
-      name: 'Catherine Semayo',
+      name: 'Catherine Samoyu',
       position: 'Vice Secretary',
     },
   ];
@@ -48,7 +48,7 @@ const About = () => {
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-primary-800 mb-6 font-heading">Our Mission</h2>
             <p className="text-gray-700 mb-8 leading-relaxed text-lg">
-              The Association of Zambians in California (ZANC) serves as a cultural bridge for Zambians living in California. 
+              The Zambian Association in Northern California (ZANC) serves as a cultural bridge for Zambians living in Northern California. 
               We are dedicated to preserving and promoting Zambian cultural heritage, fostering unity among Zambians, 
               and facilitating engagement with the wider community.
             </p>
@@ -67,11 +67,16 @@ const About = () => {
       
       <section className="py-12 md:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-primary-800 mb-10 text-center font-heading">Board Members</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-primary-800 mb-4 text-center font-heading">
+            Board Members (2026–2028)
+          </h2>
+          <p className="text-center text-gray-600 mb-10">
+            General elections were recently held and a new committee was elected.
+          </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 justify-items-center">
-            {boardMembers.map(member => (
-              <BoardMember 
+            {boardMembers.map((member) => (
+              <BoardMember
                 key={member.id}
                 name={member.name}
                 position={member.position}
@@ -98,10 +103,15 @@ const About = () => {
               Over the years, ZANC has grown substantially in both membership and influence. We have established 
               annual events such as the Independence Day celebration, cultural workshops, and community outreach programs.
             </p>
-            <p className="text-gray-700 leading-relaxed text-lg mb-8">
+            <p className="text-gray-700 leading-relaxed text-lg mb-6">
               Today, ZANC continues to evolve while remaining true to its founding principles of unity, cultural 
               preservation, and community service. We look forward to many more years of connecting Zambians 
               across California and making meaningful contributions both locally and in Zambia.
+            </p>
+            <p className="text-gray-700 leading-relaxed text-lg mb-8">
+              Our community now spans members in California, Arizona, Nevada, Illinois, Indiana, New York, and Connecticut, 
+              with active families across multiple states. ZANC is registered as a fraternal society with the California Franchise 
+              Tax Board, maintains an active PO Box for official correspondence, and banks with Wells Fargo as our trusted partner.
             </p>
             <div className="pt-4">
               <a href="/membership" className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-md bg-[#1a3c2a] text-white hover:bg-primary-800 focus:ring-2 focus:ring-offset-2 focus:ring-primary-600">

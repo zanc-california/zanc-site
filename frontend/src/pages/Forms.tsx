@@ -6,7 +6,8 @@ const formFiles = [
   { name: 'Insurance Application', path: '/forms/insurance-application.pdf', description: 'PDF — complete and submit per instructions' },
 ];
 
-const SUBMIT_INSTRUCTIONS = 'Submit completed forms by email to info@zanc.org or mail to the address on the form.';
+const SUBMIT_INSTRUCTIONS =
+  'Download, complete, and return your application to ZANC via email at info@zanc.org or mail to our PO Box address. For questions, contact the ZANC Secretary.';
 
 const Forms = () => {
   return (

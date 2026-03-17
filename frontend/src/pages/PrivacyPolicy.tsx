@@ -15,7 +15,7 @@ const PrivacyPolicy = () => {
             
             <h2>Introduction</h2>
             <p>
-              The Association of Zambians in California ("ZANC", "we", "our", or "us") respects your privacy and is committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information when you visit our website, use our services, or interact with us in any way.
+              The Zambian Association in Northern California ("ZANC", "we", "our", or "us") respects your privacy and is committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information when you visit our website, use our services, or interact with us in any way.
             </p>
             
             <h2>Information We Collect</h2>

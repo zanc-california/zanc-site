@@ -3,10 +3,8 @@ import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import NewsCard from '../components/NewsCard';
 import { heroImages } from '../heroImages';
-import { supabase } from '../lib/supabase';
 
 const Home = () => {
-  const [newsItems, setNewsItems] = useState<Array<{ id: string; title: string; excerpt: string | null; date: string; slug: string }>>([]);
   const [currentHero, setCurrentHero] = useState(0);
 
   useEffect(() => {
@@ -14,33 +12,6 @@ const Home = () => {
       setCurrentHero((prev) => (prev + 1) % heroImages.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const { data } = await supabase
-          .from('news')
-          .select('id, title, excerpt, published_at, slug')
-          .eq('published', true)
-          .order('published_at', { ascending: false })
-          .limit(3);
-        if (data) {
-          setNewsItems(
-            data.map((row) => ({
-              id: row.id,
-              title: row.title,
-              excerpt: row.excerpt || '',
-              date: row.published_at ? new Date(row.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '',
-              slug: row.slug,
-            }))
-          );
-        }
-      } catch {
-        setNewsItems([]);
-      }
-    };
-    fetchNews();
   }, []);
 
   return (
@@ -54,7 +25,7 @@ const Home = () => {
                 Welcome to ZANC!
               </h2>
               <p className="text-gray-600 mb-6">
-                The Association of Zambians in California (ZANC) is a vibrant community organization
+                The Zambian Association in Northern California (ZANC) is a vibrant community organization
                 dedicated to connecting Zambians living in California, preserving our rich cultural heritage,
                 and supporting community initiatives both here and in Zambia.
               </p>
@@ -83,23 +54,53 @@ const Home = () => {
         </div>
       </section>
 
-      {newsItems.length > 0 && (
-        <section className="py-10 md:py-14">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-primary-800 mb-6 font-heading">Latest Updates</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {newsItems.map((item) => (
-                <NewsCard key={item.id} id={item.slug} title={item.title} excerpt={item.excerpt || ''} date={item.date} />
-              ))}
-            </div>
-            <div className="mt-6 text-center">
-              <Link to="/news">
-                <Button variant="primary">View All News</Button>
+      <section className="py-10 md:py-14 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-primary-800 mb-6 font-heading">Community Highlights</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            <article className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+              <h3 className="text-xl font-semibold text-primary-800 mb-2">Elections 2026</h3>
+              <p className="text-gray-700">
+                General elections were recently held and a new committee was elected. Thank you to everyone who participated and helped make the process a success.
+              </p>
+            </article>
+
+            <article className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+              <h3 className="text-xl font-semibold text-primary-800 mb-2">Review This Year’s Calendar</h3>
+              <p className="text-gray-700 mb-4">
+                Stay up to date on upcoming deadlines, programs, and community events.
+              </p>
+              <Link to="/news?calendar=1">
+                <Button variant="primary">Review this year’s calendar</Button>
               </Link>
+            </article>
+          </div>
+          <div className="mt-6 text-center">
+            <Link to="/news">
+              <Button variant="outline">View News &amp; Events</Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-8 md:py-10 bg-white border-t border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+            <div>
+              <p className="text-3xl font-bold text-primary-800 font-heading">1995</p>
+              <p className="mt-1 text-sm uppercase tracking-wide text-gray-600">Founded</p>
+            </div>
+            <div>
+              <p className="text-3xl font-bold text-primary-800 font-heading">68+</p>
+              <p className="mt-1 text-sm uppercase tracking-wide text-gray-600">Insured members across 7 states</p>
+            </div>
+            <div>
+              <p className="text-3xl font-bold text-primary-800 font-heading">4+</p>
+              <p className="mt-1 text-sm uppercase tracking-wide text-gray-600">Major events per year</p>
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       <section className="bg-primary-800 text-white py-10 md:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

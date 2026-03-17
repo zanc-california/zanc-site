@@ -16,14 +16,19 @@ const Insurance = () => {
           <h2 className="text-2xl md:text-3xl font-bold text-primary-800 mb-6 font-heading">Group Life Insurance</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             <div>
+              <div className="mb-4 rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                <span className="font-semibold">Open Enrollment:</span> June 1 – July 31 each year. Contact ZANC to enroll.
+              </div>
               <p className="text-gray-700 mb-6 leading-relaxed">
-                ZANC offers affordable group life insurance plans for our community members. Select your category (age range, in-state or out-of-state, with or without dependents) and complete payment securely with Stripe.
+                ZANC partners with <span className="font-semibold">Hartford Insurance</span> to offer a cultural Group Life Insurance
+                program for our community members. The program currently supports 68 insured members (51 adults and 17 children)
+                across California, Arizona, Nevada, Illinois, Indiana, New York, and Connecticut.
               </p>
               <ul className="list-disc pl-5 space-y-2 text-gray-700 mb-6">
-                <li>Affordable group rates for community members</li>
-                <li>Coverage for individuals and dependents</li>
-                <li>Special rates for elders (65+ years)</li>
-                <li>Easy application process</li>
+                <li>Provider: Hartford Insurance (cultural Group Life Insurance program)</li>
+                <li>Coverage for members and dependents across multiple states</li>
+                <li>Special tiers for elders aged 65–70 and 70+</li>
+                <li>Premiums collected bi-annually in February and August</li>
               </ul>
 
               {options.length > 0 ? (

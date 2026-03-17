@@ -13,7 +13,7 @@ const NewsDetail = () => {
       title: 'Annual ZANC Gala Dinner Announced',
       date: 'June 15, 2025',
       content: `
-        <p>The Association of Zambians in California (ZANC) is excited to announce our annual gala dinner, which will take place on October 15, 2025, at the Grand California Hotel in San Francisco.</p>
+        <p>The Zambian Association in Northern California (ZANC) is excited to announce our annual gala dinner, which will take place on October 15, 2025, at the Grand California Hotel in San Francisco.</p>
         
         <p>This prestigious event brings together members of the Zambian community in California to celebrate our cultural heritage and recognize outstanding contributions to our community. The evening will feature traditional Zambian music, dance performances, and a special keynote address from a distinguished Zambian diplomat.</p>
         

@@ -27,6 +27,18 @@ const Membership = () => {
                 Becoming a member of ZANC connects you with fellow Zambians in California and gives you access to our
                 network, resources, and events.
               </p>
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-primary-800 mb-2 font-heading">Membership Rates</h3>
+                <ul className="list-disc pl-5 space-y-1 text-gray-700 text-sm md:text-base">
+                  <li>
+                    <span className="font-semibold">Sacramento / Bay Area residents:</span> $10/month
+                  </li>
+                  <li>
+                    <span className="font-semibold">Out of town / Out of state members:</span> $5/month
+                  </li>
+                  <li>Billing options: Monthly or Yearly subscription.</li>
+                </ul>
+              </div>
               <ul className="list-disc pl-5 space-y-2 text-gray-700 mb-6">
                 <li>Invitations to exclusive cultural and networking events</li>
                 <li>Regular updates on community news and activities</li>
@@ -69,7 +81,11 @@ const Membership = () => {
                     )}
                   </div>
                   <a href={paymentLink} target="_blank" rel="noopener noreferrer" className="inline-block">
-                    <Button variant="primary">Join ZANC — Pay with Stripe</Button>
+                    <Button variant="primary">
+                      {billing === 'monthly'
+                        ? 'Join ZANC — $10/month or $5/month (out of state)'
+                        : 'Join ZANC — $120/year or $60/year (out of state)'}
+                    </Button>
                   </a>
                 </div>
               ) : (
@@ -86,6 +102,10 @@ const Membership = () => {
               </Link>
             </div>
           </div>
+          <p className="mt-6 text-sm text-gray-700 max-w-3xl">
+            Membership subscription is mandatory for all Group Insurance subscribers. We highly encourage all community members to 
+            subscribe to help cover community needs and sponsor events.
+          </p>
         </div>
       </section>
     </div>
