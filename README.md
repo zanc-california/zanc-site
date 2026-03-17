@@ -8,7 +8,7 @@ Website and membership/insurance application for the Association of Zambians in 
 
 - **`frontend/`** — React (Vite, TypeScript, Tailwind) SPA. Auth via Supabase; API calls to backend.
 - **`backend/`** — Express API (Node, Prisma, PostgreSQL). Stripe payments; optional Supabase webhook.
-- **`docs/`** — Additional documentation.
+- **`docs/`** — Additional documentation (if present).
 
 ## Quick start (developers)
 

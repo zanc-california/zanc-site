@@ -9,9 +9,12 @@ node_modules/
 # Build output
 dist/
 build/
+frontend/dist/
+backend/dist/
 
 # Logs
 *.log
+npm-debug.log*
 
 # OS files
 .DS_Store
@@ -19,7 +22,18 @@ Thumbs.db
 
 # Prisma
 prisma/.env
+backend/prisma/*.db
+backend/prisma/*.db-journal
 
+# IDE
+.vscode/
+.idea/
 # Misc
 *.swp
 *.swo
+
+# Vercel
+.vercel/
+
+# Turbo
+.turbo/
