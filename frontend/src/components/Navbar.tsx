@@ -12,11 +12,11 @@ const Navbar = () => {
   const navLinks = [
     { to: '/', label: 'Home' },
     { to: '/about', label: 'About' },
-    { to: '/news', label: 'Events & News' },
-    { to: '/community', label: 'Community' },
-    { to: '/gallery', label: 'Gallery' },
     { to: '/membership', label: 'Join ZANC' },
     { to: '/insurance', label: 'Insurance' },
+    { to: '/news', label: 'Events & News' },
+    { to: '/gallery', label: 'Gallery' },
+    { to: '/community', label: 'Community' },
   ];
 
   const linkClass = (path: string) =>

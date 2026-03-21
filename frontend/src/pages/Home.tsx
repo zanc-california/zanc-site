@@ -4,6 +4,20 @@ import Button from '../components/Button';
 import { heroImages } from '../heroImages';
 import Reveal from '../components/Reveal';
 
+/** NorCal / SoCal region chips — fixed footprint so all eight match. */
+function RegionMiniCard({ label, icon }: { label: string; icon: string }) {
+  return (
+    <div className="bg-white rounded-lg border border-mist shadow-sm flex h-[7.5rem] sm:h-[8rem] w-full flex-col items-center justify-center gap-2 px-2 py-3">
+      <span className="text-2xl shrink-0" aria-hidden>
+        {icon}
+      </span>
+      <span className="text-xs sm:text-sm font-heading font-semibold text-zambia-green text-center leading-tight line-clamp-2">
+        {label}
+      </span>
+    </div>
+  );
+}
+
 const Home = () => {
   const [currentHero, setCurrentHero] = useState(0);
   const hero = heroImages[currentHero];
@@ -26,7 +40,7 @@ const Home = () => {
         title: 'Community Events',
         date: 'Year-round',
         excerpt:
-          'From Sacramento to the Bay Area, we host gatherings that celebrate Zambian heritage and strengthen our Northern California community.',
+          'Throughout Northern California, we host gatherings that celebrate Zambian heritage and strengthen our community.',
       },
     ],
     []
@@ -51,15 +65,15 @@ const Home = () => {
           <div className="max-w-2xl">
             <p className="inline-flex items-center gap-2 text-white/90 text-sm uppercase tracking-[0.08em] font-heading">
               <span className="h-2 w-2 rounded-full bg-copper" />
-              Zambian soul, Bay Area polish
+              Zambian soul, NorCal polish
             </p>
             <h1 className="mt-4 text-4xl md:text-6xl font-heading font-bold text-white tracking-[-0.02em] drop-shadow">
               Zambian Heritage.
               <br />
-              Bay Area Community.
+              NorCal Community.
             </h1>
             <p className="mt-5 text-white/90 text-base md:text-lg leading-relaxed">
-              Connecting Zambians across Northern California since 1995 — rooted in culture, thriving in community.
+              Connecting Zambians across Northern California since 2017 — rooted in culture, thriving in community.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
@@ -114,7 +128,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
             <div>
-              <p className="text-4xl md:text-5xl font-heading font-bold text-copper">1995</p>
+              <p className="text-4xl md:text-5xl font-heading font-bold text-copper">2017</p>
               <p className="mt-1 text-xs md:text-sm uppercase tracking-[0.08em] text-white/80 font-heading">Founded</p>
             </div>
             <div>
@@ -135,27 +149,71 @@ const Home = () => {
 
       <section className="py-10 md:py-14 bg-copper-glow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <p className="text-xs md:text-sm uppercase tracking-[0.08em] font-heading text-redwood">Rooted in NorCal</p>
-            <h2 className="mt-2 text-2xl md:text-3xl font-heading font-semibold text-zambia-green">
-              From Sacramento to the Bay Area, our community thrives across Northern California.
-            </h2>
-            <p className="mt-3 text-slate leading-relaxed">
-              Bay Area, Sacramento, Wine Country, and Silicon Valley — plus members in AZ, NV, IL, IN, NY &amp; CT.
+          {/*
+            DOM order = NorCal block then SoCal (mobile stack). On lg, explicit rows so body row height matches the taller column
+            and both mini-card rows share row 4 (same baseline).
+          */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:divide-x lg:divide-mist/80 lg:gap-x-0 lg:gap-y-6">
+            <p className="text-xs md:text-sm uppercase tracking-[0.08em] font-heading text-redwood lg:col-start-1 lg:row-start-1 lg:pr-10">
+              Rooted in NorCal
             </p>
-            <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <h2 className="mt-2 lg:mt-0 text-2xl md:text-3xl font-heading font-semibold text-zambia-green lg:col-start-1 lg:row-start-2 lg:pr-10">
+              Sacramento to the Sierra, the Bay region to Wine Country — our community thrives across Northern California.
+            </h2>
+            <p className="mt-3 lg:mt-0 text-slate leading-relaxed lg:col-start-1 lg:row-start-3 lg:pr-10">
+              Sacramento, the wider Bay region, Wine Country, Silicon Valley, and beyond — plus members in AZ, NV, IL, IN, NY &amp; CT.
+            </p>
+            <div className="mt-6 lg:mt-0 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-3 xl:gap-4 lg:col-start-1 lg:row-start-4 lg:pr-10 lg:self-stretch lg:items-stretch">
               {[
-                { label: 'Bay Area', icon: '🌉' },
+                { label: 'Bay region', icon: '🌉' },
                 { label: 'Sacramento', icon: '🏛️' },
                 { label: 'Wine Country', icon: '🌲' },
                 { label: 'Silicon Valley', icon: '☀️' },
               ].map((r) => (
-                <div key={r.label} className="bg-white rounded-lg border border-mist p-4 text-center shadow-sm">
-                  <div className="text-2xl">{r.icon}</div>
-                  <div className="mt-2 text-sm font-heading font-semibold text-zambia-green">{r.label}</div>
-                </div>
+                <RegionMiniCard key={r.label} label={r.label} icon={r.icon} />
               ))}
             </div>
+
+            <p className="text-xs md:text-sm uppercase tracking-[0.08em] font-heading text-redwood mt-10 lg:mt-0 lg:col-start-2 lg:row-start-1 lg:pl-10">
+              Connected in SoCal
+            </p>
+            <h2 className="mt-2 lg:mt-0 text-2xl md:text-3xl font-heading font-semibold text-zambia-green lg:col-start-2 lg:row-start-2 lg:pl-10">
+              Los Angeles to San Diego — we’re growing a visible Southern California circle that pairs with NorCal, not apart from it.
+            </h2>
+            <p className="mt-3 lg:mt-0 text-slate leading-relaxed lg:col-start-2 lg:row-start-3 lg:pl-10">
+              From Greater LA and Orange County to the Inland Empire and San Diego, members gather for fellowship, culture, and mutual
+              support. SoCal and NorCal show up as sister communities—shared heritage, two home bases, one extended ZANC family.
+            </p>
+            <div className="mt-6 lg:mt-0 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-3 xl:gap-4 lg:col-start-2 lg:row-start-4 lg:pl-10 lg:self-stretch lg:items-stretch">
+              {[
+                { label: 'Greater LA', icon: '🌴' },
+                { label: 'Orange County', icon: '🏖️' },
+                { label: 'Inland Empire', icon: '⛰️' },
+                { label: 'San Diego', icon: '🌊' },
+              ].map((r) => (
+                <RegionMiniCard key={r.label} label={r.label} icon={r.icon} />
+              ))}
+            </div>
+          </div>
+
+          {/* Full-width row so the hub isn’t trapped in the right column */}
+          <div className="mt-10 lg:mt-12 w-full rounded-xl border border-mist bg-white/80 p-4 sm:p-6 shadow-sm">
+            <p className="text-sm font-heading font-semibold text-zambia-green">LA area community hub</p>
+            <p className="text-sm text-slate mt-2 leading-relaxed max-w-3xl">
+              A dedicated page for Los Angeles and Southern California updates—events, contacts, and ways to plug in—is on the way.
+            </p>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <span
+                className="inline-flex items-center gap-2 rounded-md border border-dashed border-mist bg-cloud px-3 py-2 text-sm text-slate"
+                aria-disabled="true"
+              >
+                <span className="font-medium text-zambia-green">LA area community page</span>
+                <span className="text-[10px] font-heading uppercase tracking-[0.12em] text-copper bg-copper-glow px-2 py-1 rounded border border-mist">
+                  Coming soon
+                </span>
+              </span>
+            </div>
+            <p className="text-xs text-slate/80 mt-3">For now, this home page is the only place we mention the upcoming LA hub.</p>
           </div>
         </div>
       </section>

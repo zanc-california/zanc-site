@@ -1,15 +1,16 @@
 import React from 'react';
 import PageHeader from '../components/PageHeader';
 import BoardMember from '../components/BoardMember';
+import BoardInviteePlaceholder from '../components/BoardInviteePlaceholder';
 
 const About = () => {
-  // Board members (2026–2028) — elections held February 2026
-  const boardMembers = [
+  // Elected committee (2026–2028) — elections held February 2026
+  const electedCommitteeMembers = [
     {
       id: 1,
       name: 'Mabvuto Kaela',
       position: 'President',
-      imageUrl: '/images/members/president.jpg',
+      imageUrl: '/images/members/mabvuto-kaela.png',
     },
     {
       id: 2,
@@ -26,6 +27,7 @@ const About = () => {
       id: 4,
       name: 'Susanna Kaela',
       position: 'Vice Treasurer',
+      imageUrl: '/images/members/susanna-kaela.png',
     },
     {
       id: 5,
@@ -38,6 +40,40 @@ const About = () => {
       position: 'Vice Secretary',
     },
   ];
+
+  const appointedInvitees = [
+    {
+      id: 1,
+      name: 'Kasamba Sikapiye',
+      position: 'Former Vice President (ZANC), iDream Co-Founder',
+      imageUrl: '/images/members/kasamba-sikapizye-about-page.png',
+    },
+    {
+      id: 2,
+      name: 'Pastor Stephen Mubanga',
+      position: 'Rev. Stephen Mubanga — LA Community Coordinator',
+      imageUrl: '/images/members/pastor-stephen-mubanga.png',
+    },
+    {
+      id: 3,
+      name: 'Sid Mofya',
+      position: 'Founder, CXB Ventures (Bay Area)',
+      imageUrl: '/images/members/sid-mofya.png',
+    },
+    {
+      id: 4,
+      name: 'Rajen Ranchhod',
+      position: 'Hon. Consul (CA)',
+      imageUrl: '/images/members/rajen-ranchhod.jpg',
+    },
+    {
+      id: 5,
+      name: 'Gladys Desmarais',
+      position: 'ZANC Community',
+    },
+  ];
+
+  const remainingInviteePlaceholders = ['Seat 6'] as const;
 
   return (
     <div>
@@ -64,15 +100,36 @@ const About = () => {
       
       <section className="py-12 md:py-16 bg-fog">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-primary-800 mb-4 text-center font-heading">
-            Board Members (2026–2028)
-          </h2>
-          <p className="text-center text-gray-600 mb-10">
-            General elections were recently held and a new committee was elected.
-          </p>
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <p className="text-sm uppercase tracking-[0.08em] font-heading text-copper">Committee members</p>
+            <h2 className="mt-2 text-2xl md:text-3xl font-bold text-primary-800 font-heading">The ZANC Board</h2>
+            <p className="mt-4 text-gray-600">
+              General elections were recently held and a new committee was elected. The board includes elected committee members and
+              appointed invitees as outlined below.
+            </p>
+          </div>
+
+          <div className="max-w-3xl mx-auto mb-12 rounded-xl border border-mist bg-white shadow-sm px-6 py-8 md:px-10 md:py-9">
+            <p className="text-xs uppercase tracking-[0.08em] font-heading text-copper text-center">Vision — newly elected committee</p>
+            <div className="mt-4 space-y-4 text-slate text-center leading-relaxed">
+              <p>
+                The newly elected committee seeks to strengthen a spirit of community partnership and participation—lifting collective
+                aspirations and deepening connectedness across the broader Northern California community.
+              </p>
+              <p>
+                In the national conversation, we aim to be a constructive force for good: honoring Zambian and American heritage and
+                helping our members and neighbors thrive together.
+              </p>
+            </div>
+          </div>
+
+          <h3 className="text-xl md:text-2xl font-heading font-semibold text-zambia-green text-center mb-2">
+            Committee Members (Elected)
+          </h3>
+          <p className="text-center text-sm text-gray-600 mb-10">Term 2026–2028</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 justify-items-center">
-            {boardMembers.map((member) => (
+            {electedCommitteeMembers.map((member) => (
               <BoardMember
                 key={member.id}
                 name={member.name}
@@ -81,9 +138,31 @@ const About = () => {
               />
             ))}
           </div>
-          <p className="mt-8 text-center text-sm text-gray-600 max-w-2xl mx-auto">
-            Additional appointed invitees to the board (5 positions) will be announced soon.
-          </p>
+
+          <div className="mt-16 pt-12 border-t border-mist">
+            <h3 className="text-xl md:text-2xl font-heading font-semibold text-zambia-green text-center mb-3">
+              Appointed invitees to the board
+            </h3>
+            <p className="text-center text-sm font-medium text-primary-800 mb-2 max-w-2xl mx-auto">
+              Six appointed invitee positions — five are named below; one seat will be announced soon.
+            </p>
+            <p className="text-center text-sm text-gray-600 mb-10 max-w-2xl mx-auto">
+              Photos will be added when available. Open seats show as placeholders until filled.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 justify-items-center">
+              {appointedInvitees.map((member) => (
+                <BoardMember
+                  key={member.id}
+                  name={member.name}
+                  position={member.position}
+                  imageUrl={member.imageUrl}
+                />
+              ))}
+              {remainingInviteePlaceholders.map((label) => (
+                <BoardInviteePlaceholder key={label} slotLabel={label} />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
       
@@ -93,7 +172,7 @@ const About = () => {
             <div>
               <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Our History</h2>
               <p className="text-slate mt-4 leading-relaxed">
-                Founded in 1995, ZANC began as a small group of Zambian expatriates who recognized the need for a formal organization
+                Founded in 2017, ZANC began as a small group of Zambian expatriates who recognized the need for a formal organization
                 to bring the community together. What started as informal gatherings evolved into a structured association dedicated to
                 cultural preservation and community support.
               </p>
@@ -118,7 +197,7 @@ const About = () => {
                 <li className="flex gap-4">
                   <div className="mt-1 h-3 w-3 rounded-full bg-copper" />
                   <div>
-                    <p className="font-medium text-zambia-green">1995</p>
+                    <p className="font-medium text-zambia-green">2017</p>
                     <p className="text-sm text-slate">ZANC founded to connect and support the Zambian community in Northern California.</p>
                   </div>
                 </li>

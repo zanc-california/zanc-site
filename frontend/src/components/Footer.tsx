@@ -16,7 +16,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="mt-4 text-sm text-white/80 max-w-sm">
-              Zambian heritage, Bay Area community. Connecting members across Northern California and beyond since 1995.
+              Zambian heritage, NorCal community. Connecting members across Northern California and beyond since 2017.
             </p>
           </div>
 

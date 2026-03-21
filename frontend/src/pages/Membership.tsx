@@ -89,6 +89,33 @@ const Membership = () => {
             </div>
           </div>
 
+          <div className="mt-8 rounded-xl border border-mist bg-white shadow-sm p-4 md:p-6">
+            <h3 className="font-heading font-semibold text-zambia-green mb-3">Pay by Zelle or Venmo</h3>
+            <p className="text-sm text-slate mb-4">
+              Prefer to pay outside of Stripe? Use the same options as insurance payments. Include your name and membership type
+              (NorCal monthly/yearly or Nationwide yearly) in the payment note when possible.
+            </p>
+            <ul className="space-y-2 text-sm text-slate">
+              <li>
+                <span className="font-semibold text-zambia-green">Zelle:</span> Send to{' '}
+                <a href="mailto:zancsac@gmail.com" className="text-bay-blue hover:underline">
+                  zancsac@gmail.com
+                </a>
+              </li>
+              <li>
+                <span className="font-semibold text-zambia-green">Venmo:</span>{' '}
+                <span className="font-medium">@Zanc-Sacramento</span>
+              </li>
+            </ul>
+            <p className="text-sm text-slate mt-4">
+              Questions? Email{' '}
+              <a href="mailto:zancsac@gmail.com" className="text-bay-blue hover:underline">
+                zancsac@gmail.com
+              </a>
+              .
+            </p>
+          </div>
+
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-cloud rounded-xl border border-mist p-6">
               <h3 className="text-lg font-heading font-semibold text-zambia-green">Membership Application Form</h3>

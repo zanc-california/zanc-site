@@ -29,8 +29,8 @@ const BoardMember: React.FC<BoardMemberProps> = ({ name, position, imageUrl }) =
           </div>
         )}
       </div>
-      <h3 className="text-lg font-semibold text-primary-800">{name}</h3>
-      <p className="text-sm text-gray-600">{position}</p>
+      <h3 className="text-lg font-semibold text-primary-800 text-center max-w-[16rem] px-1">{name}</h3>
+      <p className="text-sm text-gray-600 text-center max-w-[18rem] leading-relaxed mt-1 px-1">{position}</p>
     </div>
   );
 };

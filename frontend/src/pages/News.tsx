@@ -1,16 +1,75 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
-import NewsCard from '../components/NewsCard';
+import NewsFeedCard from '../components/NewsFeedCard';
+import NewsArticleModal, { type ModalArticleContent } from '../components/NewsArticleModal';
 import Button from '../components/Button';
 import { supabase } from '../lib/supabase';
 
+type StaticNewsArticle = {
+  id: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  imageUrl?: string;
+  bodyParagraphs: string[];
+};
+
+/** Site-authored micro-articles (shown on News + All tabs). Order = left-to-right (newest dated stories first). */
+const STATIC_NEWS_ARTICLES: StaticNewsArticle[] = [
+  {
+    id: 'local-rev-mubanga-socal-rep',
+    title: 'Rev. Stephen Mubanga named ZANC’s Los Angeles (SoCal) area representative',
+    excerpt:
+      'A step toward stronger NorCal–SoCal ties—so our communities show up as sisters in heritage and purpose, not strangers separated by miles.',
+    date: 'March 2026',
+    imageUrl: '/images/members/pastor-stephen-mubanga.png',
+    bodyParagraphs: [
+      'The Zambian Association in Northern California (ZANC) welcomes Rev. Stephen Mubanga as our Los Angeles and Southern California area representative. In this role, he will help coordinate outreach, fellowship, and practical connection for Zambians and friends of Zambia across SoCal.',
+      'Partnership between Northern and Southern California has always mattered to our diaspora story. By naming a dedicated SoCal representative, we make that partnership visible: two regions, one extended family—sister communities that share culture, values, and mutual support.',
+      'Distance can too easily feel like disconnection. This appointment is meant to grow the opposite—a spirit of connectedness through introductions, shared updates, joint initiatives where they make sense, and steady communication so members in both regions feel part of the same circle.',
+      'Rev. Mubanga serves with pastoral care and deep community experience. ZANC invites everyone in Southern California to reach out, say hello, and help shape what this collaboration becomes in the months ahead.',
+      'Together, NorCal and SoCal can carry Zambian–American heritage with warmth and clarity in the wider national conversation—and we are grateful to take this step with Rev. Mubanga walking alongside us.',
+    ],
+  },
+  {
+    id: 'local-elections-2026',
+    title: 'Elections 2026 — new ZANC committee seated',
+    excerpt:
+      'General elections brought fresh leadership for 2026–2028. Thank you to everyone who voted, volunteered, and helped the process run smoothly.',
+    date: 'February 2026',
+    imageUrl: '/images/logo.jpg',
+    bodyParagraphs: [
+      'ZANC recently completed general elections for the 2026–2028 term. Members stepped forward to shape programming, stewardship, and community life—and the association is grateful to everyone who participated, whether on the ballot, behind the scenes, or at the polls.',
+      'A new committee is now in place to carry forward ZANC’s mission: preserving Zambian heritage, strengthening ties across Northern California, and welcoming partners near and far.',
+      'Election seasons are also a reminder that this organization belongs to its members. Your ideas, feedback, and willingness to serve keep the community vibrant. Watch Events & News and your email for ways to plug in under the new leadership.',
+    ],
+  },
+  {
+    id: 'local-open-enrollment-insurance-2026',
+    title: 'Open enrollment — Group Life Insurance (June 1 – July 31)',
+    excerpt:
+      'Mark your calendar: ZANC’s Hartford Group Life Insurance program opens enrollment each summer. Review dates, premiums, and how to apply.',
+    date: 'Yearly window',
+    imageUrl: '/images/hartford-logo.jpg',
+    bodyParagraphs: [
+      'ZANC partners with Hartford Insurance to offer a cultural Group Life Insurance program for members and eligible dependents. Each year, open enrollment runs from June 1 through July 31. If you are considering coverage—or renewing or adding dependents—this is the window to complete your paperwork and payment steps with the insurance team.',
+      'Premiums are collected on a semi-annual schedule; exact due dates are announced to insured members. Use the Insurance page for current rates, payment options (including Zelle and Venmo), and the downloadable application form.',
+      'Not sure where to start? Open the site calendar from this page for key deadlines, or email zancsac@gmail.com with questions. We encourage every eligible household to review the program—coverage is one of the ways we protect families while staying connected as a community.',
+    ],
+  },
+];
+
+type DbNewsRow = { id: string; title: string; excerpt: string | null; date: string; slug: string };
+
 const News = () => {
-  const [newsItems, setNewsItems] = useState<Array<{ id: string; title: string; excerpt: string | null; date: string; slug: string }>>([]);
+  const [newsItems, setNewsItems] = useState<DbNewsRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [tab, setTab] = useState<'upcoming' | 'past' | 'news'>('upcoming');
+  const [tab, setTab] = useState<'all' | 'upcoming' | 'past' | 'news'>('all');
+  const [articleModalOpen, setArticleModalOpen] = useState(false);
+  const [modalArticle, setModalArticle] = useState<ModalArticleContent | null>(null);
 
   const events = useMemo(
     () => [
@@ -109,6 +168,95 @@ const News = () => {
     setSearchParams(next, { replace: true });
   };
 
+  const closeArticleModal = useCallback(() => {
+    setArticleModalOpen(false);
+    setModalArticle(null);
+  }, []);
+
+  const openStaticArticle = useCallback((article: StaticNewsArticle) => {
+    setModalArticle({
+      title: article.title,
+      date: article.date,
+      imageUrl: article.imageUrl,
+      bodyParagraphs: [...article.bodyParagraphs],
+    });
+    setArticleModalOpen(true);
+  }, []);
+
+  const openDbArticle = useCallback(async (row: DbNewsRow) => {
+    setArticleModalOpen(true);
+    setModalArticle({
+      title: row.title,
+      date: row.date,
+      loading: true,
+    });
+
+    const { data, error: err } = await supabase
+      .from('news')
+      .select('title, content, cover_image_url, published_at')
+      .eq('slug', row.slug)
+      .eq('published', true)
+      .single();
+
+    if (err || !data) {
+      setModalArticle({
+        title: row.title,
+        date: row.date,
+        loading: false,
+        error: 'We could not load this article. Please try again later.',
+      });
+      return;
+    }
+
+    const dateStr = data.published_at
+      ? new Date(data.published_at).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })
+      : row.date;
+
+    setModalArticle({
+      title: data.title,
+      date: dateStr,
+      imageUrl: data.cover_image_url,
+      htmlContent: data.content,
+      loading: false,
+    });
+  }, []);
+
+  const newsGrid = (
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {STATIC_NEWS_ARTICLES.map((article) => (
+          <NewsFeedCard
+            key={article.id}
+            title={article.title}
+            excerpt={article.excerpt}
+            date={article.date}
+            imageUrl={article.imageUrl}
+            onOpen={() => openStaticArticle(article)}
+          />
+        ))}
+        {!loading &&
+          newsItems.map((item) => (
+            <NewsFeedCard
+              key={item.id}
+              title={item.title}
+              excerpt={item.excerpt || 'Read the full update.'}
+              date={item.date}
+              imageUrl={null}
+              onOpen={() => openDbArticle(item)}
+            />
+          ))}
+      </div>
+      {loading ? <p className="text-center text-sm text-slate mt-6">Loading more stories from the community archive…</p> : null}
+      {!loading && STATIC_NEWS_ARTICLES.length === 0 && newsItems.length === 0 ? (
+        <div className="text-center py-10 text-slate">No news yet. Check back soon!</div>
+      ) : null}
+    </>
+  );
+
   return (
     <div>
       <PageHeader title="Events & News" />
@@ -124,6 +272,7 @@ const News = () => {
 
           <div className="flex flex-wrap gap-2 mb-6">
             {[
+              { id: 'all' as const, label: 'All' },
               { id: 'upcoming' as const, label: 'Upcoming Events' },
               { id: 'past' as const, label: 'Past Events' },
               { id: 'news' as const, label: 'News' },
@@ -140,6 +289,58 @@ const News = () => {
               </button>
             ))}
           </div>
+
+          {tab === 'all' && (
+            <div className="space-y-14">
+              <div>
+                <h3 className="text-lg font-heading font-semibold text-zambia-green mb-2">Latest updates</h3>
+                <p className="text-sm text-slate mb-6 max-w-2xl">
+                  Micro articles and announcements in a three-column layout. Tap any card to read the full story in a pop-up.
+                </p>
+                {newsGrid}
+              </div>
+
+              <div>
+                <h3 className="text-lg font-heading font-semibold text-zambia-green mb-4">Upcoming events</h3>
+                <div className="bg-white rounded-xl border border-mist p-6 shadow-sm max-w-2xl">
+                  <p className="text-slate">
+                    Upcoming dates will be published as the year’s schedule is finalized. In the meantime, review the calendar for key
+                    deadlines.
+                  </p>
+                  <div className="mt-4">
+                    <Button variant="accent" onClick={openCalendar}>
+                      Open calendar
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-heading font-semibold text-zambia-green mb-4">Past highlights</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {events
+                    .filter((e) => e.type === 'past')
+                    .map((ev) => (
+                      <article
+                        key={ev.title}
+                        className="bg-white rounded-xl border border-mist p-6 shadow-sm hover:shadow-md transition-shadow"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <h4 className="text-base font-heading font-semibold text-zambia-green">{ev.title}</h4>
+                          <span className="text-xs font-heading uppercase tracking-[0.08em] text-copper bg-copper-glow px-2 py-1 rounded border border-mist shrink-0">
+                            {ev.dateLabel}
+                          </span>
+                        </div>
+                        <p className="text-slate mt-3 text-sm leading-relaxed">{ev.description}</p>
+                        <div className="mt-4 flex items-center gap-2 text-xs text-slate">
+                          <span className="px-2 py-1 rounded-full bg-cloud border border-mist">{ev.location}</span>
+                        </div>
+                      </article>
+                    ))}
+                </div>
+              </div>
+            </div>
+          )}
 
           {tab === 'upcoming' && (
             <div className="bg-white rounded-xl border border-mist p-6 shadow-sm">
@@ -176,22 +377,17 @@ const News = () => {
 
           {tab === 'news' && (
             <div>
-              <h3 className="text-lg font-heading font-semibold text-zambia-green mb-4">Latest Updates</h3>
-              {loading ? (
-                <div className="text-center py-12 text-slate">Loading...</div>
-              ) : newsItems.length === 0 ? (
-                <div className="text-center py-12 text-slate">No news yet. Check back soon!</div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {newsItems.map((item) => (
-                    <NewsCard key={item.id} id={item.slug} title={item.title} excerpt={item.excerpt || ''} date={item.date} />
-                  ))}
-                </div>
-              )}
+              <h3 className="text-lg font-heading font-semibold text-zambia-green mb-4">Latest updates</h3>
+              <p className="text-sm text-slate mb-6 max-w-2xl">
+                Tap a story to read the full article in a pop-up—no cramped preview cards.
+              </p>
+              {newsGrid}
             </div>
           )}
         </div>
       </section>
+
+      <NewsArticleModal open={articleModalOpen} onClose={closeArticleModal} article={modalArticle} />
 
       {isCalendarOpen && (
         <div className="fixed inset-0 z-50">
