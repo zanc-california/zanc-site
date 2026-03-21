@@ -22,3 +22,63 @@
     color: theme('colors.bay-blue');
   }
 }
+
+@layer components {
+  /**
+   * Shared hover / focus motion for card grids (respects prefers-reduced-motion via motion-safe).
+   */
+  .ui-card-motion {
+    @apply motion-safe:transition-[transform,box-shadow,border-color] motion-safe:duration-300 motion-safe:ease-out;
+  }
+
+  .ui-card-motion-hover {
+    @apply motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-lg motion-safe:hover:border-zambia-green/20;
+  }
+
+  .ui-card-motion-active {
+    @apply motion-safe:active:translate-y-0 motion-safe:active:shadow-md;
+  }
+
+  /** Subtle continuous polish for hero / key backgrounds (disabled when reduced motion). */
+  @keyframes ui-soft-shimmer {
+    0%,
+    100% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 0.85;
+    }
+  }
+
+  .ui-hero-pulse-dot {
+    animation: ui-soft-shimmer 2.8s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ui-hero-pulse-dot {
+      animation: none;
+      opacity: 1;
+    }
+  }
+
+  @keyframes ui-modal-pop {
+    from {
+      opacity: 0;
+      transform: scale(0.97) translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  .ui-modal-pop {
+    animation: ui-modal-pop 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ui-modal-pop {
+      animation: none;
+    }
+  }
+}

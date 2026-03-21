@@ -70,7 +70,7 @@ const ContactPage = () => {
               </div>
             </div>
             
-            <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-mist">
+            <div className="rounded-lg border border-mist bg-gray-50 p-6 shadow-sm ui-card-motion motion-safe:hover:border-zambia-green/15 motion-safe:hover:shadow-md">
               <h3 className="text-xl font-semibold text-primary-800 mb-4 font-heading">Contact us by email</h3>
               <ContactForm />
             </div>

@@ -11,33 +11,39 @@ const About = () => {
       name: 'Mabvuto Kaela',
       position: 'President',
       imageUrl: '/images/members/mabvuto-kaela.png',
+      shortBio: 'Focused on strengthening diaspora engagement and community growth.',
     },
     {
       id: 2,
       name: 'Beene Naulapwa',
       position: 'Vice President',
       imageUrl: '/images/members/secretary.jpg',
+      shortBio: 'Supporting programs, partnerships, and a welcoming culture for every member.',
     },
     {
       id: 3,
       name: 'Mujina Masumba',
       position: 'Treasurer',
+      shortBio: 'Stewarding resources with clarity so the association can plan confidently.',
     },
     {
       id: 4,
       name: 'Susanna Kaela',
       position: 'Vice Treasurer',
       imageUrl: '/images/members/susanna-kaela.png',
+      shortBio: 'Backing financial operations and transparency alongside the treasurer.',
     },
     {
       id: 5,
       name: 'Colleen Alvarez',
       position: 'Secretary',
+      shortBio: 'Keeping records, communications, and follow-through organized for the board.',
     },
     {
       id: 6,
       name: 'Catherine Samoyu',
       position: 'Vice Secretary',
+      shortBio: 'Helping document decisions and keep members informed as we grow.',
     },
   ];
 
@@ -47,29 +53,34 @@ const About = () => {
       name: 'Kasamba Sikapiye',
       position: 'Former Vice President (ZANC), iDream Co-Founder',
       imageUrl: '/images/members/kasamba-sikapizye-about-page.png',
+      shortBio: 'Bringing enterprise and community experience to board conversations.',
     },
     {
       id: 2,
       name: 'Pastor Stephen Mubanga',
       position: 'Rev. Stephen Mubanga — LA Community Coordinator',
       imageUrl: '/images/members/pastor-stephen-mubanga.png',
+      shortBio: 'Helping SoCal members stay connected with NorCal and the wider ZANC family.',
     },
     {
       id: 3,
       name: 'Sid Mofya',
       position: 'Founder, CXB Ventures (Bay Area)',
       imageUrl: '/images/members/sid-mofya.png',
+      shortBio: 'Offering a Bay Area innovation and ventures lens to community goals.',
     },
     {
       id: 4,
       name: 'Rajen Ranchhod',
       position: 'Hon. Consul (CA)',
       imageUrl: '/images/members/rajen-ranchhod.jpg',
+      shortBio: 'Strengthening civic and diaspora ties across California.',
     },
     {
       id: 5,
       name: 'Gladys Desmarais',
       position: 'ZANC Community',
+      shortBio: 'Representing member voices and grassroots community care.',
     },
   ];
 
@@ -135,6 +146,7 @@ const About = () => {
                 name={member.name}
                 position={member.position}
                 imageUrl={member.imageUrl}
+                shortBio={member.shortBio}
               />
             ))}
           </div>
@@ -156,6 +168,7 @@ const About = () => {
                   name={member.name}
                   position={member.position}
                   imageUrl={member.imageUrl}
+                  shortBio={member.shortBio}
                 />
               ))}
               {remainingInviteePlaceholders.map((label) => (

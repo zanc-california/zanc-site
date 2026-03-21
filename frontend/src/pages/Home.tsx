@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
+import FeaturedCommunitySpotlight from '../components/FeaturedCommunitySpotlight';
 import { heroImages } from '../heroImages';
 import Reveal from '../components/Reveal';
 
 /** NorCal / SoCal region chips — fixed footprint so all eight match. */
 function RegionMiniCard({ label, icon }: { label: string; icon: string }) {
   return (
-    <div className="bg-white rounded-lg border border-mist shadow-sm flex h-[7.5rem] sm:h-[8rem] w-full flex-col items-center justify-center gap-2 px-2 py-3">
-      <span className="text-2xl shrink-0" aria-hidden>
+    <div className="group bg-white rounded-lg border border-mist shadow-sm flex h-[7.5rem] sm:h-[8rem] w-full flex-col items-center justify-center gap-2 px-2 py-3 ui-card-motion ui-card-motion-hover ui-card-motion-active motion-safe:hover:scale-[1.02]">
+      <span className="text-2xl shrink-0 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-110" aria-hidden>
         {icon}
       </span>
       <span className="text-xs sm:text-sm font-heading font-semibold text-zambia-green text-center leading-tight line-clamp-2">
@@ -64,7 +65,7 @@ const Home = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <div className="max-w-2xl">
             <p className="inline-flex items-center gap-2 text-white/90 text-sm uppercase tracking-[0.08em] font-heading">
-              <span className="h-2 w-2 rounded-full bg-copper" />
+              <span className="h-2 w-2 rounded-full bg-copper ui-hero-pulse-dot shadow-[0_0_12px_rgba(184,115,51,0.65)]" />
               Zambian soul, NorCal polish
             </p>
             <h1 className="mt-4 text-4xl md:text-6xl font-heading font-bold text-white tracking-[-0.02em] drop-shadow">
@@ -98,7 +99,7 @@ const Home = () => {
           <Reveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
             <div>
               <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Community Highlights</h2>
-              <p className="text-slate mt-1">What’s happening across our Northern California community.</p>
+              <p className="text-slate mt-1">What’s happening across the ZANC community in Northern California.</p>
             </div>
             <Link to="/news?calendar=1">
               <Button variant="primary">Review this year’s calendar</Button>
@@ -106,17 +107,86 @@ const Home = () => {
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {highlights.map((h) => (
-              <Reveal key={h.title} className="bg-cloud rounded-lg border border-mist p-6 shadow-sm hover:shadow-md transition-shadow">
+            {highlights.map((h, i) => (
+              <Reveal
+                key={h.title}
+                delayMs={i * 90}
+                className="group bg-cloud rounded-lg border border-mist p-6 shadow-sm ui-card-motion ui-card-motion-hover ui-card-motion-active"
+              >
                 <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-lg font-heading font-semibold text-zambia-green">{h.title}</h3>
-                  <span className="text-xs font-heading uppercase tracking-[0.08em] text-copper bg-copper-glow px-2 py-1 rounded">
+                  <h3 className="text-lg font-heading font-semibold text-zambia-green motion-safe:transition-colors motion-safe:duration-300 group-hover:text-zambia-green-light">
+                    {h.title}
+                  </h3>
+                  <span className="text-xs font-heading uppercase tracking-[0.08em] text-copper bg-copper-glow px-2 py-1 rounded motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-105">
                     {h.date}
                   </span>
                 </div>
                 <p className="text-slate mt-3 leading-relaxed">{h.excerpt}</p>
                 <div className="mt-4">
-                  <Link to="/news" className="text-bay-blue font-medium hover:underline">View details →</Link>
+                  <Link
+                    to="/news"
+                    className="text-bay-blue font-medium hover:underline inline-flex items-center gap-1 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:translate-x-1"
+                  >
+                    View details →
+                  </Link>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-10 md:py-14 bg-white border-b border-mist">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Reveal className="mb-6">
+            <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Get Involved</h2>
+            <p className="text-slate mt-1 max-w-2xl">
+              Step from browsing into participating — the ZANC community grows when members show up, volunteer, and partner with us.
+            </p>
+          </Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                title: 'Join ZANC',
+                excerpt: 'Become a member for voting rights, events, and updates that keep you close to the community.',
+                to: '/membership',
+                linkLabel: 'Membership options →',
+              },
+              {
+                title: 'Volunteer at Events',
+                excerpt: 'Help make gatherings run smoothly — setup, welcome tables, and program support always welcome.',
+                to: '/news',
+                linkLabel: 'Events & News →',
+              },
+              {
+                title: 'Join a Committee',
+                excerpt: 'Committees are forming; share your skills and interests — we’ll match you when roles open.',
+                to: '/get-involved',
+                linkLabel: 'Learn more →',
+              },
+              {
+                title: 'Partner / Sponsor',
+                excerpt: 'Highlight your organization or sponsor programming that strengthens our diaspora and local ties.',
+                to: '/contact',
+                linkLabel: 'Contact us →',
+              },
+            ].map((card, i) => (
+              <Reveal
+                key={card.title}
+                delayMs={i * 100}
+                className="group h-full flex flex-col bg-cloud rounded-lg border border-mist p-6 shadow-sm ui-card-motion ui-card-motion-hover ui-card-motion-active"
+              >
+                <h3 className="text-lg font-heading font-semibold text-zambia-green motion-safe:transition-colors motion-safe:duration-300 group-hover:text-zambia-green-light">
+                  {card.title}
+                </h3>
+                <p className="text-slate mt-3 leading-relaxed text-sm flex-1">{card.excerpt}</p>
+                <div className="mt-4">
+                  <Link
+                    to={card.to}
+                    className="text-bay-blue font-medium text-sm hover:underline inline-flex items-center gap-1 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:translate-x-1"
+                  >
+                    {card.linkLabel}
+                  </Link>
                 </div>
               </Reveal>
             ))}
@@ -127,43 +197,34 @@ const Home = () => {
       <section className="bg-zambia-green text-white py-10 md:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
-            <div>
-              <p className="text-4xl md:text-5xl font-heading font-bold text-copper">2017</p>
-              <p className="mt-1 text-xs md:text-sm uppercase tracking-[0.08em] text-white/80 font-heading">Founded</p>
-            </div>
-            <div>
-              <p className="text-4xl md:text-5xl font-heading font-bold text-copper">68+</p>
-              <p className="mt-1 text-xs md:text-sm uppercase tracking-[0.08em] text-white/80 font-heading">Insured members</p>
-            </div>
-            <div>
-              <p className="text-4xl md:text-5xl font-heading font-bold text-copper">7</p>
-              <p className="mt-1 text-xs md:text-sm uppercase tracking-[0.08em] text-white/80 font-heading">States reached</p>
-            </div>
-            <div>
-              <p className="text-4xl md:text-5xl font-heading font-bold text-copper">4+</p>
-              <p className="mt-1 text-xs md:text-sm uppercase tracking-[0.08em] text-white/80 font-heading">Annual events</p>
-            </div>
+            {[
+              { value: '2017', label: 'Founded' },
+              { value: '68+', label: 'Insured members' },
+              { value: '7', label: 'States reached' },
+              { value: '4+', label: 'Annual events' },
+            ].map((stat, i) => (
+              <Reveal key={stat.label} delayMs={i * 80} durationMs={640} className="group">
+                <p className="text-4xl md:text-5xl font-heading font-bold text-copper motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105 drop-shadow-sm">
+                  {stat.value}
+                </p>
+                <p className="mt-1 text-xs md:text-sm uppercase tracking-[0.08em] text-white/80 font-heading">{stat.label}</p>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="py-10 md:py-14 bg-white border-y border-mist">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-xs md:text-sm uppercase tracking-[0.08em] font-heading text-copper">Community spotlight</p>
-          <h2 className="mt-2 text-2xl md:text-3xl font-heading font-semibold text-zambia-green">
-            Featured community business / entity
-          </h2>
-          <p className="mt-4 text-slate max-w-2xl mx-auto leading-relaxed">
-            Be the first to be featured here. We highlight businesses and organizations that strengthen our diaspora and local ties. Reach
-            out for details on how to participate.
-          </p>
-          <div className="mt-6">
-            <Link to="/contact">
-              <Button variant="accent">Contact us about featuring your business</Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <FeaturedCommunitySpotlight
+        title="Featured community business / entity"
+        entries={[
+          {
+            description:
+              'Be the first to be featured here. We highlight businesses and organizations that strengthen our diaspora and local ties. Reach out for details on how to participate.',
+            ctaLabel: 'Contact us about featuring your business',
+            ctaLink: '/contact',
+          },
+        ]}
+      />
 
       <section className="py-10 md:py-14 bg-copper-glow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -215,7 +276,7 @@ const Home = () => {
           </div>
 
           {/* Full-width row so the hub isn’t trapped in the right column */}
-          <div className="mt-10 lg:mt-12 w-full rounded-xl border border-mist bg-white/80 p-4 sm:p-6 shadow-sm">
+          <Reveal className="mt-10 lg:mt-12 w-full rounded-xl border border-mist bg-white/80 p-4 sm:p-6 shadow-sm ui-card-motion motion-safe:hover:shadow-md motion-safe:hover:border-zambia-green/15">
             <p className="text-sm font-heading font-semibold text-zambia-green">LA area community hub</p>
             <p className="text-sm text-slate mt-2 leading-relaxed max-w-3xl">
               A dedicated page for Los Angeles and Southern California updates—events, contacts, and ways to plug in—is on the way.
@@ -232,16 +293,18 @@ const Home = () => {
               </span>
             </div>
             <p className="text-xs text-slate/80 mt-3">For now, this home page is the only place we mention the upcoming LA hub.</p>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       <section className="bg-zambia-green text-white py-12 md:py-16 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl md:text-3xl font-heading font-bold mb-4">Be Part of Something Bigger</h2>
-          <p className="max-w-2xl mx-auto mb-8 text-white/90">
-            Join 68+ members building bridges between Zambia and Northern California.
-          </p>
+          <Reveal>
+            <h2 className="text-2xl md:text-3xl font-heading font-bold mb-4">Be Part of Something Bigger</h2>
+            <p className="max-w-2xl mx-auto mb-8 text-white/90">
+              Join 68+ members building bridges between Zambia and Northern California.
+            </p>
+          </Reveal>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link to="/membership">
               <Button variant="accent" size="lg">Join ZANC</Button>

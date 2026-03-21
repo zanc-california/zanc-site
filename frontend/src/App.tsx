@@ -12,6 +12,8 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import ContactPage from './pages/ContactPage';
 import DonatePage from './pages/DonatePage';
 import Community from './pages/Community';
+import GetInvolved from './pages/GetInvolved';
+import Initiatives from './pages/Initiatives';
 import AdminLayout from './admin/AdminLayout';
 import AdminLogin from './admin/AdminLogin';
 import AdminDashboard from './admin/AdminDashboard';
@@ -39,6 +41,8 @@ function App() {
         <Route path="/membership" element={<Layout><Membership /></Layout>} />
         <Route path="/insurance" element={<Layout><Insurance /></Layout>} />
         <Route path="/community" element={<Layout><Community /></Layout>} />
+        <Route path="/get-involved" element={<Layout><GetInvolved /></Layout>} />
+        <Route path="/initiatives" element={<Layout><Initiatives /></Layout>} />
         <Route path="/forms" element={<Navigate to="/membership" replace />} />
         <Route path="/privacy-policy" element={<Layout><PrivacyPolicy /></Layout>} />
         <Route path="/contact" element={<Layout><ContactPage /></Layout>} />

@@ -57,7 +57,7 @@ const GetInvolved = () => {
               </div>
             </div>
             
-            <div className="bg-primary-50 p-6 rounded-lg border border-primary-200">
+            <div className="rounded-lg border border-primary-200 bg-primary-50 p-6 ui-card-motion motion-safe:hover:border-primary-300 motion-safe:hover:shadow-md">
               <h3 className="text-xl font-semibold text-primary-800 mb-4 font-heading">Quick Start</h3>
               <p className="text-gray-700 mb-4">
                 Ready to join ZANC or get group life insurance? Our streamlined application process guides you through:
@@ -91,7 +91,7 @@ const GetInvolved = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <a 
               href="/forms/SAMPLE%20DOWNLOAD%20FORM.pdf" 
-              className="flex items-center p-4 bg-white rounded-md border border-gray-200 hover:shadow-md transition-shadow"
+              className="flex items-center rounded-md border border-gray-200 bg-white p-4 ui-card-motion ui-card-motion-hover ui-card-motion-active"
               download
             >
               <div>
@@ -102,7 +102,7 @@ const GetInvolved = () => {
             
             <a 
               href="#" 
-              className="flex items-center p-4 bg-white rounded-md border border-gray-200 hover:shadow-md transition-shadow"
+              className="flex items-center rounded-md border border-gray-200 bg-white p-4 ui-card-motion ui-card-motion-hover ui-card-motion-active"
               onClick={(e) => {
                 e.preventDefault(); 
                 alert('This would download the scholarship application PDF in a real implementation');
@@ -116,7 +116,7 @@ const GetInvolved = () => {
             
             <a 
               href="#" 
-              className="flex items-center p-4 bg-white rounded-md border border-gray-200 hover:shadow-md transition-shadow"
+              className="flex items-center rounded-md border border-gray-200 bg-white p-4 ui-card-motion ui-card-motion-hover ui-card-motion-active"
               onClick={(e) => {
                 e.preventDefault(); 
                 alert('This would download the volunteer registration PDF in a real implementation');
@@ -185,7 +185,7 @@ const GetInvolved = () => {
               </div>
             </div>
             
-            <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-mist">
+            <div className="rounded-lg border border-mist bg-gray-50 p-6 shadow-sm ui-card-motion motion-safe:hover:border-zambia-green/15 motion-safe:hover:shadow-md">
               <h3 className="text-xl font-semibold text-primary-800 mb-4 font-heading">Contact us by email</h3>
               <ContactForm />
             </div>

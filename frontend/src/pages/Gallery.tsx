@@ -2,7 +2,20 @@ import { useMemo, useState, useEffect } from 'react';
 import PageHeader from '../components/PageHeader';
 import { supabase } from '../lib/supabase';
 
-type GalleryItem = { id: string; image_url: string; caption: string | null; category: string | null };
+type GalleryItem = {
+  id: string;
+  image_url: string;
+  caption: string | null;
+  category: string | null;
+  /** Optional extra labels for storytelling (local items; remote rows may add when DB supports it) */
+  tags?: string[] | null;
+};
+
+function galleryDisplayTags(item: GalleryItem): string[] {
+  if (item.tags?.length) return item.tags;
+  if (item.category) return [item.category];
+  return [];
+}
 
 /** `Zambia-US Roadshow 2025 - N.jpg` sources, copied as URL-safe `zambia-us-roadshow-2025-N.jpg`. */
 const ZAMBIA_US_ROADSHOW_2025_IDS = [118, 119, 124, 133, 137, 139, 180, 181, 364, 373, 402] as const;
@@ -12,6 +25,7 @@ const LOCAL_ROADSHOW_2025_NUMBERED: GalleryItem[] = ZAMBIA_US_ROADSHOW_2025_IDS.
   image_url: `/images/gallery/zambia-us-roadshow-2025-${n}.jpg`,
   caption: `Zambia–US Roadshow 2025 — photo ${n}`,
   category: 'Roadshow',
+  tags: ['Roadshow', 'Events'],
 }));
 
 /**
@@ -24,48 +38,56 @@ const LOCAL_GALLERY_ITEMS: GalleryItem[] = [
     image_url: '/images/gallery/community-friends-gathering.JPG',
     caption: 'Community friends gathering',
     category: 'Community',
+    tags: ['Community', 'Events'],
   },
   {
     id: 'local-roadshow-minister-tayali',
     image_url: '/images/gallery/roadshow-minister-tayali-welcome.JPG',
     caption: 'Minister Tayali welcome — Zambia–US Roadshow',
     category: 'Roadshow',
+    tags: ['Roadshow', 'Community'],
   },
   {
     id: 'local-womens-tea-2025',
     image_url: '/images/gallery/womens-tea-party-2025.jpg',
     caption: "Women's tea party (2025)",
     category: 'Events',
+    tags: ['Events', 'Community'],
   },
   {
     id: 'local-roadshow-president-speech',
     image_url: '/images/gallery/roadshow-zanc-president-speech-PHOTO-2025-09-10-05-25-18.jpg',
     caption: 'ZANC president address — Roadshow',
     category: 'Roadshow',
+    tags: ['Roadshow', 'Events'],
   },
   {
     id: 'local-roadshow-ambassador-group',
     image_url: '/images/gallery/roadshow-ambassador-community-group-image.JPG',
     caption: 'Ambassador with community — Roadshow',
     category: 'Roadshow',
+    tags: ['Roadshow', 'Community'],
   },
   {
     id: 'local-womens-tea-may',
     image_url: '/images/gallery/womens-tea-partyPHOTO-2025-05-11-06-49-14.jpg',
     caption: "Women's tea party (May 2025)",
     category: 'Events',
+    tags: ['Events', 'Community'],
   },
   {
     id: 'local-roadshow-sept7-a',
     image_url: '/images/gallery/Roadshow-PHOTO-2025-09-07-15-12-18.jpg',
     caption: 'Zambia–US Roadshow — community moment (Sept 7, 2025)',
     category: 'Roadshow',
+    tags: ['Roadshow', 'Events'],
   },
   {
     id: 'local-roadshow-sept7-b',
     image_url: '/images/gallery/roadshow-PHOTO-2025-09-07-15-47-16.jpg',
     caption: 'Zambia–US Roadshow — program highlight (Sept 7, 2025)',
     category: 'Roadshow',
+    tags: ['Roadshow', 'Events'],
   },
   ...LOCAL_ROADSHOW_2025_NUMBERED,
 ];
@@ -141,8 +163,8 @@ const Gallery = () => {
                     key={c}
                     type="button"
                     onClick={() => setActiveCategory(c)}
-                    className={`px-4 py-2 rounded-full border text-sm font-medium transition-colors ${
-                      activeCategory === c ? 'bg-zambia-green text-white border-zambia-green' : 'bg-white text-slate border-mist hover:bg-cloud'
+                    className={`px-4 py-2 rounded-full border text-sm font-medium motion-safe:transition-all motion-safe:duration-200 motion-safe:hover:scale-[1.03] motion-safe:active:scale-[0.98] ${
+                      activeCategory === c ? 'bg-zambia-green text-white border-zambia-green shadow-sm' : 'bg-white text-slate border-mist hover:bg-cloud'
                     }`}
                   >
                     {c}
@@ -158,14 +180,27 @@ const Gallery = () => {
                     className="mb-6 break-inside-avoid rounded-xl overflow-hidden border border-mist bg-white shadow-sm hover:shadow-md transition-shadow cursor-zoom-in"
                     onClick={() => setLightbox(item)}
                   >
-                    <div className="aspect-[4/3] w-full bg-copper-glow/40">
-                      <img src={item.image_url} alt={item.caption || 'Gallery image'} className="w-full h-full object-cover" />
+                    <div className="relative aspect-[4/3] w-full bg-copper-glow/40 overflow-hidden">
+                      {galleryDisplayTags(item).length > 0 && (
+                        <div className="absolute top-2 left-2 z-10 flex flex-wrap gap-1 max-w-[calc(100%-1rem)]">
+                          {galleryDisplayTags(item).map((tag) => (
+                            <span
+                              key={`${item.id}-${tag}`}
+                              className="rounded-full bg-black/55 text-white text-[10px] font-medium px-2 py-0.5 backdrop-blur-[2px] shadow-sm"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      <img
+                        src={item.image_url}
+                        alt={item.caption || 'Gallery image'}
+                        className="h-full w-full object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out motion-safe:group-hover:scale-105 motion-reduce:group-hover:scale-100"
+                      />
                     </div>
-                    {(item.caption || item.category) && (
-                      <figcaption className="p-3 text-sm text-slate">
-                        {item.caption}
-                        {item.category && <span className="text-slate/60 ml-1">({item.category})</span>}
-                      </figcaption>
+                    {item.caption && (
+                      <figcaption className="p-3 text-sm text-slate">{item.caption}</figcaption>
                     )}
                   </figure>
                 ))}
@@ -183,11 +218,22 @@ const Gallery = () => {
         <div className="fixed inset-0 z-50">
           <div className="absolute inset-0 bg-black/60" onClick={() => setLightbox(null)} />
           <div className="absolute inset-0 flex items-center justify-center p-4">
-            <div className="w-full max-w-4xl bg-white rounded-xl overflow-hidden shadow-xl border border-mist">
+            <div className="ui-modal-pop w-full max-w-4xl bg-white rounded-xl overflow-hidden shadow-xl border border-mist">
               <div className="flex items-center justify-between px-4 py-3 border-b border-mist bg-cloud">
                 <div className="min-w-0">
                   <p className="font-heading font-semibold text-zambia-green truncate">{lightbox.caption || 'Photo'}</p>
-                  {lightbox.category && <p className="text-xs text-slate">{lightbox.category}</p>}
+                  {galleryDisplayTags(lightbox).length > 0 && (
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {galleryDisplayTags(lightbox).map((tag, ti) => (
+                        <span
+                          key={`lb-${ti}-${tag}`}
+                          className="rounded-full bg-copper-glow text-slate text-[10px] font-medium px-2 py-0.5 border border-mist"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <button
                   type="button"
