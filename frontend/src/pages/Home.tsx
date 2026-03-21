@@ -147,6 +147,24 @@ const Home = () => {
         </div>
       </section>
 
+      <section className="py-10 md:py-14 bg-white border-y border-mist">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-xs md:text-sm uppercase tracking-[0.08em] font-heading text-copper">Community spotlight</p>
+          <h2 className="mt-2 text-2xl md:text-3xl font-heading font-semibold text-zambia-green">
+            Featured community business / entity
+          </h2>
+          <p className="mt-4 text-slate max-w-2xl mx-auto leading-relaxed">
+            Be the first to be featured here. We highlight businesses and organizations that strengthen our diaspora and local ties. Reach
+            out for details on how to participate.
+          </p>
+          <div className="mt-6">
+            <Link to="/contact">
+              <Button variant="accent">Contact us about featuring your business</Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="py-10 md:py-14 bg-copper-glow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/*
@@ -229,7 +247,13 @@ const Home = () => {
               <Button variant="accent" size="lg">Join ZANC</Button>
             </Link>
             <Link to="/about">
-              <Button variant="outline" size="lg" className="border-white/80 text-white hover:bg-white/10">Learn More</Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="!bg-transparent !text-white border-2 border-white/90 hover:!bg-white hover:!text-zambia-green focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-zambia-green"
+              >
+                Learn More
+              </Button>
             </Link>
           </div>
         </div>

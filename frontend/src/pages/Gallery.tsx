@@ -4,11 +4,79 @@ import { supabase } from '../lib/supabase';
 
 type GalleryItem = { id: string; image_url: string; caption: string | null; category: string | null };
 
+/** `Zambia-US Roadshow 2025 - N.jpg` sources, copied as URL-safe `zambia-us-roadshow-2025-N.jpg`. */
+const ZAMBIA_US_ROADSHOW_2025_IDS = [118, 119, 124, 133, 137, 139, 180, 181, 364, 373, 402] as const;
+
+const LOCAL_ROADSHOW_2025_NUMBERED: GalleryItem[] = ZAMBIA_US_ROADSHOW_2025_IDS.map((n) => ({
+  id: `local-zambia-us-roadshow-2025-${n}`,
+  image_url: `/images/gallery/zambia-us-roadshow-2025-${n}.jpg`,
+  caption: `Zambia–US Roadshow 2025 — photo ${n}`,
+  category: 'Roadshow',
+}));
+
+/**
+ * Images under `public/images` with descriptive filenames (treated as captions).
+ * Files live in `frontend/public/images/gallery/` for Vite. Shown first, then Supabase rows.
+ */
+const LOCAL_GALLERY_ITEMS: GalleryItem[] = [
+  {
+    id: 'local-community-friends-gathering',
+    image_url: '/images/gallery/community-friends-gathering.JPG',
+    caption: 'Community friends gathering',
+    category: 'Community',
+  },
+  {
+    id: 'local-roadshow-minister-tayali',
+    image_url: '/images/gallery/roadshow-minister-tayali-welcome.JPG',
+    caption: 'Minister Tayali welcome — Zambia–US Roadshow',
+    category: 'Roadshow',
+  },
+  {
+    id: 'local-womens-tea-2025',
+    image_url: '/images/gallery/womens-tea-party-2025.jpg',
+    caption: "Women's tea party (2025)",
+    category: 'Events',
+  },
+  {
+    id: 'local-roadshow-president-speech',
+    image_url: '/images/gallery/roadshow-zanc-president-speech-PHOTO-2025-09-10-05-25-18.jpg',
+    caption: 'ZANC president address — Roadshow',
+    category: 'Roadshow',
+  },
+  {
+    id: 'local-roadshow-ambassador-group',
+    image_url: '/images/gallery/roadshow-ambassador-community-group-image.JPG',
+    caption: 'Ambassador with community — Roadshow',
+    category: 'Roadshow',
+  },
+  {
+    id: 'local-womens-tea-may',
+    image_url: '/images/gallery/womens-tea-partyPHOTO-2025-05-11-06-49-14.jpg',
+    caption: "Women's tea party (May 2025)",
+    category: 'Events',
+  },
+  {
+    id: 'local-roadshow-sept7-a',
+    image_url: '/images/gallery/Roadshow-PHOTO-2025-09-07-15-12-18.jpg',
+    caption: 'Zambia–US Roadshow — community moment (Sept 7, 2025)',
+    category: 'Roadshow',
+  },
+  {
+    id: 'local-roadshow-sept7-b',
+    image_url: '/images/gallery/roadshow-PHOTO-2025-09-07-15-47-16.jpg',
+    caption: 'Zambia–US Roadshow — program highlight (Sept 7, 2025)',
+    category: 'Roadshow',
+  },
+  ...LOCAL_ROADSHOW_2025_NUMBERED,
+];
+
 const Gallery = () => {
-  const [items, setItems] = useState<GalleryItem[]>([]);
+  const [remoteItems, setRemoteItems] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [lightbox, setLightbox] = useState<GalleryItem | null>(null);
+
+  const items = useMemo(() => [...LOCAL_GALLERY_ITEMS, ...remoteItems], [remoteItems]);
 
   useEffect(() => {
     const fetchGallery = async () => {
@@ -19,12 +87,12 @@ const Gallery = () => {
           .order('display_order', { ascending: true });
 
         if (err) {
-          setItems([]);
+          setRemoteItems([]);
         } else {
-          setItems(data || []);
+          setRemoteItems(data || []);
         }
       } catch {
-        setItems([]);
+        setRemoteItems([]);
       } finally {
         setLoading(false);
       }
@@ -50,8 +118,8 @@ const Gallery = () => {
       <PageHeader title="Gallery" />
       <section className="py-12 md:py-16 bg-fog">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {loading ? (
-            <div className="text-center py-12 text-gray-500">Loading...</div>
+          {loading && items.length === 0 ? (
+            <div className="text-center py-12 text-gray-500">Loading gallery…</div>
           ) : items.length === 0 ? (
             <div>
               <div className="text-center py-8">

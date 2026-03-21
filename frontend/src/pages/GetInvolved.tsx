@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import Button from '../components/Button';
 import ApplicationFlow from '../components/ApplicationFlow';
-import ContactForm from '../components/ContactForm';
+import ContactForm, { ZANC_CONTACT_EMAIL } from '../components/ContactForm';
 
 const GetInvolved = () => {
   const [showApplicationFlow, setShowApplicationFlow] = useState(false);
@@ -137,17 +137,21 @@ const GetInvolved = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <p className="text-gray-700 mb-6 leading-relaxed">
-                Have questions about ZANC or want to get involved? Reach out to us using the contact form or the information below.
+                Have questions about ZANC or want to get involved? Email us using the address below — we&apos;ll get back to you.
               </p>
               
               <div className="space-y-4 mb-6">
                 <div>
                   <h3 className="text-lg font-medium text-primary-800">Email</h3>
-                  <p className="text-gray-700">zancsac@gmail.com</p>
+                  <p className="text-gray-700">
+                    <a href={`mailto:${ZANC_CONTACT_EMAIL}`} className="text-bay-blue hover:underline">
+                      {ZANC_CONTACT_EMAIL}
+                    </a>
+                  </p>
                 </div>
                 <div>
                   <h3 className="text-lg font-medium text-primary-800">Phone</h3>
-                  <p className="text-gray-700">(123) 456-7890</p>
+                  <p className="text-gray-700">To be announced</p>
                 </div>
                 <div>
                   <h3 className="text-lg font-medium text-primary-800">Address</h3>
@@ -181,8 +185,8 @@ const GetInvolved = () => {
               </div>
             </div>
             
-            <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-semibold text-primary-800 mb-4 font-heading">Send Us a Message</h3>
+            <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-mist">
+              <h3 className="text-xl font-semibold text-primary-800 mb-4 font-heading">Contact us by email</h3>
               <ContactForm />
             </div>
           </div>

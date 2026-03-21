@@ -1,6 +1,6 @@
 import React from 'react';
 import PageHeader from '../components/PageHeader';
-import ContactForm from '../components/ContactForm';
+import ContactForm, { ZANC_CONTACT_EMAIL } from '../components/ContactForm';
 
 const ContactPage = () => {
   return (
@@ -20,12 +20,16 @@ const ContactPage = () => {
               <div className="space-y-6 mb-8">
                 <div>
                   <h3 className="text-lg font-medium text-primary-800 mb-1">Email</h3>
-                  <p className="text-gray-700">zancsac@gmail.com</p>
+                  <p className="text-gray-700">
+                    <a href={`mailto:${ZANC_CONTACT_EMAIL}`} className="text-bay-blue hover:underline">
+                      {ZANC_CONTACT_EMAIL}
+                    </a>
+                  </p>
                 </div>
                 
                 <div>
                   <h3 className="text-lg font-medium text-primary-800 mb-1">Phone</h3>
-                  <p className="text-gray-700">(123) 456-7890</p>
+                  <p className="text-gray-700">To be announced</p>
                 </div>
                 
                 <div>
@@ -66,8 +70,8 @@ const ContactPage = () => {
               </div>
             </div>
             
-            <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-semibold text-primary-800 mb-6 font-heading">Send Us a Message</h3>
+            <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-mist">
+              <h3 className="text-xl font-semibold text-primary-800 mb-4 font-heading">Contact us by email</h3>
               <ContactForm />
             </div>
           </div>
