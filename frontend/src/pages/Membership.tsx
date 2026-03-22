@@ -204,13 +204,20 @@ const Membership = () => {
 
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="rounded-xl border border-mist bg-cloud p-6 ui-card-motion motion-safe:hover:shadow-md motion-safe:hover:border-zambia-green/10">
-              <h3 className="text-lg font-heading font-semibold text-zambia-green">Membership Application Form</h3>
+              <h3 className="text-lg font-heading font-semibold text-zambia-green">Membership intake form</h3>
               <p className="text-slate mt-2 text-sm">
-                Download, complete, and return your application via email at zancsac@gmail.com or mail to our PO Box address.
+                Download the ZANC membership intake form (PDF). Complete it and return it by email to zancsac@gmail.com or mail to our PO
+                Box address.
               </p>
               <div className="mt-4">
-                <a href="/forms/membership-application.pdf" download className="inline-block">
-                  <Button variant="outline">Download Membership PDF</Button>
+                <a
+                  href="/forms/zanc-membership-intake-form.pdf"
+                  download="zanc-membership-intake-form.pdf"
+                  className="inline-block"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button variant="outline">Download intake form (PDF)</Button>
                 </a>
               </div>
             </div>
