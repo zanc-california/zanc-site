@@ -77,7 +77,7 @@ const Home = () => {
               Connecting Zambians across Northern California since 2017 — rooted in culture, thriving in community.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+            <div className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3">
               <Link to="/membership">
                 <Button variant="accent" size="lg">Join ZANC</Button>
               </Link>
@@ -89,6 +89,13 @@ const Home = () => {
                   Explore Events
                 </button>
               </Link>
+              <a
+                href="#zanc-updates"
+                className="inline-flex items-center justify-center px-6 py-3 text-lg font-medium rounded-md border-2 border-white/80 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white focus:ring-offset-zambia-green"
+                aria-label="Subscribe to ZANC email updates (scrolls to form in footer)"
+              >
+                Subscribe
+              </a>
             </div>
           </div>
         </div>
