@@ -24,6 +24,8 @@ const Home = () => {
   const [currentHero, setCurrentHero] = useState(0);
   const [subscribeOpen, setSubscribeOpen] = useState(false);
   const hero = heroImages[currentHero];
+  const heroOutlineButtonClass =
+    '!w-full sm:!w-auto !justify-center !bg-transparent !text-white border-white/80 hover:!bg-white/10 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-zambia-green';
 
   const highlights = useMemo(
     () => [
@@ -79,27 +81,28 @@ const Home = () => {
               Connecting Zambians across Northern California since 2017 — rooted in culture, thriving in community.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3">
-              <Link to="/membership">
-                <Button variant="accent" size="lg">Join ZANC</Button>
+            <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-row sm:flex-wrap">
+              <Link to="/membership" className="w-full sm:w-auto">
+                <Button variant="accent" size="lg" className="w-full sm:w-auto">
+                  Join ZANC
+                </Button>
               </Link>
-              <Link to="/news">
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center px-6 py-3 text-lg font-medium rounded-md border-2 border-white/80 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white focus:ring-offset-zambia-green"
-                >
+              <Link to="/news" className="w-full sm:w-auto">
+                <Button variant="outline" size="lg" className={heroOutlineButtonClass}>
                   Explore Events
-                </button>
+                </Button>
               </Link>
-              <button
+              <Button
                 type="button"
+                variant="outline"
+                size="lg"
                 onClick={() => setSubscribeOpen(true)}
-                className="inline-flex items-center justify-center px-6 py-3 text-lg font-medium rounded-md border-2 border-white/80 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white focus:ring-offset-zambia-green"
+                className={heroOutlineButtonClass}
                 aria-haspopup="dialog"
                 aria-label="Open subscribe form for ZANC email updates"
               >
                 Subscribe
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -179,7 +182,7 @@ const Home = () => {
               },
               {
                 title: 'Business & Investment Series',
-                excerpt: 'Learn how diaspora can engage in Zambia&apos;s growth.',
+                excerpt: "Learn how diaspora can engage in Zambia's growth.",
                 href: '/news#business-investment-series',
                 external: false,
               },

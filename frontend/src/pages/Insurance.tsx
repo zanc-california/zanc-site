@@ -278,9 +278,8 @@ const Insurance = () => {
                 </div>
               ) : (
                 <p className="text-amber-700 text-sm rounded-lg border border-amber-200 bg-amber-50 px-4 py-3">
-                  Insurance Stripe links are optional. Add <code className="text-xs">VITE_STRIPE_INSURANCE_*</code> in Vercel and{' '}
-                  <code className="text-xs">.env.local</code> to show Pay Now buttons. You can still pay via Zelle, bank, or Venmo
-                  above.
+                  Online card checkout is temporarily disabled while live payment links are being updated. You can still pay via
+                  Zelle, bank, or Venmo above.
                 </p>
               )}
             </div>

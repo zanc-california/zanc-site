@@ -68,7 +68,7 @@ const Membership = () => {
                   </a>
                 )}
                 {!norcalMonthlyLink && !norcalYearlyLink && (
-                  <p className="text-amber-700 text-sm">Membership payment links are not configured.</p>
+                  <p className="text-amber-700 text-sm">Online card checkout is temporarily disabled while live payment links are being updated.</p>
                 )}
               </div>
             </Reveal>
@@ -97,7 +97,7 @@ const Membership = () => {
                   </a>
                 )}
                 {!outStateYearlyLink && (
-                  <p className="text-amber-700 text-sm">Membership payment links are not configured.</p>
+                  <p className="text-amber-700 text-sm">Online card checkout is temporarily disabled while live payment links are being updated.</p>
                 )}
               </div>
             </Reveal>
