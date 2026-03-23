@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import FeaturedCommunitySpotlight from '../components/FeaturedCommunitySpotlight';
+import SubscribeModal from '../components/SubscribeModal';
 import { heroImages } from '../heroImages';
 import Reveal from '../components/Reveal';
 
@@ -21,6 +22,7 @@ function RegionMiniCard({ label, icon }: { label: string; icon: string }) {
 
 const Home = () => {
   const [currentHero, setCurrentHero] = useState(0);
+  const [subscribeOpen, setSubscribeOpen] = useState(false);
   const hero = heroImages[currentHero];
 
   const highlights = useMemo(
@@ -100,6 +102,8 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      <SubscribeModal open={subscribeOpen} onClose={() => setSubscribeOpen(false)} />
 
       <section className="py-10 md:py-14 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

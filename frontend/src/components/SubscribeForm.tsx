@@ -8,12 +8,23 @@ type Variant = 'footer' | 'inline';
 type Props = {
   variant?: Variant;
   className?: string;
+  /** Unique id for the email input (avoid duplicates when multiple forms on the page). */
+  inputId?: string;
+  autoFocusEmail?: boolean;
+  /** When false, only the form + status + privacy link (e.g. inside a modal with its own title). */
+  showIntro?: boolean;
 };
 
 /**
  * Posts to /api/subscribe (Vercel serverless or Vite dev middleware).
  */
-export default function SubscribeForm({ variant = 'inline', className = '' }: Props) {
+export default function SubscribeForm({
+  variant = 'inline',
+  className = '',
+  inputId = 'subscribe-email',
+  autoFocusEmail = false,
+  showIntro = true,
+}: Props) {
   const [email, setEmail] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
@@ -57,18 +68,22 @@ export default function SubscribeForm({ variant = 'inline', className = '' }: Pr
 
   return (
     <div className={className}>
-      <h3 className={`font-heading font-semibold mb-2 ${isFooter ? 'text-white' : 'text-zambia-green'}`}>
-        ZANC updates
-      </h3>
-      <p className={`text-sm mb-3 leading-relaxed ${isFooter ? 'text-white/75' : 'text-slate'}`}>
-        Events, opportunities, and community activities — straight to your inbox.
-      </p>
+      {showIntro && (
+        <>
+          <h3 className={`font-heading font-semibold mb-2 ${isFooter ? 'text-white' : 'text-zambia-green'}`}>
+            ZANC updates
+          </h3>
+          <p className={`text-sm mb-3 leading-relaxed ${isFooter ? 'text-white/75' : 'text-slate'}`}>
+            Events, opportunities, and community activities — straight to your inbox.
+          </p>
+        </>
+      )}
       <form onSubmit={submit} className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
-        <label htmlFor="subscribe-email" className="sr-only">
+        <label htmlFor={inputId} className="sr-only">
           Email for ZANC updates
         </label>
         <input
-          id="subscribe-email"
+          id={inputId}
           name="email"
           type="email"
           autoComplete="email"
@@ -77,6 +92,7 @@ export default function SubscribeForm({ variant = 'inline', className = '' }: Pr
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={submitting}
+          autoFocus={autoFocusEmail}
           className={
             isFooter
               ? 'min-h-[44px] flex-1 rounded-md border border-white/25 bg-white/10 px-3 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-copper disabled:opacity-60'
