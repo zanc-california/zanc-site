@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import SubscribeForm from './SubscribeForm';
 
 const Footer = () => {
   return (
@@ -18,6 +19,9 @@ const Footer = () => {
             <p className="mt-4 text-sm text-white/80 max-w-sm">
               Zambian heritage, NorCal community. Connecting members across Northern California and beyond since 2017.
             </p>
+            <div className="mt-6 max-w-sm border-t border-white/15 pt-6">
+              <SubscribeForm variant="footer" />
+            </div>
           </div>
 
           <div>
