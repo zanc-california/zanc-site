@@ -13,11 +13,7 @@ export function getMembershipNorCalYearlyLink(): string {
 }
 
 export function getMembershipOutOfStateYearlyLink(): string {
-  // Provided by user; can be overridden by env for production.
-  return (
-    import.meta.env.VITE_STRIPE_MEMBERSHIP_OUTSTATE_YEARLY ??
-    'https://buy.stripe.com/test_9B6bIU7NggPLeVX7pRdQQ08'
-  );
+  return import.meta.env.VITE_STRIPE_MEMBERSHIP_OUTSTATE_YEARLY ?? '';
 }
 
 // Insurance — one option per tier

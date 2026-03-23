@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import Button from '../components/Button';
+import { sanitizeRichText } from '../utils/sanitizeRichText';
 
 const NewsDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -150,6 +151,7 @@ const NewsDetail = () => {
   ];
   
   const newsItem = newsItems.find(item => item.id === id);
+  const sanitizedContent = newsItem ? sanitizeRichText(newsItem.content) : '';
   
   if (!newsItem) {
     return (
@@ -185,7 +187,7 @@ const NewsDetail = () => {
           
           <div 
             className="prose prose-lg max-w-none"
-            dangerouslySetInnerHTML={{ __html: newsItem.content }}
+            dangerouslySetInnerHTML={{ __html: sanitizedContent }}
           />
           
           <div className="mt-10 pt-6 border-t border-gray-200">

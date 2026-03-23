@@ -5,85 +5,89 @@ const PrivacyPolicy = () => {
   return (
     <div>
       <PageHeader title="Privacy Policy" />
-      
+
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="prose prose-lg max-w-none">
-            <p>
-              Last updated: June 1, 2025
-            </p>
-            
+            <p>Last updated: March 22, 2026</p>
+
             <h2>Introduction</h2>
             <p>
-              The Zambian Association in Northern California ("ZANC", "we", "our", or "us") respects your privacy and is committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information when you visit our website, use our services, or interact with us in any way.
+              The Zambian Association in Northern California (&quot;ZANC&quot;, &quot;we&quot;, &quot;our&quot;, or
+              &quot;us&quot;) respects your privacy. This policy explains what information we collect through this
+              website, how we use it, and which third-party services help us operate the site.
             </p>
-            
+
             <h2>Information We Collect</h2>
-            <p>
-              We may collect the following types of information:
-            </p>
             <ul>
-              <li>Personal identification information (name, email address, phone number, etc.)</li>
-              <li>Contact information</li>
-              <li>Membership information</li>
-              <li>Donation information</li>
-              <li>Event participation information</li>
-              <li>Website usage data</li>
+              <li>If you subscribe to updates, we collect your email address.</li>
+              <li>
+                If you submit a community suggestion, we collect your name, email address, selected
+                category, and message.
+              </li>
+              <li>
+                If an internal administrator signs in, authentication information is handled through
+                Supabase.
+              </li>
+              <li>
+                If you use a Stripe payment link, payment information is collected by Stripe and is not
+                stored directly on this site.
+              </li>
+              <li>
+                Our hosting and infrastructure providers may collect basic technical logs such as IP
+                address, browser details, and request metadata for security and reliability.
+              </li>
             </ul>
-            
+
             <h2>How We Use Your Information</h2>
-            <p>
-              We use the information we collect for various purposes, including:
-            </p>
             <ul>
-              <li>To provide and maintain our services</li>
-              <li>To notify you about changes to our services</li>
-              <li>To allow you to participate in interactive features of our services</li>
-              <li>To provide customer support</li>
-              <li>To gather analysis or valuable information to improve our services</li>
-              <li>To monitor the usage of our services</li>
-              <li>To detect, prevent, and address technical issues</li>
-              <li>To process membership applications and renewals</li>
-              <li>To organize events and communicate with participants</li>
+              <li>Send newsletters, updates, and announcements you requested.</li>
+              <li>Review and respond to community suggestions.</li>
+              <li>Operate and secure the site and admin tools.</li>
+              <li>Monitor for spam, abuse, fraud, and technical issues.</li>
             </ul>
-            
-            <h2>Data Sharing and Disclosure</h2>
+
+            <h2>Third-Party Services</h2>
+            <p>We currently rely on the following providers to run the site:</p>
+            <ul>
+              <li>Vercel for hosting and serverless endpoints.</li>
+              <li>Supabase for database, authentication, and storage.</li>
+              <li>Stripe for hosted payment checkout links.</li>
+              <li>Resend for email delivery when newsletter confirmations are enabled.</li>
+            </ul>
+
+            <h2>Data Sharing</h2>
             <p>
-              We do not sell, trade, or rent your personal identification information to others. We may share generic aggregated demographic information not linked to any personal identification information regarding visitors and users with our business partners, trusted affiliates, and advertisers.
+              We do not sell your personal information. We share information only with service providers
+              needed to operate the site and with authorized internal administrators who manage ZANC
+              communications and community workflows.
             </p>
-            
+
             <h2>Data Security</h2>
             <p>
-              We implement appropriate data collection, storage, and processing practices and security measures to protect against unauthorized access, alteration, disclosure, or destruction of your personal information, username, password, transaction information, and data stored on our site.
+              We use reasonable administrative and technical safeguards to protect information submitted
+              through the website. No internet-based system is completely secure, but we work to reduce
+              unnecessary exposure and limit access appropriately.
             </p>
-            
-            <h2>Your Data Protection Rights</h2>
+
+            <h2>Your Choices</h2>
             <p>
-              Under data protection laws, you have rights including:
+              You can ask us to update or delete information you submitted through the site by emailing
+              us. You can also unsubscribe from email updates at any time using the instructions in those
+              emails, when available.
             </p>
-            <ul>
-              <li><strong>Right to access</strong> - You have the right to request copies of your personal data.</li>
-              <li><strong>Right to rectification</strong> - You have the right to request that we correct any information you believe is inaccurate or complete information you believe is incomplete.</li>
-              <li><strong>Right to erasure</strong> - You have the right to request that we erase your personal data, under certain conditions.</li>
-              <li><strong>Right to restrict processing</strong> - You have the right to request that we restrict the processing of your personal data, under certain conditions.</li>
-              <li><strong>Right to object to processing</strong> - You have the right to object to our processing of your personal data, under certain conditions.</li>
-              <li><strong>Right to data portability</strong> - You have the right to request that we transfer the data that we have collected to another organization, or directly to you, under certain conditions.</li>
-            </ul>
-            
-            <h2>Changes to This Privacy Policy</h2>
+
+            <h2>Changes to This Policy</h2>
             <p>
-              We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date at the top of this page. You are advised to review this Privacy Policy periodically for any changes.
+              We may update this Privacy Policy from time to time. When we do, we will update the date at
+              the top of this page.
             </p>
-            
+
             <h2>Contact Us</h2>
             <p>
-              If you have any questions about this Privacy Policy, please contact us at:
+              If you have questions about this Privacy Policy or your information, contact us at{' '}
+              <a href="mailto:zancsac@gmail.com">zancsac@gmail.com</a>.
             </p>
-            <ul>
-              <li>Email: privacy@zanc.org</li>
-              <li>Phone: (123) 456-7890</li>
-              <li>Mail: 123 Zambian Lane, San Francisco, CA 94103</li>
-            </ul>
           </div>
         </div>
       </section>

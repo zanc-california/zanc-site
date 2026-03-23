@@ -69,20 +69,43 @@ interface DashboardStats {
   pendingInsuranceApplications: number;
 }
 
+interface ActivityItem {
+  id: string;
+  description: string;
+  createdAt: string;
+  status?: string;
+  paymentStatus?: string;
+  amount?: number;
+}
+
+interface InsuranceApplication {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  coverageAmount: string;
+  primaryBeneficiaryName: string;
+  applicationDate: string;
+  status: string;
+  payment?: {
+    amount: number;
+    status: string;
+  };
+}
+
 const AdminDashboard: React.FC = () => {
   const { user, dbUser } = useAuth();
   const [activeTab, setActiveTab] = useState<'dashboard' | 'users' | 'applications' | 'members' | 'insurance'>('dashboard');
   const [users, setUsers] = useState<User[]>([]);
   const [pendingApplications, setPendingApplications] = useState<Application[]>([]);
   const [activeMembers, setActiveMembers] = useState<Application[]>([]);
-  const [insuranceApplications, setInsuranceApplications] = useState<any[]>([]);
+  const [insuranceApplications, setInsuranceApplications] = useState<InsuranceApplication[]>([]);
   const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [activities, setActivities] = useState<any[]>([]);
+  const [activities, setActivities] = useState<ActivityItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'pending' | 'approved' | 'rejected' | 'manual_payment'>('all');
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
   const [showUserModal, setShowUserModal] = useState(false);
   const [showApprovalModal, setShowApprovalModal] = useState(false);
   const [approvalAction, setApprovalAction] = useState<'approve' | 'reject'>('approve');
@@ -98,7 +121,6 @@ const AdminDashboard: React.FC = () => {
       return;
     }
     fetchDashboardData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dbUser]);
 
   const fetchDashboardData = async () => {
@@ -205,7 +227,6 @@ const AdminDashboard: React.FC = () => {
         await fetchDashboardData();
         setShowApprovalModal(false);
         setSelectedUser(null);
-        setSelectedApplication(null);
         setRejectionReason('');
         
         // Show success message
@@ -619,7 +640,7 @@ const AdminDashboard: React.FC = () => {
                 <div className="flex items-center space-x-4">
                   <select
                     value={filterStatus}
-                    onChange={(e) => setFilterStatus(e.target.value as any)}
+                    onChange={(e) => setFilterStatus(e.target.value as typeof filterStatus)}
                     className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="all">All Status</option>
@@ -1008,7 +1029,6 @@ const AdminDashboard: React.FC = () => {
                             )}
                             <button
                               onClick={() => {
-                                setSelectedApplication(application);
                                 setShowUserModal(true);
                               }}
                               className="text-blue-600 hover:text-blue-900"

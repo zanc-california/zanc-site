@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import Button from './Button';
+import { sanitizeRichText } from '../utils/sanitizeRichText';
 
 export type ModalArticleContent = {
   title: string;
@@ -20,6 +21,8 @@ type NewsArticleModalProps = {
 };
 
 const NewsArticleModal = ({ open, onClose, article }: NewsArticleModalProps) => {
+  const sanitizedHtmlContent = article?.htmlContent ? sanitizeRichText(article.htmlContent) : null;
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -94,7 +97,7 @@ const NewsArticleModal = ({ open, onClose, article }: NewsArticleModalProps) => 
               {article.htmlContent && (
                 <div
                   className="prose prose-slate max-w-none prose-headings:font-heading prose-headings:text-zambia-green"
-                  dangerouslySetInnerHTML={{ __html: article.htmlContent }}
+                  dangerouslySetInnerHTML={{ __html: sanitizedHtmlContent ?? '' }}
                 />
               )}
             </>

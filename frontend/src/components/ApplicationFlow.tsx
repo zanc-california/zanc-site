@@ -113,6 +113,10 @@ export interface MembershipFormData {
 
 type Step = 'service-selection' | 'insurance-form' | 'membership-form' | 'payment';
 
+type StripeCheckout = {
+  redirectToCheckout: (options: { sessionId: string }) => Promise<{ error?: { message?: string } }>;
+};
+
 
 import { useNavigate } from 'react-router-dom';
 
@@ -122,8 +126,6 @@ const ApplicationFlow: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<Step>('service-selection');
   const [orderId, setOrderId] = useState<number | null>(null);
   const [serviceData, setServiceData] = useState<ServiceSelectionData | null>(null);
-  const [insuranceData, setInsuranceData] = useState<InsuranceFormData | null>(null);
-  const [membershipData, setMembershipData] = useState<MembershipFormData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>('');
 
@@ -197,8 +199,6 @@ const ApplicationFlow: React.FC = () => {
         throw new Error('Failed to submit insurance application');
       }
 
-      setInsuranceData(data);
-      
       // Move to membership form if membership was selected, otherwise go to payment
       if (serviceData?.membershipType && serviceData.membershipType !== 'none') {
         setCurrentStep('membership-form');
@@ -235,7 +235,6 @@ const ApplicationFlow: React.FC = () => {
         throw new Error('Failed to submit membership application');
       }
 
-      setMembershipData(data);
       setCurrentStep('payment');
     } catch (error) {
       console.error('Error submitting membership application:', error);
@@ -271,10 +270,18 @@ const ApplicationFlow: React.FC = () => {
       const stripeKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
       console.log('Using Stripe key:', stripeKey ? 'Key loaded' : 'Key missing');
       
-      const stripe = (window as any).Stripe(stripeKey);
+      const stripeFactory = (window as Window & { Stripe?: (key: string) => StripeCheckout }).Stripe;
+      const stripe = stripeKey && stripeFactory ? stripeFactory(stripeKey) : null;
       console.log('Stripe object:', stripe ? 'Initialized' : 'Failed to initialize');
-      
-      await stripe.redirectToCheckout({ sessionId });
+
+      if (!stripe) {
+        throw new Error('Stripe is not configured.');
+      }
+
+      const result = await stripe.redirectToCheckout({ sessionId });
+      if (result.error?.message) {
+        throw new Error(result.error.message);
+      }
     } catch (error) {
       console.error('Error creating checkout session:', error);
       setError('Failed to initialize payment. Please try again.');

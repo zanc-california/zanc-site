@@ -29,14 +29,15 @@ CREATE TABLE IF NOT EXISTS opportunities (
 ALTER TABLE suggestions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE opportunities ENABLE ROW LEVEL SECURITY;
 
--- Anyone can submit suggestions
+-- Suggestions are submitted through the Vercel API using the service role key.
+DROP POLICY IF EXISTS "Anyone can insert suggestions" ON suggestions;
 DO $$
 BEGIN
   IF NOT EXISTS (
-    SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'suggestions' AND policyname = 'Anyone can insert suggestions'
+    SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'suggestions' AND policyname = 'Service role can insert suggestions'
   ) THEN
-    CREATE POLICY "Anyone can insert suggestions" ON suggestions
-      FOR INSERT WITH CHECK (true);
+    CREATE POLICY "Service role can insert suggestions" ON suggestions
+      FOR INSERT WITH CHECK (auth.role() = 'service_role');
   END IF;
 END$$;
 
@@ -72,4 +73,3 @@ BEGIN
       FOR ALL USING (auth.uid() IN (SELECT id FROM admins));
   END IF;
 END$$;
-

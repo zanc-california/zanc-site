@@ -38,8 +38,12 @@ export default function Community() {
   const [email, setEmail] = useState('');
   const [category, setCategory] = useState<SuggestionCategory>('Event Idea');
   const [message, setMessage] = useState('');
+  const [website, setWebsite] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'ok' | 'err';
+    text: string;
+  } | null>(null);
 
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [loadingOpps, setLoadingOpps] = useState(true);
@@ -69,25 +73,44 @@ export default function Community() {
 
   const submitSuggestion = async () => {
     setSubmitting(true);
-    setSubmitted(false);
+    setSubmitStatus(null);
     try {
-      const { error } = await supabase.from('suggestions').insert([
-        {
+      const response = await fetch('/api/suggestions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           name,
           email,
           category,
           message,
-        },
-      ]);
-      if (!error) {
-        setSubmitted(true);
+          website,
+        }),
+      });
+
+      const data = (await response.json()) as { success?: boolean; message?: string };
+      if (response.ok && data.success) {
+        setSubmitStatus({
+          type: 'ok',
+          text: data.message ?? 'Thanks! Your suggestion has been received.',
+        });
         setName('');
         setEmail('');
         setCategory('Event Idea');
         setMessage('');
+        setWebsite('');
+      } else {
+        setSubmitStatus({
+          type: 'err',
+          text: data.message ?? 'We could not submit your suggestion right now.',
+        });
       }
     } catch {
-      // fail silently
+      setSubmitStatus({
+        type: 'err',
+        text: 'We could not submit your suggestion right now. Please email zancsac@gmail.com.',
+      });
     } finally {
       setSubmitting(false);
     }
@@ -151,6 +174,16 @@ export default function Community() {
                     placeholder="Share your suggestion..."
                   />
                 </div>
+                <div className="absolute left-[-10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+                  <label htmlFor="suggestion-website">Leave this field empty</label>
+                  <input
+                    id="suggestion-website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                  />
+                </div>
               </div>
 
               <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -161,8 +194,12 @@ export default function Community() {
                 >
                   {submitting ? 'Submitting…' : 'Submit Suggestion'}
                 </Button>
-                {submitted && <span className="text-sm text-zambia-green font-medium">Thanks! Your suggestion has been received.</span>}
-                {!submitted && (
+                {submitStatus && (
+                  <span className={`text-sm font-medium ${submitStatus.type === 'ok' ? 'text-zambia-green' : 'text-redwood'}`}>
+                    {submitStatus.text}
+                  </span>
+                )}
+                {!submitStatus && (
                   <span className="text-xs text-slate">
                     We only use this to follow up on your suggestion.
                   </span>

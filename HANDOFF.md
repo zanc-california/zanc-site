@@ -1,6 +1,6 @@
 # ZANC Site — Migration & Ownership Handoff
 
-Frontend-only architecture: **Vercel** (frontend) + **Supabase** (auth, database, storage) + **Stripe Payment Links**. No backend server.
+Static frontend plus serverless architecture: **Vercel** (frontend + functions) + **Supabase** (auth, database, storage) + **Stripe Payment Links**. No separate backend server.
 
 ---
 
@@ -22,7 +22,8 @@ Single source of truth: GitHub and Vercel both point at **zanc-california/zanc-s
 
 ## Architecture summary
 
-- **Frontend:** Vite + React + Tailwind. Deployed on Vercel. No backend API calls.
+- **Frontend:** Vite + React + Tailwind. Deployed on Vercel.
+- **Serverless APIs:** Vercel functions handle newsletter subscriptions and community suggestions using server-side env vars.
 - **Supabase:** Auth (admin login), Database (tables: `news`, `gallery`, `admins`), Storage (bucket `images` for gallery and news covers).
 - **Stripe:** Payment Links for membership and insurance. Buttons on the site link to Stripe-hosted checkout. Success/cancel redirect to `/payment-success` and `/payment-cancel`.
 - **Hosting cost:** Vercel free tier + Supabase free tier + Stripe (pay per transaction). No server = $0 server hosting.
@@ -56,7 +57,7 @@ Single source of truth: GitHub and Vercel both point at **zanc-california/zanc-s
 
 ## Environment variables
 
-**Frontend only** (set in Vercel → Project → Settings → Environment Variables). No backend.
+**Frontend + serverless** (set in Vercel → Project → Settings → Environment Variables).
 
 | Variable | Purpose |
 |----------|--------|
@@ -64,6 +65,7 @@ Single source of truth: GitHub and Vercel both point at **zanc-california/zanc-s
 | `VITE_SUPABASE_ANON_KEY` | Supabase anon/public key |
 | `VITE_STRIPE_MEMBERSHIP_LINK` | Stripe Payment Link URL for membership |
 | `VITE_STRIPE_INSURANCE_LINK` | Stripe Payment Link URL for insurance |
+| `SUPABASE_SERVICE_ROLE_KEY` | Required by Vercel functions for newsletter subscriptions and community suggestions |
 
 Optional (only if using Stripe Checkout via Edge Function instead of Payment Links):
 
@@ -87,5 +89,5 @@ Never commit real values. Use `frontend/.env.example` as a template; copy to `.e
 ## Summary
 
 - **Site:** Content (news, gallery) + membership/insurance payment links. Admin panel at `/admin` for news and gallery.
-- **No backend server.** Frontend on Vercel; data and auth in Supabase; payments via Stripe Payment Links.
+- **No separate backend server.** Frontend and serverless functions run on Vercel; data and auth live in Supabase; payments use Stripe Payment Links.
 - **Handoff:** Transfer Vercel project and Supabase/Stripe access; update env vars; document credentials securely.

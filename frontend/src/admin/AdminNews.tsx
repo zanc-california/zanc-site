@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import Button from '../components/Button';
 import type { NewsRow } from '../lib/supabase';
+import { sanitizeRichText } from '../utils/sanitizeRichText';
 
 function slugify(text: string): string {
   return text
@@ -47,7 +48,7 @@ export default function AdminNews() {
     const payload = {
       title: form.title,
       slug: form.slug || slugify(form.title),
-      content: form.content,
+      content: sanitizeRichText(form.content),
       excerpt: form.excerpt || null,
       cover_image_url: form.cover_image_url || null,
       published: form.published,
@@ -100,12 +101,15 @@ export default function AdminNews() {
             rows={2}
           />
           <textarea
-            placeholder="Content (HTML allowed)"
+            placeholder="Content (basic formatting only; unsafe HTML is stripped)"
             value={form.content}
             onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
             className="w-full px-3 py-2 border rounded-md"
             rows={8}
           />
+          <p className="text-xs text-gray-500">
+            Scripts, embeds, and unsafe markup are removed before articles go live.
+          </p>
           <input
             placeholder="Cover image URL"
             value={form.cover_image_url}

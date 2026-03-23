@@ -40,10 +40,21 @@ export async function handleSubscribe(
   const { error: insertError } = await supabase.from('email_subscribers').insert({ email });
 
   if (insertError) {
+    console.error('[subscribe] Supabase insert failed', {
+      code: insertError.code,
+      message: insertError.message,
+      details: insertError.details,
+    });
     if (insertError.code === '23505') {
       return {
         success: true,
         message: "You're already subscribed — thank you for staying connected with ZANC.",
+      };
+    }
+    if (insertError.code === '42P01' || insertError.code === 'PGRST205') {
+      return {
+        success: false,
+        message: 'Subscription database is not initialized yet. Run supabase/email_subscribers.sql in Supabase SQL Editor.',
       };
     }
     return { success: false, message: 'Something went wrong. Please try again later.' };
@@ -102,12 +113,16 @@ function trimEnv(value: string | undefined): string {
   return typeof value === 'string' ? value.trim() : '';
 }
 
-export function getSubscribeEnvFromProcess(): SubscribeEnv {
+export function getSubscribeEnv(source: Record<string, string | undefined>): SubscribeEnv {
   return {
-    resendApiKey: trimEnv(process.env.RESEND_API_KEY),
-    supabaseUrl: trimEnv(process.env.SUPABASE_URL) || trimEnv(process.env.VITE_SUPABASE_URL),
-    supabaseServiceRoleKey: trimEnv(process.env.SUPABASE_SERVICE_ROLE_KEY),
-    resendFrom: trimEnv(process.env.RESEND_FROM) || 'ZANC <hello@updates.zancsac.com>',
-    adminNotifyEmail: trimEnv(process.env.ZANC_SUBSCRIBE_ADMIN_EMAIL) || 'zancsac@gmail.com',
+    resendApiKey: trimEnv(source.RESEND_API_KEY),
+    supabaseUrl: trimEnv(source.SUPABASE_URL) || trimEnv(source.VITE_SUPABASE_URL),
+    supabaseServiceRoleKey: trimEnv(source.SUPABASE_SERVICE_ROLE_KEY),
+    resendFrom: trimEnv(source.RESEND_FROM) || 'ZANC <hello@updates.zancsac.com>',
+    adminNotifyEmail: trimEnv(source.ZANC_SUBSCRIBE_ADMIN_EMAIL) || 'zancsac@gmail.com',
   };
+}
+
+export function getSubscribeEnvFromProcess(): SubscribeEnv {
+  return getSubscribeEnv(process.env);
 }

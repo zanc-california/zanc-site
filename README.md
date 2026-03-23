@@ -4,12 +4,13 @@ Content site with payments for the **Association of Zambians in California**.
 
 **Repo:** [github.com/zanc-california/zanc-site](https://github.com/zanc-california/zanc-site) · **Live site:** [zanc-site.vercel.app](https://zanc-site.vercel.app)
 
-## Architecture (frontend-only)
+## Architecture
 
 - **Frontend** — Vite + React + Tailwind, deployed on **Vercel**
+- **Serverless APIs** — Vercel functions for newsletter subscriptions and community suggestions
 - **Supabase** — Auth (admin only), Database (news, gallery, admins), Storage (images)
-- **Stripe** — Payment Links for membership and insurance (no backend; optional Edge Function later)
-- **No Express/Node backend** — no server to host
+- **Stripe** — Payment Links for membership and insurance
+- **No separate Express/Node server** — just Vercel functions + managed services
 
 ```
 zanc-site/
@@ -30,12 +31,12 @@ zanc-site/
 
 1. **Supabase:** Create a project. Run the SQL in `supabase/migrations/001_initial_schema.sql` (Table Editor or SQL Editor). Create an `images` storage bucket (public read, authenticated write). Add your first admin user to Auth, then insert their UUID into the `admins` table.
 2. **Stripe:** Create two Payment Links (membership, insurance) in the Dashboard. Set success/cancel URLs to your frontend (e.g. `https://zanc-site.vercel.app/payment-success` and `/payment-cancel`).
-3. **Frontend:** `cd frontend && npm install && cp .env.example .env.local` — fill in Supabase URL/anon key and Stripe Payment Link URLs. `npm run dev` (port 5173).
+3. **Frontend:** `cd frontend && npm install && cp .env.example .env.local` — fill in Supabase URL/anon key, `SUPABASE_SERVICE_ROLE_KEY`, and Stripe Payment Link URLs. `npm run dev` (port 5173).
 4. **Forms:** Add PDFs to `frontend/public/forms/`: `membership-application.pdf`, `insurance-application.pdf`.
 
 ## Deployment
 
-- **Vercel** — Connect repo, root directory `frontend/`, add env vars from `.env.example`. No backend to deploy.
+- **Vercel** — Connect repo, root directory `frontend/`, and add env vars from `.env.example`, including `SUPABASE_SERVICE_ROLE_KEY` for the serverless APIs.
 - **Supabase** — Hosted by Supabase. Run migrations and create bucket as above.
 
 ## Migration and ownership

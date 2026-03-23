@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import Button from '../components/Button';
 import { supabase } from '../lib/supabase';
+import { sanitizeRichText } from '../utils/sanitizeRichText';
 
 const NewsArticle = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -52,6 +53,7 @@ const NewsArticle = () => {
   const dateStr = article.published_at
     ? new Date(article.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
     : '';
+  const sanitizedContent = sanitizeRichText(article.content);
 
   return (
     <div>
@@ -66,7 +68,7 @@ const NewsArticle = () => {
           )}
           <div
             className="prose prose-lg max-w-none"
-            dangerouslySetInnerHTML={{ __html: article.content }}
+            dangerouslySetInnerHTML={{ __html: sanitizedContent }}
           />
           <div className="mt-10 pt-6 border-t border-gray-200">
             <Link to="/news">

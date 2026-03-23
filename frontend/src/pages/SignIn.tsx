@@ -54,7 +54,7 @@ const SignIn: React.FC = () => {
       // Don't manually navigate - let AuthContext handle it
       // The auth state change will automatically redirect
       
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred. Please try again.');
       setLoading(false);
     }

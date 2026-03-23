@@ -58,18 +58,18 @@ CREATE POLICY "Admins can do everything with gallery"
   ON gallery FOR ALL
   USING (auth.uid() IN (SELECT id FROM admins));
 
--- Admins table: only admins can read (to check who is admin)
+-- Admins table: no self-referential policies (avoid recursion on SELECT)
 ALTER TABLE admins ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Admins can read admins" ON admins;
 CREATE POLICY "Admins can read admins"
   ON admins FOR SELECT
-  USING (auth.uid() IN (SELECT id FROM admins));
+  USING (auth.uid() = id OR auth.role() = 'service_role');
 
 -- First admin: create user in Supabase Auth, then run in SQL Editor (as project owner):
 --   INSERT INTO admins (id) VALUES ('auth-users-uuid-here');
--- After that, existing admins can add more via the "Admins can insert admins" policy below.
+-- Managing additional admins is intended via service role / SQL editor.
 DROP POLICY IF EXISTS "Admins can insert admins" ON admins;
 CREATE POLICY "Admins can insert admins"
   ON admins FOR INSERT
-  WITH CHECK (auth.uid() IN (SELECT id FROM admins));
+  WITH CHECK (auth.role() = 'service_role');

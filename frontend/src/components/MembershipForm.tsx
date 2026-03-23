@@ -1,8 +1,6 @@
 
 import React, { useState } from 'react';
 import Button from './Button';
-// @ts-ignore
-import { loadStripe } from '@stripe/stripe-js';
 import supabase from '../supabaseClient';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
