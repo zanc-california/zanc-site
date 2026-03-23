@@ -26,6 +26,10 @@ function subscribeDevApiPlugin(): Plugin {
           return next();
         }
 
+        // Merge .env / .env.local from the Vite project root (not always === process.cwd()).
+        const merged = loadEnv(server.config.mode, server.config.root, '');
+        Object.assign(process.env, merged);
+
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
         res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -52,7 +56,14 @@ function subscribeDevApiPlugin(): Plugin {
             res.end(JSON.stringify({ success: false, message: 'Invalid request.' }));
             return;
           }
-          const result = await handleSubscribe(email, getSubscribeEnvFromProcess());
+          const subEnv = getSubscribeEnvFromProcess();
+          if (!subEnv.supabaseUrl || !subEnv.supabaseServiceRoleKey) {
+            console.warn(
+              '[zanc] /api/subscribe: missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY after loading env from',
+              server.config.root
+            );
+          }
+          const result = await handleSubscribe(email, subEnv);
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify(result));

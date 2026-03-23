@@ -29,6 +29,18 @@ Restart the dev server after changing env.
 Add the same env vars in the Vercel project (Production + Preview).  
 Deploy with **Root Directory** = `frontend` so `api/subscribe.ts` is picked up as a serverless function.
 
+### Required server env (not optional)
+
+The subscribe API runs **only on the server**. These **must** exist in Vercel → Settings → Environment Variables (not just in `.env.local` on your laptop):
+
+| Variable | Notes |
+|----------|--------|
+| `SUPABASE_URL` | Same project URL as `VITE_SUPABASE_URL` |
+| `SUPABASE_SERVICE_ROLE_KEY` | **service_role** from Supabase → Settings → API (never the anon key, never `VITE_*`) |
+| `RESEND_API_KEY` | Or welcome/admin emails won’t send (subscribe may still succeed) |
+
+If `SUPABASE_URL` or `SUPABASE_SERVICE_ROLE_KEY` is missing on Vercel, the UI shows *“Subscription is temporarily unavailable”* and the JSON body includes `"code":"missing_supabase_env"`. Resend may still show **0 uses** because the handler returns before calling Resend.
+
 ## 5. UI
 
 - Footer: **ZANC updates** subscribe form (`SubscribeForm`).

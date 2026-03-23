@@ -17,7 +17,7 @@ export type SubscribeEnv = {
 export async function handleSubscribe(
   rawEmail: unknown,
   env: SubscribeEnv
-): Promise<{ success: boolean; message: string }> {
+): Promise<{ success: boolean; message: string; code?: string }> {
   if (typeof rawEmail !== 'string' || !rawEmail.trim()) {
     return { success: false, message: 'Please enter a valid email address.' };
   }
@@ -28,7 +28,11 @@ export async function handleSubscribe(
   }
 
   if (!env.supabaseUrl || !env.supabaseServiceRoleKey) {
-    return { success: false, message: 'Subscription is temporarily unavailable. Please try again later.' };
+    return {
+      success: false,
+      code: 'missing_supabase_env',
+      message: 'Subscription is temporarily unavailable. Please try again later.',
+    };
   }
 
   const supabase = createClient(env.supabaseUrl, env.supabaseServiceRoleKey);
@@ -94,12 +98,16 @@ export async function handleSubscribe(
   };
 }
 
+function trimEnv(value: string | undefined): string {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
 export function getSubscribeEnvFromProcess(): SubscribeEnv {
   return {
-    resendApiKey: process.env.RESEND_API_KEY ?? '',
-    supabaseUrl: process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL ?? '',
-    supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY ?? '',
-    resendFrom: process.env.RESEND_FROM ?? 'ZANC <hello@updates.zancsac.com>',
-    adminNotifyEmail: process.env.ZANC_SUBSCRIBE_ADMIN_EMAIL ?? 'zancsac@gmail.com',
+    resendApiKey: trimEnv(process.env.RESEND_API_KEY),
+    supabaseUrl: trimEnv(process.env.SUPABASE_URL) || trimEnv(process.env.VITE_SUPABASE_URL),
+    supabaseServiceRoleKey: trimEnv(process.env.SUPABASE_SERVICE_ROLE_KEY),
+    resendFrom: trimEnv(process.env.RESEND_FROM) || 'ZANC <hello@updates.zancsac.com>',
+    adminNotifyEmail: trimEnv(process.env.ZANC_SUBSCRIBE_ADMIN_EMAIL) || 'zancsac@gmail.com',
   };
 }

@@ -47,17 +47,32 @@ export default function SubscribeForm({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: trimmed }),
       });
-      const data = (await res.json()) as { success?: boolean; message?: string };
+      const text = await res.text();
+      let data: { success?: boolean; message?: string; code?: string };
+      try {
+        data = JSON.parse(text) as { success?: boolean; message?: string; code?: string };
+      } catch {
+        setMessage({
+          type: 'err',
+          text:
+            'The server did not return JSON (often /api/subscribe is missing or the SPA is serving HTML). Check Vercel routing and that Root Directory is `frontend`.',
+        });
+        return;
+      }
       if (data.success) {
         setMessage({ type: 'ok', text: data.message ?? "You're subscribed!" });
         setEmail('');
       } else {
-        setMessage({ type: 'err', text: data.message ?? 'Something went wrong. Please try again.' });
+        const hint =
+          data.code === 'missing_supabase_env'
+            ? ' If you manage this site, add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to Vercel (or .env.local) — not only the VITE_ keys.'
+            : '';
+        setMessage({ type: 'err', text: (data.message ?? 'Something went wrong. Please try again.') + hint });
       }
     } catch {
       setMessage({
         type: 'err',
-        text: 'Could not reach the server. If you are running locally, ensure the API is available (see README).',
+        text: 'Could not reach the server. Check your connection, dev server, and that POST /api/subscribe exists.',
       });
     } finally {
       setSubmitting(false);
