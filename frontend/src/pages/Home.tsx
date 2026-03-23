@@ -139,6 +139,75 @@ const Home = () => {
       <section className="py-10 md:py-14 bg-white border-b border-mist">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal className="mb-6">
+            <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">What&apos;s Happening in the Community</h2>
+            <p className="text-slate mt-1 max-w-2xl">
+              Ways to plug in digitally, in person, and across the diaspora — all lightweight on-ramps to participation.
+            </p>
+          </Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                title: 'Community Conversations',
+                excerpt: 'Join our recurring open Zoom sessions.',
+                href: '/community#community-conversations',
+                external: false,
+              },
+              {
+                title: 'Community Hangouts',
+                excerpt: 'Casual gatherings, games, and connection.',
+                href: '/news#community-hangouts',
+                external: false,
+              },
+              {
+                title: 'Shipping to Zambia',
+                excerpt: 'Coordinate shared container shipping.',
+                href: 'https://link360.vercel.app/',
+                external: true,
+              },
+              {
+                title: 'Business & Investment Series',
+                excerpt: 'Learn how diaspora can engage in Zambia&apos;s growth.',
+                href: '/news#business-investment-series',
+                external: false,
+              },
+            ].map((card, i) => (
+              <Reveal
+                key={card.title}
+                delayMs={i * 80}
+                className="group h-full flex flex-col bg-cloud rounded-lg border border-mist p-6 shadow-sm ui-card-motion ui-card-motion-hover ui-card-motion-active"
+              >
+                <h3 className="text-lg font-heading font-semibold text-zambia-green motion-safe:transition-colors motion-safe:duration-300 group-hover:text-zambia-green-light">
+                  {card.title}
+                </h3>
+                <p className="text-slate mt-3 leading-relaxed text-sm flex-1">{card.excerpt}</p>
+                <div className="mt-4">
+                  {card.external ? (
+                    <a
+                      href={card.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-bay-blue font-medium text-sm hover:underline inline-flex items-center gap-1 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:translate-x-1"
+                    >
+                      Start on Link360 →
+                    </a>
+                  ) : (
+                    <Link
+                      to={card.href}
+                      className="text-bay-blue font-medium text-sm hover:underline inline-flex items-center gap-1 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:translate-x-1"
+                    >
+                      Learn more →
+                    </Link>
+                  )}
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-10 md:py-14 bg-gray-50 border-b border-mist">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Reveal className="mb-6">
             <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Get Involved</h2>
             <p className="text-slate mt-1 max-w-2xl">
               Step from browsing into participating — the ZANC community grows when members show up, volunteer, and partner with us.

@@ -62,6 +62,62 @@ const STATIC_NEWS_ARTICLES: StaticNewsArticle[] = [
 
 type DbNewsRow = { id: string; title: string; excerpt: string | null; date: string; slug: string };
 
+type CommunityEvent = {
+  title: string;
+  description: string;
+  dateLabel: string;
+  location: string;
+  type: 'past' | 'upcoming';
+  category?: string;
+  series?: boolean;
+  feeNote?: string;
+  anchorId?: string;
+};
+
+function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; headingLevel?: 'h3' | 'h4' }) {
+  const titleClass =
+    headingLevel === 'h3'
+      ? 'text-lg font-heading font-semibold text-zambia-green'
+      : 'text-base font-heading font-semibold text-zambia-green';
+
+  return (
+    <article
+      id={ev.anchorId}
+      className="bg-white rounded-xl border border-mist p-6 shadow-sm hover:shadow-md transition-shadow scroll-mt-24"
+    >
+      <div className="flex items-start justify-between gap-3">
+        {headingLevel === 'h3' ? (
+          <h3 className={titleClass}>{ev.title}</h3>
+        ) : (
+          <h4 className={titleClass}>{ev.title}</h4>
+        )}
+        <span className="text-xs font-heading uppercase tracking-[0.08em] text-copper bg-copper-glow px-2 py-1 rounded border border-mist shrink-0">
+          {ev.dateLabel}
+        </span>
+      </div>
+      <div className="mt-2 flex flex-wrap items-center gap-2">
+        {ev.category && (
+          <span className="text-[10px] font-heading uppercase tracking-[0.08em] text-zambia-green bg-cloud px-2 py-1 rounded-full border border-mist">
+            {ev.category}
+          </span>
+        )}
+        {ev.series && (
+          <span className="text-[10px] font-heading uppercase tracking-[0.08em] text-redwood bg-copper-glow/60 px-2 py-1 rounded-full border border-mist">
+            Series
+          </span>
+        )}
+        {ev.feeNote && (
+          <span className="text-[10px] text-slate bg-white px-2 py-1 rounded-full border border-mist">{ev.feeNote}</span>
+        )}
+      </div>
+      <p className="text-slate mt-3 text-sm leading-relaxed">{ev.description}</p>
+      <div className="mt-4 flex items-center gap-2 text-xs text-slate">
+        <span className="px-2 py-1 rounded-full bg-cloud border border-mist">{ev.location}</span>
+      </div>
+    </article>
+  );
+}
+
 const News = () => {
   const [newsItems, setNewsItems] = useState<DbNewsRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -72,14 +128,36 @@ const News = () => {
   const [modalArticle, setModalArticle] = useState<ModalArticleContent | null>(null);
 
   const events = useMemo(
-    () => [
+    (): CommunityEvent[] => [
+      {
+        title: 'Community Hangouts',
+        description:
+          'Bi-monthly community gatherings featuring indoor games, casual interaction, and shared space.',
+        dateLabel: 'Recurring',
+        location: 'Stockton Blvd · NorCal',
+        type: 'upcoming',
+        category: 'Community Hangouts',
+        anchorId: 'community-hangouts',
+      },
+      {
+        title: 'Business & Investment Series',
+        description:
+          'Structured knowledge and economic engagement — sample topics: What is the Lobito Corridor? Why it matters. Diaspora participation opportunities.',
+        dateLabel: 'Series',
+        location: 'NorCal',
+        type: 'upcoming',
+        category: 'Business & Investment Series',
+        series: true,
+        feeNote: 'Members free · Non-members fee (details TBA)',
+        anchorId: 'business-investment-series',
+      },
       {
         title: 'Zambia Independence Celebration (October 2024)',
         description:
           'A community celebration featuring time together, cultural pride, and connection for Zambians and friends across California.',
         dateLabel: 'Oct 2024',
         location: 'NorCal',
-        type: 'past' as const,
+        type: 'past',
       },
       {
         title: 'Ambassador Event — His Excellency Chibamba Kanyama (July 2024)',
@@ -87,7 +165,7 @@ const News = () => {
           'ZANC hosted the Zambian Ambassador to the United States and Embassy officers for a community dialogue on immigration, investment, and business opportunities in Zambia.',
         dateLabel: 'Jul 2024',
         location: 'NorCal',
-        type: 'past' as const,
+        type: 'past',
       },
       {
         title: 'Bay FC Match & Tailgate (September 2024)',
@@ -95,7 +173,7 @@ const News = () => {
           'ZANC organized a community tailgate at PayPal Park Stadium for the Bay FC vs Orlando Pride match, followed by an after-party featuring performances by Kundananji and Barbra.',
         dateLabel: 'Sep 2024',
         location: 'Bay Area',
-        type: 'past' as const,
+        type: 'past',
       },
       {
         title: 'Zambia–CA Investment Innovation Roadshow (2025)',
@@ -103,7 +181,8 @@ const News = () => {
           'ZANC co-hosted a gala connecting the Zambian diaspora with investment and innovation opportunities in Zambia, featuring speakers from the Zambian Embassy and business community.',
         dateLabel: '2025',
         location: 'NorCal',
-        type: 'past' as const,
+        type: 'past',
+        category: 'Business & Investment Series',
       },
       {
         title: 'Zambia 61st Independence Celebration (October 2025)',
@@ -111,11 +190,14 @@ const News = () => {
           'A three-day celebration graced by the Hon. Consul for California, Mr. Rajen Ranchhod, and his wife — a weekend of unity, cultural pride, and community connection.',
         dateLabel: 'Oct 2025',
         location: 'NorCal',
-        type: 'past' as const,
+        type: 'past',
       },
     ],
     []
   );
+
+  const upcomingEvents = useMemo(() => events.filter((e) => e.type === 'upcoming'), [events]);
+  const pastEvents = useMemo(() => events.filter((e) => e.type === 'past'), [events]);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -302,10 +384,17 @@ const News = () => {
 
               <div>
                 <h3 className="text-lg font-heading font-semibold text-zambia-green mb-4">Upcoming events</h3>
-                <div className="bg-white rounded-xl border border-mist p-6 shadow-sm max-w-2xl">
-                  <p className="text-slate">
-                    Upcoming dates will be published as the year’s schedule is finalized. In the meantime, review the calendar for key
-                    deadlines.
+                <p className="text-sm text-slate mb-6 max-w-2xl">
+                  Recurring programs and series — specific dates are added to the calendar as they are confirmed.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {upcomingEvents.map((ev) => (
+                    <EventProgramCard key={ev.title} ev={ev} headingLevel="h4" />
+                  ))}
+                </div>
+                <div className="mt-6 bg-white rounded-xl border border-mist p-6 shadow-sm max-w-2xl">
+                  <p className="text-slate text-sm">
+                    Review the calendar for insurance deadlines and other key dates.
                   </p>
                   <div className="mt-4">
                     <Button variant="accent" onClick={openCalendar}>
@@ -315,63 +404,44 @@ const News = () => {
                 </div>
               </div>
 
-              <div>
+              <div id="past-highlights">
                 <h3 className="text-lg font-heading font-semibold text-zambia-green mb-4">Past highlights</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {events
-                    .filter((e) => e.type === 'past')
-                    .map((ev) => (
-                      <article
-                        key={ev.title}
-                        className="bg-white rounded-xl border border-mist p-6 shadow-sm hover:shadow-md transition-shadow"
-                      >
-                        <div className="flex items-start justify-between gap-3">
-                          <h4 className="text-base font-heading font-semibold text-zambia-green">{ev.title}</h4>
-                          <span className="text-xs font-heading uppercase tracking-[0.08em] text-copper bg-copper-glow px-2 py-1 rounded border border-mist shrink-0">
-                            {ev.dateLabel}
-                          </span>
-                        </div>
-                        <p className="text-slate mt-3 text-sm leading-relaxed">{ev.description}</p>
-                        <div className="mt-4 flex items-center gap-2 text-xs text-slate">
-                          <span className="px-2 py-1 rounded-full bg-cloud border border-mist">{ev.location}</span>
-                        </div>
-                      </article>
-                    ))}
+                  {pastEvents.map((ev) => (
+                    <EventProgramCard key={ev.title} ev={ev} headingLevel="h4" />
+                  ))}
                 </div>
               </div>
             </div>
           )}
 
           {tab === 'upcoming' && (
-            <div className="bg-white rounded-xl border border-mist p-6 shadow-sm">
-              <h3 className="text-lg font-heading font-semibold text-zambia-green">Upcoming Events</h3>
-              <p className="text-slate mt-2">
-                Upcoming dates will be published as the year’s schedule is finalized. In the meantime, review the calendar for key deadlines.
+            <div className="space-y-6">
+              <p className="text-slate text-sm max-w-2xl">
+                Recurring programs and series below — specific dates appear on the calendar when confirmed.
               </p>
-              <div className="mt-4">
-                <Button variant="accent" onClick={openCalendar}>Open calendar</Button>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {upcomingEvents.map((ev) => (
+                  <EventProgramCard key={ev.title} ev={ev} />
+                ))}
+              </div>
+              <div className="bg-white rounded-xl border border-mist p-6 shadow-sm max-w-2xl">
+                <h3 className="text-lg font-heading font-semibold text-zambia-green">Calendar</h3>
+                <p className="text-slate mt-2 text-sm">
+                  Open enrollment, premiums, and other key dates.
+                </p>
+                <div className="mt-4">
+                  <Button variant="accent" onClick={openCalendar}>Open calendar</Button>
+                </div>
               </div>
             </div>
           )}
 
           {tab === 'past' && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {events
-                .filter((e) => e.type === 'past')
-                .map((ev) => (
-                  <article key={ev.title} className="bg-white rounded-xl border border-mist p-6 shadow-sm hover:shadow-md transition-shadow">
-                    <div className="flex items-start justify-between gap-3">
-                      <h3 className="text-lg font-heading font-semibold text-zambia-green">{ev.title}</h3>
-                      <span className="text-xs font-heading uppercase tracking-[0.08em] text-copper bg-copper-glow px-2 py-1 rounded border border-mist">
-                        {ev.dateLabel}
-                      </span>
-                    </div>
-                    <p className="text-slate mt-3 leading-relaxed">{ev.description}</p>
-                    <div className="mt-4 flex items-center gap-2 text-xs text-slate">
-                      <span className="px-2 py-1 rounded-full bg-cloud border border-mist">{ev.location}</span>
-                    </div>
-                  </article>
-                ))}
+              {pastEvents.map((ev) => (
+                <EventProgramCard key={ev.title} ev={ev} />
+              ))}
             </div>
           )}
 

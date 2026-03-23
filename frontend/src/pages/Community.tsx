@@ -1,7 +1,17 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import Button from '../components/Button';
+import CommunityVoiceQuotes from '../components/CommunityVoiceQuotes';
+import { ZANC_CONTACT_EMAIL } from '../components/ContactForm';
 import { supabase } from '../lib/supabase';
+
+const LINK360_URL = 'https://link360.vercel.app/';
+
+/** Placeholder until a stable Zoom (or other) link is published — opens email to request the link. */
+const joinNextSessionMailto = `mailto:${ZANC_CONTACT_EMAIL}?subject=${encodeURIComponent('Join next Community Conversations session')}&body=${encodeURIComponent('Please send me the link or details for the next open Zoom session.\n\nThank you!')}`;
+
+const submitOpportunityMailto = `mailto:${ZANC_CONTACT_EMAIL}?subject=${encodeURIComponent('Opportunity submission for ZANC community board')}&body=${encodeURIComponent('Title:\nCategory (Jobs / Housing / Scholarships / Business Opportunities / Other):\nShort description:\nLink (optional):\nContact:\n')}`;
 
 type SuggestionCategory = 'Event Idea' | 'Community Service' | 'Partnership' | 'General Feedback';
 
@@ -15,6 +25,8 @@ type Opportunity = {
   posted_by: string | null;
   created_at: string;
 };
+
+const OPPORTUNITY_CATEGORY_LABELS = ['Jobs', 'Housing', 'Scholarships', 'Business Opportunities'] as const;
 
 export default function Community() {
   const categories: SuggestionCategory[] = useMemo(
@@ -141,7 +153,7 @@ export default function Community() {
                 </div>
               </div>
 
-              <div className="mt-5 flex items-center gap-3">
+              <div className="mt-5 flex flex-wrap items-center gap-3">
                 <Button
                   variant="accent"
                   onClick={submitSuggestion}
@@ -163,21 +175,80 @@ export default function Community() {
               <div className="mt-3 rounded-lg border border-mist bg-copper-glow/40 p-4">
                 <p className="font-heading font-semibold text-redwood">Coming Soon</p>
                 <p className="text-sm text-slate mt-1">
-                  A marketplace for members to list services, sell goods, and connect professionally.
+                  Browse available listings (coming soon). A marketplace for members to list services, sell goods, and connect professionally.
+                </p>
+                <p className="text-sm text-slate mt-3 font-medium text-zambia-green">
+                  Only active ZANC members will be able to list items and services.
                 </p>
                 <div className="mt-4">
-                  <Button variant="outline">Join ZANC to unlock later</Button>
+                  <Link to="/membership">
+                    <Button variant="outline">Join ZANC to unlock listing access</Button>
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="mt-10">
-            <div className="flex items-end justify-between gap-4">
+            <CommunityVoiceQuotes />
+          </div>
+
+          <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div
+              id="community-conversations"
+              className="rounded-xl border border-mist bg-white p-6 shadow-sm scroll-mt-24"
+            >
+              <div className="flex flex-wrap items-center gap-2">
+                <h2 className="text-xl font-heading font-semibold text-zambia-green">Community Conversations</h2>
+                <span className="text-[10px] font-heading uppercase tracking-[0.12em] text-copper bg-copper-glow px-2 py-1 rounded border border-mist">
+                  Recurring
+                </span>
+              </div>
+              <p className="text-slate mt-3 text-sm leading-relaxed">
+                Join our recurring open Zoom sessions to share ideas, discuss opportunities, and connect with fellow community members.
+              </p>
+              <p className="text-xs text-slate mt-2">
+                Meeting links are shared before each session — use the button below to request the next link by email.
+              </p>
+              <div className="mt-5">
+                <a href={joinNextSessionMailto} className="inline-block">
+                  <Button variant="accent">Join Next Session</Button>
+                </a>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-mist bg-white p-6 shadow-sm">
+              <h2 className="text-xl font-heading font-semibold text-zambia-green">Shipping to Zambia?</h2>
+              <p className="text-slate mt-3 text-sm leading-relaxed">
+                Coordinate pooled container shipping with fellow community members and reduce costs.
+              </p>
+              <div className="mt-5">
+                <a href={LINK360_URL} target="_blank" rel="noopener noreferrer" className="inline-block">
+                  <Button variant="primary">Start Shipping</Button>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div id="opportunities" className="mt-10 scroll-mt-24">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
               <div>
                 <h2 className="text-2xl font-heading font-semibold text-zambia-green">Opportunities</h2>
                 <p className="text-slate mt-1">Jobs, scholarships, housing, and more shared with the community.</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {OPPORTUNITY_CATEGORY_LABELS.map((label) => (
+                    <span
+                      key={label}
+                      className="text-xs font-heading uppercase tracking-[0.06em] text-slate bg-cloud px-2.5 py-1 rounded-full border border-mist"
+                    >
+                      {label}
+                    </span>
+                  ))}
+                </div>
               </div>
+              <a href={submitOpportunityMailto} className="inline-block shrink-0">
+                <Button variant="outline">Submit an Opportunity</Button>
+              </a>
             </div>
 
             {loadingOpps ? (
@@ -188,7 +259,7 @@ export default function Community() {
               </div>
             ) : opportunities.length === 0 ? (
               <div className="mt-4 rounded-xl border border-mist bg-white p-6 text-slate">
-                No opportunities yet. Check back soon!
+                No opportunities posted yet. Check back soon — or submit one for the team to review.
               </div>
             ) : (
               <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -219,4 +290,3 @@ export default function Community() {
     </div>
   );
 }
-
