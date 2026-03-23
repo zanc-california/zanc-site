@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import SubscribeForm from './SubscribeForm';
 
 type SubscribeModalProps = {
@@ -29,8 +30,8 @@ export default function SubscribeModal({ open, onClose }: SubscribeModalProps) {
 
   if (!open) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4">
       <button
         type="button"
         className="absolute inset-0 bg-black/50"
@@ -63,6 +64,7 @@ export default function SubscribeModal({ open, onClose }: SubscribeModalProps) {
           <SubscribeForm variant="inline" inputId="subscribe-email-hero" autoFocusEmail showIntro={false} />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

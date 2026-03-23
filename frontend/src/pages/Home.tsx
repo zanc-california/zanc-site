@@ -91,13 +91,15 @@ const Home = () => {
                   Explore Events
                 </button>
               </Link>
-              <a
-                href="#zanc-updates"
+              <button
+                type="button"
+                onClick={() => setSubscribeOpen(true)}
                 className="inline-flex items-center justify-center px-6 py-3 text-lg font-medium rounded-md border-2 border-white/80 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white focus:ring-offset-zambia-green"
-                aria-label="Subscribe to ZANC email updates (scrolls to form in footer)"
+                aria-haspopup="dialog"
+                aria-label="Open subscribe form for ZANC email updates"
               >
                 Subscribe
-              </a>
+              </button>
             </div>
           </div>
         </div>
