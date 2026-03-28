@@ -35,8 +35,9 @@ const About = () => {
     },
     {
       id: 5,
-      name: 'Colleen Alvarez',
-      position: 'Secretary',
+      name: 'Inutu Mubita',
+      position: 'Secretary (Interim)',
+      imageUrl: '/images/members/inutu-about-page.png',
       shortBio: 'Keeping records, communications, and follow-through organized for the board.',
     },
     {
@@ -80,11 +81,18 @@ const About = () => {
       id: 5,
       name: 'Gladys Desmarais',
       position: 'ZANC Community',
+      imageUrl: '/images/members/gladys-about-page.png',
       shortBio: 'Representing member voices and grassroots community care.',
+    },
+    {
+      id: 6,
+      name: 'Belinda Batdorf',
+      position: 'Co-Founder & COO',
+      shortBio: 'Global tech operations expert with a personal mission to close the tech literacy gap worldwide.',
     },
   ];
 
-  const remainingInviteePlaceholders = ['Seat 6'] as const;
+  const remainingInviteePlaceholders = [] as const;
 
   return (
     <div>
@@ -156,10 +164,10 @@ const About = () => {
               Appointed invitees to the board
             </h3>
             <p className="text-center text-sm font-medium text-primary-800 mb-2 max-w-2xl mx-auto">
-              Six appointed invitee positions — five are named below; one seat will be announced soon.
+              Six appointed invitee positions are named below.
             </p>
             <p className="text-center text-sm text-gray-600 mb-10 max-w-2xl mx-auto">
-              Photos will be added when available. Open seats show as placeholders until filled.
+              Photos will be added when available.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 justify-items-center">
               {appointedInvitees.map((member) => (
