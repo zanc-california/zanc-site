@@ -72,6 +72,11 @@ type CommunityEvent = {
   series?: boolean;
   feeNote?: string;
   anchorId?: string;
+  /** Optional hero image under `public/` (e.g. `/images/postings/foo.png`). */
+  imageUrl?: string;
+  /** Official details / registration (opens in new tab). */
+  externalUrl?: string;
+  externalLinkLabel?: string;
 };
 
 function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; headingLevel?: 'h3' | 'h4' }) {
@@ -79,12 +84,23 @@ function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; hea
     headingLevel === 'h3'
       ? 'text-lg font-heading font-semibold text-zambia-green'
       : 'text-base font-heading font-semibold text-zambia-green';
+  const imageAlt = ev.imageUrl ? `${ev.title} — featured image` : '';
 
   return (
     <article
       id={ev.anchorId}
-      className="bg-white rounded-xl border border-mist p-6 shadow-sm hover:shadow-md transition-shadow scroll-mt-24"
+      className="bg-white rounded-xl border border-mist p-6 shadow-sm hover:shadow-md transition-shadow scroll-mt-24 overflow-hidden"
     >
+      {ev.imageUrl && (
+        <div className="-mx-6 -mt-6 mb-4 border-b border-mist bg-cloud">
+          <img
+            src={ev.imageUrl}
+            alt={imageAlt}
+            className="w-full h-44 sm:h-52 object-cover"
+            loading="lazy"
+          />
+        </div>
+      )}
       <div className="flex items-start justify-between gap-3">
         {headingLevel === 'h3' ? (
           <h3 className={titleClass}>{ev.title}</h3>
@@ -111,9 +127,21 @@ function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; hea
         )}
       </div>
       <p className="text-slate mt-3 text-sm leading-relaxed">{ev.description}</p>
-      <div className="mt-4 flex items-center gap-2 text-xs text-slate">
+      <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate">
         <span className="px-2 py-1 rounded-full bg-cloud border border-mist">{ev.location}</span>
       </div>
+      {ev.externalUrl && (
+        <p className="mt-4">
+          <a
+            href={ev.externalUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-medium text-bay-blue hover:underline"
+          >
+            {ev.externalLinkLabel ?? 'Official details (City of Roseville)'}
+          </a>
+        </p>
+      )}
     </article>
   );
 }
@@ -129,6 +157,20 @@ const News = () => {
 
   const events = useMemo(
     (): CommunityEvent[] => [
+      {
+        title: 'Union Pacific Big Boy No. 4014 — public viewing (Roseville)',
+        description:
+          'Big Boy No. 4014, the world’s largest steam locomotive, will be on display in downtown Roseville as part of Union Pacific’s coast-to-coast steam tour. Public viewing: Friday, April 10, 1–5 p.m. and Saturday, April 11, 9 a.m.–3 p.m. On Saturday, the city plans extra activities at Vernon Street Town Square (Maker’s Market and live music—see the city’s page for updates). A great NorCal outing for families and rail fans.',
+        dateLabel: 'Apr 10–11, 2026',
+        location: 'Downtown Roseville, CA',
+        type: 'upcoming',
+        category: 'Community outing',
+        anchorId: 'big-boy-4014-roseville',
+        imageUrl: '/images/postings/bigboy-4014.png',
+        externalUrl:
+          'https://www.roseville.ca.us/news/what_s_happening_in_roseville/roseville_set_to_welcome_big_boy_no4014',
+        externalLinkLabel: 'City of Roseville: dates, map & parking',
+      },
       {
         title: 'Community Hangouts',
         description:
@@ -385,7 +427,7 @@ const News = () => {
               <div>
                 <h3 className="text-lg font-heading font-semibold text-zambia-green mb-4">Upcoming events</h3>
                 <p className="text-sm text-slate mb-6 max-w-2xl">
-                  Recurring programs and series — specific dates are added to the calendar as they are confirmed.
+                  Dated outings, recurring programs, and series — we add calendar entries as dates are confirmed.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {upcomingEvents.map((ev) => (
@@ -418,7 +460,7 @@ const News = () => {
           {tab === 'upcoming' && (
             <div className="space-y-6">
               <p className="text-slate text-sm max-w-2xl">
-                Recurring programs and series below — specific dates appear on the calendar when confirmed.
+                Dated outings and recurring programs below — insurance and other deadlines live in the calendar.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {upcomingEvents.map((ev) => (
