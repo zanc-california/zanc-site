@@ -44,6 +44,7 @@ const About = () => {
       id: 6,
       name: 'Catherine Samoyu',
       position: 'Vice Secretary',
+      imageUrl: '/images/members/Catherine_about.jpeg',
       shortBio: 'Helping document decisions and keep members informed as we grow.',
     },
   ];
@@ -88,6 +89,7 @@ const About = () => {
       id: 6,
       name: 'Belinda Batdorf',
       position: 'Co-Founder & COO',
+      imageUrl: '/images/members/belinda_about.png',
       shortBio: 'Global tech operations expert with a personal mission to close the tech literacy gap worldwide.',
     },
   ];
@@ -167,7 +169,7 @@ const About = () => {
               Six appointed invitee positions are named below.
             </p>
             <p className="text-center text-sm text-gray-600 mb-10 max-w-2xl mx-auto">
-              Photos will be added when available.
+              Profiles continue to be refreshed as updated materials come in.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 justify-items-center">
               {appointedInvitees.map((member) => (
