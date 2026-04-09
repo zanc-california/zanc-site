@@ -24,6 +24,7 @@ const About = () => {
       id: 3,
       name: 'Mujina Masumba',
       position: 'Treasurer',
+      imageUrl: '/images/members/musumba.jpg',
       shortBio: 'Stewarding resources with clarity so the association can plan confidently.',
     },
     {
