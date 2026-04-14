@@ -195,8 +195,8 @@ const News = () => {
       {
         title: 'Father’s Day Golf Outing',
         description:
-          'Placeholder for a relaxed golf outing to celebrate dads and father figures. Course, date and time, format (scramble vs. casual nine), pricing, and RSVP — all TBA.\n\n' +
-          'Watch this page and your ZANC email; we’ll post details as soon as they’re set.',
+          'After we celebrate the moms, we’re looking forward to time on the course for dads and father figures—a relaxed golf outing to connect, laugh, and enjoy NorCal together. Course, date and time, format, pricing, and RSVP are still to be announced.\n\n' +
+          'Stay tuned here and in your ZANC email; we’ll share full details as soon as they’re set.',
         dateLabel: 'TBA',
         location: 'TBA',
         type: 'upcoming',
