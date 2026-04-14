@@ -77,6 +77,8 @@ type CommunityEvent = {
   /** Official details / registration (opens in new tab). */
   externalUrl?: string;
   externalLinkLabel?: string;
+  secondaryExternalUrl?: string;
+  secondaryExternalLinkLabel?: string;
 };
 
 function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; headingLevel?: 'h3' | 'h4' }) {
@@ -126,21 +128,33 @@ function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; hea
           <span className="text-[10px] text-slate bg-white px-2 py-1 rounded-full border border-mist">{ev.feeNote}</span>
         )}
       </div>
-      <p className="text-slate mt-3 text-sm leading-relaxed">{ev.description}</p>
+      <p className="text-slate mt-3 text-sm leading-relaxed whitespace-pre-line">{ev.description}</p>
       <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate">
         <span className="px-2 py-1 rounded-full bg-cloud border border-mist">{ev.location}</span>
       </div>
-      {ev.externalUrl && (
-        <p className="mt-4">
-          <a
-            href={ev.externalUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-medium text-bay-blue hover:underline"
-          >
-            {ev.externalLinkLabel ?? 'Official details (City of Roseville)'}
-          </a>
-        </p>
+      {(ev.externalUrl || ev.secondaryExternalUrl) && (
+        <div className="mt-4 flex flex-col gap-2">
+          {ev.externalUrl && (
+            <a
+              href={ev.externalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium text-bay-blue hover:underline"
+            >
+              {ev.externalLinkLabel ?? 'Official details (City of Roseville)'}
+            </a>
+          )}
+          {ev.secondaryExternalUrl && (
+            <a
+              href={ev.secondaryExternalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium text-bay-blue hover:underline"
+            >
+              {ev.secondaryExternalLinkLabel ?? 'More info'}
+            </a>
+          )}
+        </div>
       )}
     </article>
   );
@@ -170,6 +184,27 @@ const News = () => {
         externalUrl:
           'https://www.roseville.ca.us/news/what_s_happening_in_roseville/roseville_set_to_welcome_big_boy_no4014',
         externalLinkLabel: 'City of Roseville: dates, map & parking',
+      },
+      {
+        title: 'Mother’s Day Mimosa Brunch',
+        description:
+          'A toast to amazing moms—join ZANC for mimosas, brunch, music, and great company. Saturday, May 2, 2026 · 1:00–5:00 PM PT. Limited to 30 guests; the exact location is sent after you RSVP.\n\n' +
+          'Pricing: $50 per person. The first 10 moms who are paid up get the ZANC rate of $45. RSVP closes Friday, April 24, 2026.\n\n' +
+          'How to pay:\n' +
+          '• Zelle ZANC at zancsac@gmail.com (include your name and “Mother’s Day brunch” in the memo).\n' +
+          '• Or pay through Partiful (hosted payment link — use the second link below).\n\n' +
+          'Dress code: soft pink, orange, green, and yellow.',
+        dateLabel: 'May 2, 2026',
+        location: 'NorCal · address after RSVP',
+        type: 'upcoming',
+        category: 'ZANC social',
+        feeNote: '$50 · first 10 paid moms $45',
+        anchorId: 'mothers-day-brunch-2026',
+        imageUrl: '/images/postings/mothers-day.jpeg',
+        externalUrl: 'https://partiful.com/e/ZiMg6og66YLmYuqVk1LO',
+        externalLinkLabel: 'RSVP on Partiful',
+        secondaryExternalUrl: 'https://partiful.com/e/ZiMg6og66YLmYuqVk1LO?c=kE6t2yDW',
+        secondaryExternalLinkLabel: 'Pay on Partiful (ZANC link)',
       },
       {
         title: 'Community Hangouts',
