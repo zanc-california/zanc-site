@@ -172,20 +172,6 @@ const News = () => {
   const events = useMemo(
     (): CommunityEvent[] => [
       {
-        title: 'Union Pacific Big Boy No. 4014 — public viewing (Roseville)',
-        description:
-          'Big Boy No. 4014, the world’s largest steam locomotive, will be on display in downtown Roseville as part of Union Pacific’s coast-to-coast steam tour. Public viewing: Friday, April 10, 1–5 p.m. and Saturday, April 11, 9 a.m.–3 p.m. On Saturday, the city plans extra activities at Vernon Street Town Square (Maker’s Market and live music—see the city’s page for updates). A great NorCal outing for families and rail fans.',
-        dateLabel: 'Apr 10–11, 2026',
-        location: 'Downtown Roseville, CA',
-        type: 'upcoming',
-        category: 'Community outing',
-        anchorId: 'big-boy-4014-roseville',
-        imageUrl: '/images/postings/bigboy-4014.png',
-        externalUrl:
-          'https://www.roseville.ca.us/news/what_s_happening_in_roseville/roseville_set_to_welcome_big_boy_no4014',
-        externalLinkLabel: 'City of Roseville: dates, map & parking',
-      },
-      {
         title: 'Mother’s Day Mimosa Brunch',
         description:
           'A toast to amazing moms—join ZANC for mimosas, brunch, music, and great company. Saturday, May 2, 2026 · 1:00–5:00 PM PT. Limited to 30 guests; the exact location is sent after you RSVP.\n\n' +
@@ -205,6 +191,20 @@ const News = () => {
         externalLinkLabel: 'RSVP on Partiful',
         secondaryExternalUrl: 'https://partiful.com/e/ZiMg6og66YLmYuqVk1LO?c=kE6t2yDW',
         secondaryExternalLinkLabel: 'Pay on Partiful (ZANC link)',
+      },
+      {
+        title: 'Union Pacific Big Boy No. 4014 — public viewing (Roseville)',
+        description:
+          'Big Boy No. 4014, the world’s largest steam locomotive, was on display in downtown Roseville as part of Union Pacific’s coast-to-coast steam tour. Public viewing ran Friday, April 10, 1–5 p.m. and Saturday, April 11, 9 a.m.–3 p.m., with extra activities at Vernon Street Town Square on Saturday. A memorable NorCal outing for families and rail fans.',
+        dateLabel: 'Apr 2026',
+        location: 'Downtown Roseville, CA',
+        type: 'past',
+        category: 'Community outing',
+        anchorId: 'big-boy-4014-roseville',
+        imageUrl: '/images/postings/bigboy-4014.png',
+        externalUrl:
+          'https://www.roseville.ca.us/news/what_s_happening_in_roseville/roseville_set_to_welcome_big_boy_no4014',
+        externalLinkLabel: 'City of Roseville (recap)',
       },
       {
         title: 'Community Hangouts',
