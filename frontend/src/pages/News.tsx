@@ -193,6 +193,19 @@ const News = () => {
         secondaryExternalLinkLabel: 'Pay on Partiful (ZANC link)',
       },
       {
+        title: 'Father’s Day Golf Outing',
+        description:
+          'Placeholder for a relaxed golf outing to celebrate dads and father figures. Course, date and time, format (scramble vs. casual nine), pricing, and RSVP — all TBA.\n\n' +
+          'Watch this page and your ZANC email; we’ll post details as soon as they’re set.',
+        dateLabel: 'TBA',
+        location: 'TBA',
+        type: 'upcoming',
+        category: 'ZANC social',
+        feeNote: 'TBA',
+        anchorId: 'fathers-day-golf-tba',
+        imageUrl: '/images/postings/golf-event.png',
+      },
+      {
         title: 'Union Pacific Big Boy No. 4014 — public viewing (Roseville)',
         description:
           'Big Boy No. 4014, the world’s largest steam locomotive, was on display in downtown Roseville as part of Union Pacific’s coast-to-coast steam tour. Public viewing ran Friday, April 10, 1–5 p.m. and Saturday, April 11, 9 a.m.–3 p.m., with extra activities at Vernon Street Town Square on Saturday. A memorable NorCal outing for families and rail fans.',
