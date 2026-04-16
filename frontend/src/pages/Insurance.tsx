@@ -4,8 +4,6 @@ import Button from '../components/Button';
 import { getInsuranceOptions } from '../lib/stripe';
 
 const Insurance = () => {
-  const nextPremiumDue =
-    (import.meta.env.VITE_INSURANCE_NEXT_DUE as string | undefined)?.trim() || 'January 25, 2026';
   const options = getInsuranceOptions();
   const [selectedUrl, setSelectedUrl] = useState<string>(options[0]?.url ?? '');
 
@@ -40,8 +38,13 @@ const Insurance = () => {
                 <li>Coverage for members and dependents across multiple states</li>
                 <li>Special tiers for elders aged 65–70 and 70+</li>
                 <li>
-                  <span className="font-semibold">Semi-annual premiums</span> — due dates are announced to insured members each
-                  collection period. Confirm the current due date with the insurance team.
+                  <span className="font-semibold">Riders (dependents):</span> one riders fee covers all qualifying{' '}
+                  <span className="font-semibold">children under 21</span>, per program rules.
+                </li>
+                <li>
+                  <span className="font-semibold">Semi-annual premiums</span> — standard collection due dates are{' '}
+                  <span className="font-semibold">January 25</span> and <span className="font-semibold">July 25</span> each year.
+                  Confirm your amount and due date with the insurance team before paying.
                 </li>
               </ul>
             </div>
@@ -68,7 +71,11 @@ const Insurance = () => {
                 <h4 className="font-heading font-semibold text-zambia-green mb-2">FAQ</h4>
                 <details className="border border-mist rounded-md p-3 bg-white mb-3">
                   <summary className="cursor-pointer font-medium text-slate">Who is eligible?</summary>
-                  <p className="mt-2 text-sm text-slate">Eligibility depends on program requirements and enrollment windows. Contact ZANC for guidance.</p>
+                  <p className="mt-2 text-sm text-slate">
+                    Coverage is for members who have a <span className="font-semibold">Social Security number</span> for those
+                    being insured, and who fit the program&apos;s <span className="font-semibold">age tiers</span> (adult, dependent,
+                    and 65+ rules). Open enrollment is June 1 – July 31 each year. Contact ZANC for your specific situation.
+                  </p>
                 </details>
                 <details className="border border-mist rounded-md p-3 bg-white mb-3">
                   <summary className="cursor-pointer font-medium text-slate">When do I enroll?</summary>
@@ -77,9 +84,17 @@ const Insurance = () => {
                 <details className="border border-mist rounded-md p-3 bg-white">
                   <summary className="cursor-pointer font-medium text-slate">How do I pay premiums?</summary>
                   <p className="mt-2 text-sm text-slate">
-                    Premiums are collected semi-annually. You can pay by Zelle, direct deposit to ZANC&apos;s Wells Fargo account,
-                    Venmo, or Stripe where a payment link is available below. Send a copy of your deposit or transfer receipt to
-                    the number on file. For payment questions, email{' '}
+                    Premiums are collected semi-annually, with due dates on <span className="font-semibold">January 25</span> and{' '}
+                    <span className="font-semibold">July 25</span> each year (confirm with the team). You can pay by Zelle, direct
+                    deposit to ZANC&apos;s Wells Fargo account, Venmo, or Stripe where a payment link is available below. Send a copy
+                    of your deposit or transfer receipt to the number on file.
+                  </p>
+                  <p className="mt-2 text-sm text-slate">
+                    <span className="font-semibold">Riders fee:</span> one riders fee applies for all qualifying dependents —{' '}
+                    <span className="font-semibold">children under 21</span> who meet the program rules.
+                  </p>
+                  <p className="mt-2 text-sm text-slate">
+                    For payment questions, email{' '}
                     <a href="mailto:zancsac@gmail.com" className="text-bay-blue hover:underline">
                       zancsac@gmail.com
                     </a>
@@ -94,8 +109,9 @@ const Insurance = () => {
               <div className="rounded-xl border border-copper/40 bg-copper-glow/80 px-4 py-4 md:px-6 md:py-5">
                 <p className="font-heading font-semibold text-redwood">Group life insurance — premium reminder</p>
                 <p className="text-sm text-redwood/90 mt-2">
-                  <span className="font-semibold">Next published due date:</span> {nextPremiumDue}. Due dates can vary by
-                  period — always confirm with the insurance team before paying.
+                  <span className="font-semibold">Semi-annual due dates:</span> <span className="font-semibold">January 25</span> and{' '}
+                  <span className="font-semibold">July 25</span> each year. Always confirm your premium amount and timing with the
+                  insurance team before paying.
                 </p>
                 <p className="text-sm text-redwood mt-2 font-medium">
                   Please note: any insured member with an unpaid premium may be dropped from coverage.

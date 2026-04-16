@@ -572,7 +572,7 @@ const News = () => {
                 </div>
                 <div className="rounded-md border border-mist p-4 bg-cloud">
                   <p className="font-heading font-semibold text-zambia-green">Premium Collection</p>
-                  <p className="text-gray-700 text-sm">February and August (bi-annually)</p>
+                  <p className="text-gray-700 text-sm">January 25 and July 25 (semi-annual — confirm with the insurance team)</p>
                 </div>
                 <div className="rounded-md border border-mist p-4 bg-cloud">
                   <p className="font-heading font-semibold text-zambia-green">Community Events</p>
