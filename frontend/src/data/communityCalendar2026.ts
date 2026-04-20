@@ -33,27 +33,32 @@ export type CommunityEvent = {
 
 /** Milestones for countdown widget — only firm dates; first future date wins. */
 export const COUNTDOWN_MILESTONES: { at: string; label: string }[] = [
-  { at: '2026-03-08T14:00:00-08:00', label: "International Women's Day with ZANC" },
   { at: '2026-05-02T13:00:00-07:00', label: "Mother's Day Mimosa Brunch" },
   { at: '2026-09-27T15:00:00-07:00', label: 'ZANC Matchday — Bay FC vs Orlando Pride' },
 ];
 
+/** Upcoming list + spotlight: hide once `countdownAt` has passed (TBA events stay until given a date). */
+export function shouldShowInUpcomingList(ev: CommunityEvent, now: Date = new Date()): boolean {
+  if (ev.type !== 'upcoming') return false;
+  if (!ev.countdownAt) return true;
+  return new Date(ev.countdownAt) > now;
+}
+
 /**
- * Event to feature on the home page: prefers an upcoming event with `homeSpotlight` and a future `countdownAt`
- * (or no countdown). Otherwise the upcoming event matching the next COUNTDOWN_MILESTONES date.
+ * Event to feature on the home page: prefers an upcoming event with `homeSpotlight` that still passes
+ * shouldShowInUpcomingList. Otherwise the upcoming event matching the next COUNTDOWN_MILESTONES date.
  * Toggle spotlight by setting `homeSpotlight` on one event in this file.
  */
 export function getLandingSpotlightEvent(now: Date = new Date()): CommunityEvent | null {
-  const upcoming = ZANC_COMMUNITY_EVENTS.filter((e) => e.type === 'upcoming');
-  const flagged = upcoming.filter((e) => e.homeSpotlight);
+  const active = ZANC_COMMUNITY_EVENTS.filter((e) => shouldShowInUpcomingList(e, now));
+  const flagged = active.filter((e) => e.homeSpotlight);
   for (const e of flagged) {
-    if (!e.countdownAt) return e;
-    if (new Date(e.countdownAt) > now) return e;
+    return e;
   }
   const sorted = [...COUNTDOWN_MILESTONES].sort((a, b) => +new Date(a.at) - +new Date(b.at));
   const next = sorted.find((m) => new Date(m.at) > now);
   if (!next) return null;
-  return upcoming.find((e) => e.countdownAt === next.at) ?? null;
+  return active.find((e) => e.countdownAt === next.at) ?? null;
 }
 
 export const CALENDAR_2026_THEME = 'A Year of Connection, Growth & Celebration';
@@ -66,7 +71,7 @@ export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
   },
   {
     title: 'March',
-    lines: ["International Women's Day with ZANC — Mar 8"],
+    lines: ["International Women's Day with ZANC — Mar 8, 2026 (held)"],
   },
   {
     title: 'May',
@@ -122,21 +127,6 @@ export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
 
 export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
   {
-    title: 'International Women’s Day with ZANC',
-    description:
-      'Celebrate International Women’s Day with ZANC women and allies—conversation, encouragement, and community. We’re planning an afternoon gathering in NorCal; exact time and venue will be shared when confirmed.\n\n' +
-      'Watch Events & News and your email for RSVP details.',
-    dateLabel: 'Mar 8, 2026',
-    location: 'NorCal · details TBA',
-    type: 'upcoming',
-    category: 'Women & Community',
-    feeNote: 'TBA',
-    anchorId: 'international-womens-day-2026',
-    lanes: ['family', 'culture'],
-    homeSpotlight: true,
-    countdownAt: '2026-03-08T14:00:00-08:00',
-  },
-  {
     title: 'Mother’s Day Mimosa Brunch',
     description:
       'A toast to amazing moms—join ZANC for mimosas, brunch, music, and great company. Saturday, May 2, 2026 · 1:00–5:00 PM PT. Limited to 30 guests; the exact location is sent after you RSVP.\n\n' +
@@ -157,6 +147,7 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     secondaryExternalUrl: 'https://partiful.com/e/ZiMg6og66YLmYuqVk1LO?c=kE6t2yDW',
     secondaryExternalLinkLabel: 'Pay on Partiful (ZANC link)',
     lanes: ['family', 'culture'],
+    homeSpotlight: true,
     countdownAt: '2026-05-02T13:00:00-07:00',
   },
   {
@@ -319,6 +310,17 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     feeNote: 'TBA',
     anchorId: 'community-conversations-quarterly',
     lanes: ['business', 'family'],
+  },
+  {
+    title: 'International Women’s Day with ZANC',
+    description:
+      'ZANC women and allies marked International Women’s Day 2026 together—conversation, encouragement, and community in NorCal.',
+    dateLabel: 'Mar 8, 2026',
+    location: 'NorCal',
+    type: 'past',
+    category: 'Women & Community',
+    anchorId: 'international-womens-day-2026',
+    lanes: ['family', 'culture'],
   },
   {
     title: 'Union Pacific Big Boy No. 4014 — public viewing (Roseville)',

@@ -9,6 +9,7 @@ import {
   CALENDAR_MODAL_SECTIONS,
   COUNTDOWN_MILESTONES,
   ZANC_COMMUNITY_EVENTS,
+  shouldShowInUpcomingList,
   type CalendarLane,
   type CommunityEvent,
 } from '../data/communityCalendar2026';
@@ -246,7 +247,7 @@ const News = () => {
   const countdown = useNextCountdownMilestone();
 
   const events = ZANC_COMMUNITY_EVENTS;
-  const upcomingEvents = useMemo(() => events.filter((e) => e.type === 'upcoming'), [events]);
+  const upcomingEvents = events.filter((e) => shouldShowInUpcomingList(e));
   const pastEvents = useMemo(() => events.filter((e) => e.type === 'past'), [events]);
   const featuredUpcoming = useMemo(() => upcomingEvents.find((e) => e.featured), [upcomingEvents]);
   const filteredUpcomingGrid = useMemo(() => {
