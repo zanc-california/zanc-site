@@ -115,11 +115,11 @@ function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; hea
       className="bg-white rounded-xl border border-mist p-6 shadow-sm hover:shadow-md transition-shadow scroll-mt-24 overflow-hidden"
     >
       {ev.imageUrl && (
-        <div className="-mx-6 -mt-6 mb-4 border-b border-mist bg-cloud">
+        <div className="-mx-6 -mt-6 mb-4 border-b border-mist bg-zambia-green/10">
           <img
             src={ev.imageUrl}
             alt={imageAlt}
-            className="w-full h-44 sm:h-52 object-cover"
+            className={`w-full object-cover object-center ${ev.heroImageTall ? 'h-48 sm:h-60 min-h-[12rem]' : 'h-44 sm:h-52'}`}
             loading="lazy"
           />
         </div>

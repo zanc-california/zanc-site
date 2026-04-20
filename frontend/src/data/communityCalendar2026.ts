@@ -17,6 +17,8 @@ export type CommunityEvent = {
   feeNote?: string;
   anchorId?: string;
   imageUrl?: string;
+  /** Taller hero strip when the art is wide/horizontal (e.g. virtual meeting illustration). */
+  heroImageTall?: boolean;
   externalUrl?: string;
   externalLinkLabel?: string;
   secondaryExternalUrl?: string;
@@ -161,6 +163,8 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     category: 'Community Forum',
     feeNote: 'TBA',
     anchorId: 'community-conversations-virtual-may',
+    imageUrl: '/images/postings/zoom-image-generic.png',
+    heroImageTall: true,
     lanes: ['business', 'family'],
   },
   {
@@ -309,6 +313,8 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     series: true,
     feeNote: 'TBA',
     anchorId: 'community-conversations-quarterly',
+    imageUrl: '/images/postings/zoom-image-generic.png',
+    heroImageTall: true,
     lanes: ['business', 'family'],
   },
   {
