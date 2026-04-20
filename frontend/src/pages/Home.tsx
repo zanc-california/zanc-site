@@ -2,9 +2,17 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import FeaturedCommunitySpotlight from '../components/FeaturedCommunitySpotlight';
+import LandingEventSpotlightModal from '../components/LandingEventSpotlightModal';
 import SubscribeModal from '../components/SubscribeModal';
+import { getLandingSpotlightEvent } from '../data/communityCalendar2026';
 import { heroImages } from '../heroImages';
 import Reveal from '../components/Reveal';
+
+function eventCardExcerpt(description: string, maxLen = 158) {
+  const first = description.split(/\n\n/)[0]?.trim() ?? description.trim();
+  if (first.length <= maxLen) return first;
+  return `${first.slice(0, maxLen - 1)}…`;
+}
 
 /** NorCal / SoCal region chips — fixed footprint so all eight match. */
 function RegionMiniCard({ label, icon }: { label: string; icon: string }) {
@@ -23,6 +31,8 @@ function RegionMiniCard({ label, icon }: { label: string; icon: string }) {
 const Home = () => {
   const [currentHero, setCurrentHero] = useState(0);
   const [subscribeOpen, setSubscribeOpen] = useState(false);
+  const [spotlightModalOpen, setSpotlightModalOpen] = useState(false);
+  const landingSpotlightEvent = getLandingSpotlightEvent();
   const hero = heroImages[currentHero];
   const heroOutlineButtonClass =
     '!w-full sm:!w-auto !justify-center !bg-transparent !text-white border-white/80 hover:!bg-white/10 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-zambia-green';
@@ -109,6 +119,11 @@ const Home = () => {
       </section>
 
       <SubscribeModal open={subscribeOpen} onClose={() => setSubscribeOpen(false)} />
+      <LandingEventSpotlightModal
+        open={spotlightModalOpen}
+        onClose={() => setSpotlightModalOpen(false)}
+        event={landingSpotlightEvent}
+      />
 
       <section className="py-10 md:py-14 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -161,13 +176,61 @@ const Home = () => {
             </p>
           </Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {landingSpotlightEvent ? (
+              <Reveal
+                key={landingSpotlightEvent.anchorId ?? landingSpotlightEvent.title}
+                delayMs={0}
+                className="group h-full flex flex-col bg-cloud rounded-lg border border-copper/25 p-6 shadow-[0_4px_24px_-4px_rgba(27,94,32,0.1),0_0_36px_rgba(184,115,51,0.14)] ring-2 ring-copper/15 ring-offset-2 ring-offset-white ui-card-motion ui-card-motion-hover ui-card-motion-active"
+              >
+                <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">Next up</p>
+                <div className="mt-2 flex items-start justify-between gap-2">
+                  <h3 className="text-lg font-heading font-semibold text-zambia-green motion-safe:transition-colors motion-safe:duration-300 group-hover:text-zambia-green-light">
+                    {landingSpotlightEvent.title}
+                  </h3>
+                  <span className="text-[10px] font-heading uppercase tracking-[0.08em] text-copper bg-copper-glow px-2 py-1 rounded border border-mist shrink-0">
+                    {landingSpotlightEvent.dateLabel}
+                  </span>
+                </div>
+                <p className="text-slate mt-3 leading-relaxed text-sm flex-1">{eventCardExcerpt(landingSpotlightEvent.description)}</p>
+                <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+                  <button
+                    type="button"
+                    onClick={() => setSpotlightModalOpen(true)}
+                    className="text-bay-blue font-medium text-sm hover:underline inline-flex items-center gap-1 text-left motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:translate-x-1"
+                  >
+                    Event details →
+                  </button>
+                  <Link
+                    to={landingSpotlightEvent.anchorId ? `/news#${landingSpotlightEvent.anchorId}` : '/news'}
+                    className="text-slate font-medium text-sm hover:text-bay-blue inline-flex items-center gap-1"
+                  >
+                    On Events &amp; News →
+                  </Link>
+                </div>
+              </Reveal>
+            ) : (
+              <Reveal
+                key="events-fallback"
+                delayMs={0}
+                className="group h-full flex flex-col bg-cloud rounded-lg border border-mist p-6 shadow-sm ui-card-motion ui-card-motion-hover ui-card-motion-active"
+              >
+                <h3 className="text-lg font-heading font-semibold text-zambia-green motion-safe:transition-colors motion-safe:duration-300 group-hover:text-zambia-green-light">
+                  Events &amp; News
+                </h3>
+                <p className="text-slate mt-3 leading-relaxed text-sm flex-1">
+                  See the full calendar, RSVPs, and what&apos;s coming next for ZANC in Northern California.
+                </p>
+                <div className="mt-4">
+                  <Link
+                    to="/news"
+                    className="text-bay-blue font-medium text-sm hover:underline inline-flex items-center gap-1 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:translate-x-1"
+                  >
+                    Explore events →
+                  </Link>
+                </div>
+              </Reveal>
+            )}
             {[
-              {
-                title: 'Community Conversations',
-                excerpt: 'Join our recurring open Zoom sessions.',
-                href: '/community#community-conversations',
-                external: false,
-              },
               {
                 title: 'Community Hangouts',
                 excerpt: 'Casual gatherings, games, and connection.',
@@ -189,7 +252,7 @@ const Home = () => {
             ].map((card, i) => (
               <Reveal
                 key={card.title}
-                delayMs={i * 80}
+                delayMs={(i + 1) * 80}
                 className="group h-full flex flex-col bg-cloud rounded-lg border border-mist p-6 shadow-sm ui-card-motion ui-card-motion-hover ui-card-motion-active"
               >
                 <h3 className="text-lg font-heading font-semibold text-zambia-green motion-safe:transition-colors motion-safe:duration-300 group-hover:text-zambia-green-light">

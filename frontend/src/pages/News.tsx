@@ -416,7 +416,7 @@ const News = () => {
   const upcomingEventsBlock = (cardHeading: 'h3' | 'h4') => (
     <>
       {!countdown.ended && (
-        <div className="mb-6 rounded-xl border border-mist bg-white p-4 md:p-5 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="relative mb-6 rounded-xl border border-copper/25 bg-white p-4 md:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-[0_4px_24px_-4px_rgba(27,94,32,0.12),0_0_0_1px_rgba(184,115,51,0.14),0_0_40px_rgba(184,115,51,0.2),0_0_72px_rgba(27,94,32,0.08)] ring-2 ring-copper/20 ring-offset-2 ring-offset-fog">
           <div>
             <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">Next milestone</p>
             <p className="font-heading font-semibold text-zambia-green mt-0.5">{countdown.label}</p>
