@@ -222,7 +222,7 @@ function FeaturedSignatureCard({ ev }: { ev: CommunityEvent }) {
           </p>
           <p className="pt-2">
             <Link to="/membership" className="font-semibold text-copper hover:underline">
-              Members — priority &amp; member pricing
+              Members — priority access when details are announced
             </Link>
           </p>
         </div>
@@ -488,7 +488,7 @@ const News = () => {
             </Button>
             <Button
               variant="outline"
-              className="!border-white/40 !text-white hover:!bg-white/10"
+              className="!border-2 !border-white/90 !bg-transparent !text-white shadow-sm hover:!bg-white/15 hover:!text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-zambia-green"
               type="button"
               onClick={openCalendar}
             >
@@ -499,18 +499,20 @@ const News = () => {
       </section>
       <section className="py-12 md:py-16 bg-fog">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
-            <div>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
+            <div className="min-w-0">
               <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Events &amp; News</h2>
-              <p className="text-slate mt-1 max-w-2xl">
-                Stories, dates, and invitations — so ZANC feels less like something you hear about once, and more like something you
-                plan your year around.
+              <p className="text-slate mt-2 max-w-2xl text-sm md:text-base leading-relaxed">
+                Upcoming gatherings first — then stories from the community. Save the dates that fit your year; dip into news when you
+                want the wider picture.
               </p>
             </div>
-            <Button variant="accent" onClick={openCalendar}>Review this year’s calendar</Button>
+            <Button variant="accent" className="shrink-0 self-start sm:self-center" onClick={openCalendar}>
+              Review this year’s calendar
+            </Button>
           </div>
 
-          <div className="flex flex-wrap gap-2 mb-6">
+          <div className="flex flex-wrap gap-2 mb-8">
             {[
               { id: 'all' as const, label: 'All' },
               { id: 'upcoming' as const, label: 'Upcoming Events' },
@@ -531,25 +533,26 @@ const News = () => {
           </div>
 
           {tab === 'all' && (
-            <div className="space-y-14">
-              <div>
-                <h3 className="text-lg font-heading font-semibold text-zambia-green mb-2">Latest updates</h3>
-                <p className="text-sm text-slate mb-6 max-w-2xl">
-                  Micro articles and announcements in a three-column layout. Tap any card to read the full story in a pop-up.
-                </p>
-                {newsGrid}
-              </div>
-
-              <div ref={upcomingSectionRef} id="upcoming-events" className="scroll-mt-28">
+            <div className="space-y-12 md:space-y-16">
+              <div ref={upcomingSectionRef} id="upcoming-events" className="scroll-mt-28 pb-10 md:pb-12 border-b border-mist/80">
                 <h3 className="text-lg font-heading font-semibold text-zambia-green mb-2">Upcoming events</h3>
-                <p className="text-sm text-slate mb-6 max-w-2xl">
+                <p className="text-sm text-slate mb-6 max-w-2xl leading-relaxed">
                   Social, professional, cultural, and signature moments — filter by lane, then save the dates that fit your story.
                 </p>
                 {upcomingEventsBlock('h4')}
               </div>
 
-              <div id="past-highlights">
-                <h3 className="text-lg font-heading font-semibold text-zambia-green mb-4">Past highlights</h3>
+              <div>
+                <h3 className="text-lg font-heading font-semibold text-zambia-green mb-2">Latest updates</h3>
+                <p className="text-sm text-slate mb-6 max-w-2xl leading-relaxed">
+                  Micro articles and announcements. Tap any card to read the full story in a pop-up.
+                </p>
+                {newsGrid}
+              </div>
+
+              <div id="past-highlights" className="pt-2">
+                <h3 className="text-lg font-heading font-semibold text-zambia-green mb-2">Past highlights</h3>
+                <p className="text-sm text-slate mb-6 max-w-2xl leading-relaxed">Where we’ve already shown up together.</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 md:gap-8">
                   {pastEvents.map((ev) => (
                     <EventProgramCard key={ev.anchorId ?? ev.title} ev={ev} headingLevel="h4" />
@@ -561,11 +564,11 @@ const News = () => {
 
           {tab === 'upcoming' && (
             <div className="space-y-6">
-              <p className="text-slate text-sm max-w-2xl">
+              <p className="text-slate text-sm max-w-2xl leading-relaxed">
                 The full arc of 2026 — from brunches to the signature gala — with room for recurring programs that keep the rhythm
                 going.
               </p>
-              <div ref={upcomingSectionRef} id="upcoming-events" className="scroll-mt-28 space-y-2">
+              <div ref={upcomingSectionRef} id="upcoming-events" className="scroll-mt-28 space-y-1">
                 {upcomingEventsBlock('h3')}
               </div>
             </div>

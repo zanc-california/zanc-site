@@ -29,17 +29,10 @@ export type CommunityEvent = {
   countdownAt?: string;
 };
 
-/** Milestones for countdown widget — first future date wins. */
+/** Milestones for countdown widget — only firm dates; first future date wins. */
 export const COUNTDOWN_MILESTONES: { at: string; label: string }[] = [
   { at: '2026-05-02T13:00:00-07:00', label: "Mother's Day Mimosa Brunch" },
-  { at: '2026-05-28T19:00:00-07:00', label: 'Community Conversations (Virtual)' },
-  { at: '2026-07-04T12:00:00-07:00', label: 'ZANC Summer Picnic & Family Day' },
-  { at: '2026-08-22T14:00:00-07:00', label: 'Roots & Rise — Skills Exchange' },
-  { at: '2026-08-22T18:00:00-07:00', label: 'Roots & Rise — Signature Gala' },
   { at: '2026-09-27T15:00:00-07:00', label: 'ZANC Matchday — Bay FC vs Orlando Pride' },
-  { at: '2026-10-24T17:00:00-07:00', label: 'Zambia Independence Celebration 2026' },
-  { at: '2026-11-21T16:00:00-08:00', label: 'Thanksgiving Community Mixer' },
-  { at: '2026-12-13T14:00:00-08:00', label: 'Year-End Reflection & Toy Drive' },
 ];
 
 export const CALENDAR_2026_THEME = 'A Year of Connection, Growth & Celebration';
@@ -52,21 +45,21 @@ export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
   },
   {
     title: 'May',
-    lines: ["Mother's Day Mimosa Brunch — May 2", 'Community Conversations (Virtual) — late May'],
+    lines: ["Mother's Day Mimosa Brunch — May 2", 'Community Conversations (Virtual) — date TBA'],
   },
   {
     title: 'June',
-    lines: ["Father's Day Golf Outing", 'Youth Achievement Spotlight'],
+    lines: ["Father's Day Golf Outing — TBA", 'Youth Achievement Spotlight — TBA'],
   },
   {
     title: 'July',
-    lines: ['ZANC Summer Picnic & Family Day — July 4 weekend'],
+    lines: ['ZANC Summer Picnic & Family Day — date TBA'],
   },
   {
     title: 'August (signature)',
     lines: [
-      'ROOTS & RISE: Skills Exchange (2–4 PM) + Signature Gala & Taste of Zambia (6–9 PM)',
-      'Members $25 · guests $40 · sponsor tables $250+ (details TBA)',
+      'ROOTS & RISE: Skills Exchange + Signature Gala & Taste of Zambia — date & times TBA',
+      'Pricing TBA',
     ],
   },
   {
@@ -75,15 +68,15 @@ export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
   },
   {
     title: 'October',
-    lines: ['Zambia Independence Celebration 2026 — Oct 24 weekend'],
+    lines: ['Zambia Independence Celebration 2026 — date TBA'],
   },
   {
     title: 'November',
-    lines: ['Thanksgiving Community Mixer'],
+    lines: ['Thanksgiving Community Mixer — date TBA'],
   },
   {
     title: 'December',
-    lines: ['Year-End Reflection & Toy Drive'],
+    lines: ['Year-End Reflection & Toy Drive — date TBA'],
   },
   {
     title: 'Recurring programs',
@@ -129,22 +122,22 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
   {
     title: 'Community Conversations (Virtual)',
     description:
-      'Open Zoom-style forum for members—ideas, needs, introductions, feedback, and “how can ZANC serve you better?” Late May session kicks off a quarterly rhythm of town-hall-style check-ins.\n\n' +
-      'Link and exact evening TBA via email and this page.',
-    dateLabel: 'Late May 2026',
+      'Open Zoom-style forum for members—ideas, needs, introductions, feedback, and “how can ZANC serve you better?” First 2026 session kicks off a quarterly rhythm of town-hall-style check-ins.\n\n' +
+      'Date, link, and time TBA via email and this page.',
+    dateLabel: 'TBA',
     location: 'Virtual (Zoom)',
     type: 'upcoming',
     category: 'Community Forum',
+    feeNote: 'TBA',
     anchorId: 'community-conversations-virtual-may',
     lanes: ['business', 'family'],
-    countdownAt: '2026-05-28T19:00:00-07:00',
   },
   {
     title: 'Father’s Day Golf Outing',
     description:
       'After we celebrate the moms, we’re looking forward to time on the course for dads and father figures—a relaxed golf outing to connect, laugh, and enjoy NorCal together. Course, date and time, format, pricing, and RSVP are still to be announced.\n\n' +
       'Stay tuned here and in your ZANC email; we’ll share full details as soon as they’re set.',
-    dateLabel: 'June 2026 · TBA',
+    dateLabel: 'TBA',
     location: 'TBA',
     type: 'upcoming',
     category: 'Social / Family',
@@ -156,46 +149,44 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
   {
     title: 'Youth Achievement Spotlight',
     description:
-      'Celebrate graduates, scholarships, and young people’s wins—stories, photos, and encouragement from the whole community. Date and format finalized for June 2026.\n\n' +
-      'Families: watch your inbox for how to nominate a spotlight.',
-    dateLabel: 'June 2026 · TBA',
-    location: 'NorCal · TBA',
+      'Celebrate graduates, scholarships, and young people’s wins—stories, photos, and encouragement from the whole community.\n\n' +
+      'Families: watch your inbox for how to nominate a spotlight once date and format are set.',
+    dateLabel: 'TBA',
+    location: 'TBA',
     type: 'upcoming',
     category: 'Youth & Family',
+    feeNote: 'TBA',
     anchorId: 'youth-achievement-spotlight-2026',
     lanes: ['family', 'culture'],
   },
   {
     title: 'ZANC Summer Picnic & Family Day',
     description:
-      'A relaxed July gathering around Independence Day weekend—BBQ / potluck, kids’ games, soccer, dominoes and cards, music, and introductions for new members. July 4 or the closest weekend; exact park and time TBA.\n\n' +
+      'A relaxed summer gathering—BBQ / potluck, kids’ games, soccer, dominoes and cards, music, and introductions for new members. Aiming for July 4 weekend when confirmed.\n\n' +
       'Bring a dish, bring a friend, bring the energy.',
-    dateLabel: 'July 4 weekend 2026',
-    location: 'NorCal · TBA',
+    dateLabel: 'TBA',
+    location: 'TBA',
     type: 'upcoming',
     category: 'Community Social',
+    feeNote: 'TBA',
     anchorId: 'summer-picnic-2026',
     lanes: ['family', 'culture', 'sports'],
-    countdownAt: '2026-07-04T12:00:00-07:00',
   },
   {
     title: 'ROOTS & RISE: ZANC Signature Gala + Skills Exchange',
     description:
-      'Our prestige anchor for 2026—two movements in one day.\n\n' +
-      '2:00–4:00 PM — Skills Exchange Forum\n' +
-      'Short member-led presentations and conversations: home buying in California, careers in healthcare, starting a business, tech & AI opportunities, financial literacy, shipping / diaspora trade, and more.\n\n' +
-      '6:00–9:00 PM — Gala mixer + Taste of Zambia showcase\n' +
-      'An elegant evening around the theme “What Is Zambian Cuisine?” Community-contributed dishes representing regions, tribes, and modern interpretations—with labels, dish stories, soft music, light awards, and networking.\n\n' +
-      'Ticket framing (subject to final details): members $25 · guests $40 · sponsor tables $250+.',
-    dateLabel: 'Aug 2026 · TBA',
-    location: 'NorCal · TBA',
+      'Our prestige anchor for 2026—two movements in one day (times TBA).\n\n' +
+      'Skills Exchange Forum — short member-led presentations and conversations: home buying in California, careers in healthcare, starting a business, tech & AI opportunities, financial literacy, shipping / diaspora trade, and more.\n\n' +
+      'Gala mixer + Taste of Zambia showcase — an elegant evening around the theme “What Is Zambian Cuisine?” Community-contributed dishes representing regions, tribes, and modern interpretations—with labels, dish stories, soft music, light awards, and networking.\n\n' +
+      'Date, venue, schedule, and ticket tiers will be announced here.',
+    dateLabel: 'TBA',
+    location: 'TBA',
     type: 'upcoming',
     category: 'Signature Event',
-    feeNote: 'Members $25 · Guests $40 · Sponsors $250+',
+    feeNote: 'TBA',
     anchorId: 'roots-rise-gala-2026',
     lanes: ['signature', 'culture', 'business'],
     featured: true,
-    countdownAt: '2026-08-22T18:00:00-07:00',
   },
   {
     title: 'ZANC Matchday: Bay FC vs Orlando Pride',
@@ -206,6 +197,7 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     location: 'Bay Area stadium · details TBA',
     type: 'upcoming',
     category: 'Sports & Community',
+    feeNote: 'TBA',
     anchorId: 'bay-fc-matchday-2026',
     lanes: ['sports', 'family'],
     externalUrl: 'mailto:zancsac@gmail.com?subject=Bay%20FC%20Matchday%202026%20-%20tickets%20%2F%20van',
@@ -215,74 +207,76 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
   {
     title: 'Zambia Independence Celebration 2026',
     description:
-      'Our flagship cultural weekend—October 24 or the nearest weekend. Anthem, speeches, dinner, dance, performances, state-of-ZANC update, and sponsor recognition. The heart of who we are in NorCal.\n\n' +
-      'Sponsorship and ticketing details to follow.',
-    dateLabel: 'Oct 24–26 weekend · TBA',
-    location: 'NorCal · TBA',
+      'Our flagship cultural weekend—anthem, speeches, dinner, dance, performances, state-of-ZANC update, and sponsor recognition. The heart of who we are in NorCal.\n\n' +
+      'Date, venue, sponsorship, and ticketing TBA.',
+    dateLabel: 'TBA',
+    location: 'TBA',
     type: 'upcoming',
     category: 'Flagship Event',
+    feeNote: 'TBA',
     anchorId: 'independence-2026',
     lanes: ['culture', 'signature'],
-    countdownAt: '2026-10-24T17:00:00-07:00',
   },
   {
     title: 'Community Hangout / Thanksgiving Mixer',
     description:
-      'A small gratitude gathering before the holidays—food, reflection, and easy fellowship. Date and venue TBA (November 2026).',
-    dateLabel: 'Nov 2026 · TBA',
-    location: 'NorCal · TBA',
+      'A small gratitude gathering before the holidays—food, reflection, and easy fellowship.',
+    dateLabel: 'TBA',
+    location: 'TBA',
     type: 'upcoming',
     category: 'Community Hangout',
+    feeNote: 'TBA',
     anchorId: 'thanksgiving-mixer-2026',
     lanes: ['family'],
-    countdownAt: '2026-11-21T16:00:00-08:00',
   },
   {
     title: 'ZANC End of Year Reflection & Toy Drive',
     description:
-      'Close the year together: a family social plus a simple way to give back (toy / gift drive details TBA). December 2026.',
-    dateLabel: 'Dec 2026 · TBA',
-    location: 'NorCal · TBA',
+      'Close the year together: a family social plus a simple way to give back (toy / gift drive details TBA).',
+    dateLabel: 'TBA',
+    location: 'TBA',
     type: 'upcoming',
     category: 'Holiday / Service',
+    feeNote: 'TBA',
     anchorId: 'year-end-toy-drive-2026',
     lanes: ['family', 'culture'],
-    countdownAt: '2026-12-13T14:00:00-08:00',
   },
   {
     title: 'Community Hangouts',
     description:
       'Bi-monthly indoor games, shared space, and networking—Stockton Blvd venue or rotating locations. The steady pulse of “show up as you are.”',
-    dateLabel: 'Recurring',
-    location: 'Stockton Blvd · NorCal',
+    dateLabel: 'Recurring · dates TBA',
+    location: 'TBA',
     type: 'upcoming',
     category: 'Community Hangouts',
     series: true,
+    feeNote: 'TBA',
     anchorId: 'community-hangouts',
     lanes: ['family'],
   },
   {
     title: 'Business & Investment Series',
     description:
-      'Quarterly deep dives: Lobito Corridor, Zambia investment opportunities, shipping and trade, diaspora wealth building, entrepreneurship, and more. Members free; non-member fees announced per session.',
-    dateLabel: 'Quarterly',
-    location: 'NorCal',
+      'Quarterly deep dives: Lobito Corridor, Zambia investment opportunities, shipping and trade, diaspora wealth building, entrepreneurship, and more. Per-session details announced when scheduled.',
+    dateLabel: 'Quarterly · dates TBA',
+    location: 'TBA',
     type: 'upcoming',
     category: 'Business & Investment Series',
     series: true,
-    feeNote: 'Members free · Non-members fee (details TBA)',
+    feeNote: 'TBA',
     anchorId: 'business-investment-series',
     lanes: ['business'],
   },
   {
     title: 'Community Conversations (Quarterly Virtual)',
     description:
-      'Town-hall-style member check-ins on Zoom—same spirit as the late-May forum, repeated across the year. Dates announced per quarter.',
-    dateLabel: 'Quarterly · Virtual',
+      'Town-hall-style member check-ins on Zoom—same spirit as the kickoff forum, repeated across the year. Dates announced per quarter.',
+    dateLabel: 'Quarterly · Virtual · dates TBA',
     location: 'Zoom',
     type: 'upcoming',
     category: 'Community Forum',
     series: true,
+    feeNote: 'TBA',
     anchorId: 'community-conversations-quarterly',
     lanes: ['business', 'family'],
   },
