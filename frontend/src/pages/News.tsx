@@ -78,6 +78,8 @@ const LANE_LABELS: Record<CalendarLane, string> = {
   signature: 'Signature',
 };
 
+const UPCOMING_GRID_PAGE_SIZE = 4;
+
 function useNextCountdownMilestone() {
   const [tick, setTick] = useState(0);
   useEffect(() => {
@@ -240,6 +242,7 @@ const News = () => {
   const [articleModalOpen, setArticleModalOpen] = useState(false);
   const [modalArticle, setModalArticle] = useState<ModalArticleContent | null>(null);
   const [eventLaneFilter, setEventLaneFilter] = useState<CalendarLane | 'all'>('all');
+  const [upcomingGridExpanded, setUpcomingGridExpanded] = useState(false);
   const upcomingSectionRef = useRef<HTMLDivElement>(null);
   const countdown = useNextCountdownMilestone();
 
@@ -257,6 +260,10 @@ const News = () => {
     if (eventLaneFilter === 'all') return true;
     return Boolean(featuredUpcoming.lanes?.includes(eventLaneFilter));
   }, [featuredUpcoming, eventLaneFilter]);
+
+  useEffect(() => {
+    setUpcomingGridExpanded(false);
+  }, [eventLaneFilter]);
 
   const focusUpcomingEvents = useCallback(() => {
     setTab('all');
@@ -451,12 +458,26 @@ const News = () => {
       {showFeaturedCard && featuredUpcoming ? <FeaturedSignatureCard ev={featuredUpcoming} /> : null}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 md:gap-8">
-        {filteredUpcomingGrid.map((ev) => (
+        {(upcomingGridExpanded ? filteredUpcomingGrid : filteredUpcomingGrid.slice(0, UPCOMING_GRID_PAGE_SIZE)).map((ev) => (
           <EventProgramCard key={ev.anchorId ?? ev.title} ev={ev} headingLevel={cardHeading} />
         ))}
       </div>
       {filteredUpcomingGrid.length === 0 ? (
         <p className="text-sm text-slate mt-4">Nothing in this lane right now — choose &quot;All&quot; or another category.</p>
+      ) : null}
+      {filteredUpcomingGrid.length > UPCOMING_GRID_PAGE_SIZE ? (
+        <div className="mt-5 flex flex-wrap items-center gap-3">
+          <Button
+            variant="outline"
+            type="button"
+            onClick={() => setUpcomingGridExpanded((v) => !v)}
+            className="border-mist text-slate hover:bg-cloud"
+          >
+            {upcomingGridExpanded
+              ? 'Show fewer events'
+              : `View more (${filteredUpcomingGrid.length - UPCOMING_GRID_PAGE_SIZE} more)`}
+          </Button>
+        </div>
       ) : null}
 
       <div className="mt-6 bg-white rounded-xl border border-mist p-6 shadow-sm max-w-2xl">
