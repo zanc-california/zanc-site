@@ -161,6 +161,43 @@ function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; hea
       <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate">
         <span className="px-2 py-1 rounded-full bg-cloud border border-mist">{ev.location}</span>
       </div>
+      {ev.galleryImages && ev.galleryImages.length > 0 && (
+        <div className="mt-4">
+          <p className="text-xs font-heading uppercase tracking-[0.08em] text-copper mb-2">Event photos</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {ev.galleryImages.map((img, i) => (
+              <a
+                key={i}
+                href={img}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-lg overflow-hidden border border-mist bg-copper-glow/30 hover:opacity-90 transition-opacity"
+              >
+                <img
+                  src={img}
+                  alt={`${ev.title} — photo ${i + 1}`}
+                  className="w-full h-28 object-cover"
+                  loading="lazy"
+                />
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+      {ev.videoUrl && (
+        <div className="mt-4">
+          <p className="text-xs font-heading uppercase tracking-[0.08em] text-copper mb-2">Event video</p>
+          <video
+            src={ev.videoUrl}
+            controls
+            preload="metadata"
+            className="w-full rounded-lg border border-mist"
+            style={{ maxHeight: '320px' }}
+          >
+            Your browser does not support the video element.
+          </video>
+        </div>
+      )}
       {(ev.externalUrl || ev.secondaryExternalUrl) && (
         <div className="mt-4 flex flex-col gap-2">
           {ev.externalUrl && (

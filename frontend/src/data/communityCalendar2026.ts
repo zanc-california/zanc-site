@@ -35,7 +35,6 @@ export type CommunityEvent = {
 
 /** Milestones for countdown widget — only firm dates; first future date wins. */
 export const COUNTDOWN_MILESTONES: { at: string; label: string }[] = [
-  { at: '2026-05-02T13:00:00-07:00', label: "Mother's Day Mimosa Brunch" },
   { at: '2026-09-27T15:00:00-07:00', label: 'ZANC Matchday — Bay FC vs Orlando Pride' },
 ];
 
@@ -72,12 +71,8 @@ export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
     lines: [CALENDAR_2026_THEME],
   },
   {
-    title: 'March',
-    lines: ["International Women's Day with ZANC — Mar 8, 2026 (held)"],
-  },
-  {
     title: 'May',
-    lines: ["Mother's Day Mimosa Brunch — May 2", 'Community Conversations (Virtual) — date TBA'],
+    lines: ["Mother's Day Mimosa Brunch — May 2 (held)", 'Community Conversations (Virtual) — date TBA'],
   },
   {
     title: 'June',
@@ -131,41 +126,22 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
   {
     title: 'Mother’s Day Mimosa Brunch',
     description:
-      'A toast to amazing moms—join ZANC for mimosas, brunch, music, and great company. Saturday, May 2, 2026 · 1:00–5:00 PM PT. Limited to 30 guests; the exact location is sent after you RSVP.\n\n' +
-      'Pricing: $50 per person. The first 10 moms who are paid up get the ZANC rate of $45. RSVP closes Friday, April 24, 2026.\n\n' +
-      'How to pay:\n' +
-      '• Zelle ZANC at zancsac@gmail.com (include your name and “Mother’s Day brunch” in the memo).\n' +
-      '• Or pay through Partiful (hosted payment link — use the second link below).\n\n' +
-      'Dress code: soft pink, orange, green, and yellow.',
+      'What a beautiful afternoon. On Saturday, May 2, ZANC members and friends gathered in NorCal for mimosas, brunch, music, and warm company—a celebration of the amazing moms in our community.\n\n' +
+      'The room was filled with soft pink, orange, green, and yellow, just as the dress code invited. Laughter, conversation, and a shared sense of gratitude made the afternoon feel like exactly what a community should be: present, generous, and glad to be together.\n\n' +
+      'Thank you to everyone who came, contributed, and helped make this first 2026 social gathering a genuine success. These are the moments that remind us why ZANC exists—not just for events, but for the connections that carry through the year.',
     dateLabel: 'May 2, 2026',
-    location: 'NorCal · address after RSVP',
-    type: 'upcoming',
+    location: 'NorCal',
+    type: 'past',
     category: 'Social / Family',
-    feeNote: '$50 · first 10 paid moms $45',
     anchorId: 'mothers-day-brunch-2026',
-    imageUrl: '/images/postings/mothers-day.jpeg',
-    externalUrl: 'https://partiful.com/e/ZiMg6og66YLmYuqVk1LO',
-    externalLinkLabel: 'RSVP on Partiful',
-    secondaryExternalUrl: 'https://partiful.com/e/ZiMg6og66YLmYuqVk1LO?c=kE6t2yDW',
-    secondaryExternalLinkLabel: 'Pay on Partiful (ZANC link)',
+    imageUrl: '/images/postings/mothers-day-2026-hero.png',
+    galleryImages: [
+      '/images/postings/mothers-day-2026-group1.png',
+      '/images/postings/mothers-day-2026-group2.png',
+      '/images/postings/mothers-day-2026-group3.png',
+    ],
+    videoUrl: '/images/postings/mothers-day-2026-decor.mp4',
     lanes: ['family', 'culture'],
-    homeSpotlight: true,
-    countdownAt: '2026-05-02T13:00:00-07:00',
-  },
-  {
-    title: 'Community Conversations (Virtual)',
-    description:
-      'Open Zoom-style forum for members—ideas, needs, introductions, feedback, and “how can ZANC serve you better?” First 2026 session kicks off a quarterly rhythm of town-hall-style check-ins.\n\n' +
-      'Date, link, and time TBA via email and this page.',
-    dateLabel: 'TBA',
-    location: 'Virtual (Zoom)',
-    type: 'upcoming',
-    category: 'Community Forum',
-    feeNote: 'TBA',
-    anchorId: 'community-conversations-virtual-may',
-    imageUrl: '/images/postings/zoom-image-generic.png',
-    heroImageTall: true,
-    lanes: ['business', 'family'],
   },
   {
     title: 'Father’s Day Golf Outing',
@@ -318,20 +294,9 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     lanes: ['business', 'family'],
   },
   {
-    title: 'International Women’s Day with ZANC',
-    description:
-      'ZANC women and allies marked International Women’s Day 2026 together—conversation, encouragement, and community in NorCal.',
-    dateLabel: 'Mar 8, 2026',
-    location: 'NorCal',
-    type: 'past',
-    category: 'Women & Community',
-    anchorId: 'international-womens-day-2026',
-    lanes: ['family', 'culture'],
-  },
-  {
     title: 'Union Pacific Big Boy No. 4014 — public viewing (Roseville)',
     description:
-      'Big Boy No. 4014, the world’s largest steam locomotive, was on display in downtown Roseville as part of Union Pacific’s coast-to-coast steam tour. Public viewing ran Friday, April 10, 1–5 p.m. and Saturday, April 11, 9 a.m.–3 p.m., with extra activities at Vernon Street Town Square on Saturday. A memorable NorCal outing for families and rail fans.',
+      'Big Boy No. 4014, the world\u2019s largest steam locomotive, was on display in downtown Roseville as part of Union Pacific\u2019s coast-to-coast steam tour. Public viewing ran Friday, April 10, 1\u20135 p.m. and Saturday, April 11, 9 a.m.\u20133 p.m., with extra activities at Vernon Street Town Square on Saturday. A memorable NorCal outing for families and rail fans.',
     dateLabel: 'Apr 2026',
     location: 'Downtown Roseville, CA',
     type: 'past',
@@ -342,15 +307,6 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
       'https://www.roseville.ca.us/news/what_s_happening_in_roseville/roseville_set_to_welcome_big_boy_no4014',
     externalLinkLabel: 'City of Roseville (recap)',
     lanes: ['family'],
-  },
-  {
-    title: 'Zambia Independence Celebration (October 2024)',
-    description:
-      'A community celebration featuring time together, cultural pride, and connection for Zambians and friends across California.',
-    dateLabel: 'Oct 2024',
-    location: 'NorCal',
-    type: 'past',
-    lanes: ['culture'],
   },
   {
     title: 'Ambassador Event — His Excellency Chibamba Kanyama (July 2024)',
