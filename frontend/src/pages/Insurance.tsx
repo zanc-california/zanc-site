@@ -53,20 +53,23 @@ const Insurance = () => {
             <div className="bg-cloud p-6 rounded-xl border border-mist h-full">
               <h3 className="text-xl font-heading font-semibold text-zambia-green mb-3">Insurance Application Form</h3>
               <p className="text-slate text-sm mb-4">
-                The downloadable PDF is being finalized. For now, contact ZANC directly and we&apos;ll guide you through the current application process via email at{' '}
+                Download the Hartford Group Life Insurance application (PDF), complete it, and return it by email to{' '}
                 <a href="mailto:zancsac@gmail.com" className="text-bay-blue font-medium hover:underline">
                   zancsac@gmail.com
                 </a>{' '}
-                or mail to our PO Box address.
+                or mail to our PO Box address. Contact ZANC if you have questions about eligibility or enrollment.
               </p>
-              <div className="inline-flex w-full items-center gap-3">
-                <Button variant="outline" className="w-full !cursor-not-allowed" disabled>
-                  Insurance PDF Coming Soon
+              <a
+                href="/forms/zanc-insurance-application-form.pdf"
+                download="zanc-insurance-application-form.pdf"
+                className="inline-block w-full"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button variant="outline" className="w-full">
+                  Download application form (PDF)
                 </Button>
-                <span className="shrink-0 rounded-full border border-copper/30 bg-copper-glow px-3 py-1 text-xs font-heading uppercase tracking-[0.08em] text-redwood">
-                  Coming soon
-                </span>
-              </div>
+              </a>
               <div className="mt-6">
                 <h4 className="font-heading font-semibold text-zambia-green mb-2">FAQ</h4>
                 <details className="border border-mist rounded-md p-3 bg-white mb-3">

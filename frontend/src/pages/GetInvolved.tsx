@@ -82,11 +82,20 @@ const GetInvolved = () => {
             <div className="rounded-lg border border-mist bg-white p-6 shadow-sm">
               <h3 className="text-lg font-semibold text-primary-800 mb-2">Insurance Application PDF</h3>
               <p className="text-gray-700 mb-4">
-                The insurance PDF is still being finalized. Contact ZANC directly and we&apos;ll share the current application steps.
+                Download the Hartford Group Life Insurance application, complete it, and return it by email to{' '}
+                <a href={`mailto:${ZANC_CONTACT_EMAIL}`} className="text-bay-blue hover:underline">
+                  {ZANC_CONTACT_EMAIL}
+                </a>
+                .
               </p>
-              <Button variant="outline" disabled className="!cursor-not-allowed">
-                Insurance PDF Coming Soon
-              </Button>
+              <a
+                href="/forms/zanc-insurance-application-form.pdf"
+                download="zanc-insurance-application-form.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button variant="outline">Download Insurance Form</Button>
+              </a>
             </div>
           </div>
         </div>
