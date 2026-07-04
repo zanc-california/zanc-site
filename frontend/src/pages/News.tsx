@@ -222,12 +222,18 @@ function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; hea
           )}
         </div>
       )}
-      <p className="mt-4 pt-4 border-t border-mist text-xs text-slate leading-relaxed">
-        <Link to="/membership" className="font-semibold text-copper hover:text-redwood hover:underline">
-          ZANC members
-        </Link>{' '}
-        receive priority access and discounted pricing where noted—join or renew to stay close to the calendar.
-      </p>
+      {ev.communityOrganized ? (
+        <p className="mt-4 pt-4 border-t border-mist text-[11px] text-slate/75 italic leading-relaxed">
+          Community-organized event — shared for visibility only; not directly sponsored by ZANC.
+        </p>
+      ) : (
+        <p className="mt-4 pt-4 border-t border-mist text-xs text-slate leading-relaxed">
+          <Link to="/membership" className="font-semibold text-copper hover:text-redwood hover:underline">
+            ZANC members
+          </Link>{' '}
+          receive priority access and discounted pricing where noted—join or renew to stay close to the calendar.
+        </p>
+      )}
     </article>
   );
 }

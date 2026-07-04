@@ -31,6 +31,11 @@ export type CommunityEvent = {
   countdownAt?: string;
   /** When true, this upcoming event is eligible for the home page spotlight card (see getLandingSpotlightEvent). */
   homeSpotlight?: boolean;
+  /** Optional gallery stills (e.g. past event recap). */
+  galleryImages?: string[];
+  videoUrl?: string;
+  /** Community-led listing — not a ZANC-sponsored program. */
+  communityOrganized?: boolean;
 };
 
 /** Milestones for countdown widget — only firm dates; first future date wins. */
@@ -76,11 +81,11 @@ export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
   },
   {
     title: 'June',
-    lines: ["Father's Day Golf Outing — TBA", 'Youth Achievement Spotlight — TBA'],
+    lines: ['Golf Outing — TBA'],
   },
   {
     title: 'July',
-    lines: ['ZANC Summer Picnic & Family Day — date TBA'],
+    lines: ['Denim and White Day Party — Jul 4 (community)', 'ZANC Summer Picnic & Family Day — date TBA'],
   },
   {
     title: 'August (signature)',
@@ -144,31 +149,37 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     lanes: ['family', 'culture'],
   },
   {
-    title: 'Father’s Day Golf Outing',
+    title: 'Denim and White Day Party',
     description:
-      'After we celebrate the moms, we’re looking forward to time on the course for dads and father figures—a relaxed golf outing to connect, laugh, and enjoy NorCal together. Course, date and time, format, pricing, and RSVP are still to be announced.\n\n' +
+      'Good vibes, good music, good people — a community day party with Amapiano and Afrobeats (DJ Leone). Denim and white dress code; 21+.\n\n' +
+      'Saturday, July 4, 2026 · 4:00 PM – 9:00 PM · 2614 Marigold Lane. Tickets on Eventbrite; VIP tables available — contact organizers for bottle service.',
+    dateLabel: 'Jul 4, 2026',
+    location: '2614 Marigold Lane',
+    type: 'upcoming',
+    category: 'Community Social',
+    feeNote: '21+ · Eventbrite',
+    anchorId: 'denim-white-day-party-july-2026',
+    imageUrl: '/images/postings/other-events.png',
+    heroImageTall: true,
+    externalUrl: 'https://www.eventbrite.com/e/denim-and-white-day-party',
+    externalLinkLabel: 'Get tickets on Eventbrite',
+    lanes: ['family', 'culture'],
+    communityOrganized: true,
+    countdownAt: '2026-07-04T21:00:00-07:00',
+  },
+  {
+    title: 'Golf Outing (TBA)',
+    description:
+      'A relaxed golf outing to connect, laugh, and enjoy NorCal together. Course, date and time, format, pricing, and RSVP are still to be announced.\n\n' +
       'Stay tuned here and in your ZANC email; we’ll share full details as soon as they’re set.',
     dateLabel: 'TBA',
     location: 'TBA',
     type: 'upcoming',
     category: 'Social / Family',
     feeNote: 'TBA',
-    anchorId: 'fathers-day-golf-tba',
+    anchorId: 'golf-outing-tba',
     imageUrl: '/images/postings/golf-event.png',
     lanes: ['family', 'sports'],
-  },
-  {
-    title: 'Youth Achievement Spotlight',
-    description:
-      'Celebrate graduates, scholarships, and young people’s wins—stories, photos, and encouragement from the whole community.\n\n' +
-      'Families: watch your inbox for how to nominate a spotlight once date and format are set.',
-    dateLabel: 'TBA',
-    location: 'TBA',
-    type: 'upcoming',
-    category: 'Youth & Family',
-    feeNote: 'TBA',
-    anchorId: 'youth-achievement-spotlight-2026',
-    lanes: ['family', 'culture'],
   },
   {
     title: 'ZANC Summer Picnic & Family Day',
