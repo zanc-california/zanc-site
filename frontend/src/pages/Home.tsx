@@ -5,7 +5,9 @@ import FeaturedCommunitySpotlight from '../components/FeaturedCommunitySpotlight
 import LandingEventSpotlightModal from '../components/LandingEventSpotlightModal';
 import SubscribeModal from '../components/SubscribeModal';
 import { getLandingSpotlightEvent } from '../data/communityCalendar2026';
+import { isJulyFourthWeek, JULY_FOURTH_2026_HERO } from '../data/julyFourth2026';
 import { heroImages } from '../heroImages';
+import JulyFourthCommunityNote from '../components/JulyFourthCommunityNote';
 import Reveal from '../components/Reveal';
 
 function eventCardExcerpt(description: string, maxLen = 158) {
@@ -33,7 +35,8 @@ const Home = () => {
   const [subscribeOpen, setSubscribeOpen] = useState(false);
   const [spotlightModalOpen, setSpotlightModalOpen] = useState(false);
   const landingSpotlightEvent = getLandingSpotlightEvent();
-  const hero = heroImages[currentHero];
+  const julyFourthActive = isJulyFourthWeek();
+  const hero = julyFourthActive ? JULY_FOURTH_2026_HERO : heroImages[currentHero];
   const heroOutlineButtonClass =
     '!w-full sm:!w-auto !justify-center !bg-transparent !text-white border-white/80 hover:!bg-white/10 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-zambia-green';
 
@@ -62,36 +65,55 @@ const Home = () => {
   );
 
   useEffect(() => {
+    if (julyFourthActive) return;
     const interval = setInterval(() => {
       setCurrentHero((prev) => (prev + 1) % heroImages.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, []);
+  }, [julyFourthActive]);
 
   return (
     <div className="bg-fog">
-      <section className="relative overflow-hidden">
+      <section className={`relative overflow-hidden ${julyFourthActive ? 'min-h-[min(72vh,640px)]' : ''}`}>
         <div className="absolute inset-0">
-          <img src={hero.src} alt={hero.alt} className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-zambia-green/90 via-zambia-green/60 to-black/20" />
+          <img
+            src={hero.src}
+            alt={hero.alt}
+            className={`w-full h-full object-cover ${julyFourthActive ? 'object-center' : ''}`}
+          />
+          <div
+            className={
+              julyFourthActive
+                ? 'absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent'
+                : 'absolute inset-0 bg-gradient-to-r from-zambia-green/90 via-zambia-green/60 to-black/20'
+            }
+          />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="max-w-2xl">
-            <p className="inline-flex items-center gap-2 text-white/90 text-sm uppercase tracking-[0.08em] font-heading">
-              <span className="h-2 w-2 rounded-full bg-copper ui-hero-pulse-dot shadow-[0_0_12px_rgba(184,115,51,0.65)]" />
-              Zambian soul, NorCal polish
-            </p>
-            <h1 className="mt-4 text-4xl md:text-6xl font-heading font-bold text-white tracking-[-0.02em] drop-shadow">
-              Zambian Heritage.
-              <br />
-              NorCal Community.
-            </h1>
-            <p className="mt-5 text-white/90 text-base md:text-lg leading-relaxed">
-              Connecting Zambians across Northern California since 2017 — rooted in culture, thriving in community.
-            </p>
+        <div
+          className={`relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${
+            julyFourthActive ? 'flex min-h-[min(72vh,640px)] flex-col justify-end py-10 md:py-14' : 'py-16 md:py-24'
+          }`}
+        >
+          <div className={julyFourthActive ? 'w-full' : 'max-w-2xl'}>
+            {!julyFourthActive && (
+              <>
+                <p className="inline-flex items-center gap-2 text-white/90 text-sm uppercase tracking-[0.08em] font-heading">
+                  <span className="h-2 w-2 rounded-full bg-copper ui-hero-pulse-dot shadow-[0_0_12px_rgba(184,115,51,0.65)]" />
+                  Zambian soul, NorCal polish
+                </p>
+                <h1 className="mt-4 text-4xl md:text-6xl font-heading font-bold text-white tracking-[-0.02em] drop-shadow">
+                  Zambian Heritage.
+                  <br />
+                  NorCal Community.
+                </h1>
+                <p className="mt-5 text-white/90 text-base md:text-lg leading-relaxed">
+                  Connecting Zambians across Northern California since 2017 — rooted in culture, thriving in community.
+                </p>
+              </>
+            )}
 
-            <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-row sm:flex-wrap">
+            <div className={`grid grid-cols-1 gap-3 sm:flex sm:flex-row sm:flex-wrap ${julyFourthActive ? '' : 'mt-8'}`}>
               <Link to="/membership" className="w-full sm:w-auto">
                 <Button variant="accent" size="lg" className="w-full sm:w-auto">
                   Join ZANC
@@ -138,6 +160,7 @@ const Home = () => {
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {julyFourthActive && <JulyFourthCommunityNote />}
             {highlights.map((h, i) => (
               <Reveal
                 key={h.title}
