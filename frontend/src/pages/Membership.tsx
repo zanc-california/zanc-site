@@ -8,10 +8,19 @@ import {
   paidMemberBenefitSections,
 } from '../data/membershipPaidBenefits';
 import { getMembershipNorCalMonthlyLink, getMembershipNorCalYearlyLink, getMembershipOutOfStateYearlyLink } from '../lib/stripe';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 const Membership = () => {
   const [paidDetailsOpen, setPaidDetailsOpen] = useState(false);
   const paidDetailsId = useId();
+
+  useDocumentMeta({
+    title: 'Join ZANC — Membership',
+    description:
+      'Become a ZANC member: voting rights, community and cultural events, and updates for Zambians across Northern California ' +
+      'and beyond. NorCal and nationwide membership options.',
+    path: '/membership',
+  });
 
   const norcalMonthlyLink = getMembershipNorCalMonthlyLink();
   const norcalYearlyLink = getMembershipNorCalYearlyLink();
@@ -44,10 +53,7 @@ const Membership = () => {
 
               <div className="mt-5">
                 <p className="text-4xl font-heading font-bold text-copper">$10<span className="text-base text-slate font-normal">/mo</span></p>
-                <p className="mt-1 text-sm text-slate">$80/year</p>
-                <p className="mt-1.5 text-xs font-medium text-copper leading-snug">
-                  April promo only — the $80/year rate applies when you join for the year during the month of April.
-                </p>
+                <p className="mt-1 text-sm text-slate">Or pay yearly — email us for the current annual rate.</p>
               </div>
 
               <ul className="mt-5 space-y-2 text-slate text-sm">
@@ -68,7 +74,7 @@ const Membership = () => {
                   </a>
                 )}
                 {!norcalMonthlyLink && !norcalYearlyLink && (
-                  <p className="text-amber-700 text-sm">Online card checkout is temporarily disabled while live payment links are being updated.</p>
+                  <p className="text-amber-700 text-sm">Card checkout is not available right now — use Zelle or Venmo below, or email us and we will help you join.</p>
                 )}
               </div>
             </Reveal>
@@ -97,7 +103,7 @@ const Membership = () => {
                   </a>
                 )}
                 {!outStateYearlyLink && (
-                  <p className="text-amber-700 text-sm">Online card checkout is temporarily disabled while live payment links are being updated.</p>
+                  <p className="text-amber-700 text-sm">Card checkout is not available right now — use Zelle or Venmo below, or email us and we will help you join.</p>
                 )}
               </div>
             </Reveal>

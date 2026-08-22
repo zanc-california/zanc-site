@@ -1,125 +1,151 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import Button from '../components/Button';
+import Reveal from '../components/Reveal';
+import { ZANC_CONTACT_EMAIL } from '../components/ContactForm';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
+/**
+ * Giving page.
+ *
+ * Deliberately limited to what ZANC can actually support today:
+ *  - real payment rails (Zelle / Venmo / email), the same ones used for membership and insurance
+ *  - programs that genuinely exist on this site (events, community programs, Independence)
+ *
+ * It makes no claim about tax treatment of contributions. Do not add one without authoritative
+ * documentation from the association.
+ */
 const DonatePage = () => {
+  useDocumentMeta({
+    title: 'Support ZANC',
+    description:
+      'Support ZANC community programming — events, cultural celebrations, and community initiatives across Northern California. ' +
+      'Contribute by Zelle or Venmo, sponsor an event, or give your time.',
+    path: '/donate',
+  });
+
+  const sponsorMailto = `mailto:${ZANC_CONTACT_EMAIL}?subject=${encodeURIComponent(
+    'Sponsorship / partnership enquiry'
+  )}&body=${encodeURIComponent(
+    'I would like to talk about sponsoring or partnering with ZANC.\n\nName / organization:\nWhat I have in mind:\nBest way to reach me:\n'
+  )}`;
+
+  const inKindMailto = `mailto:${ZANC_CONTACT_EMAIL}?subject=${encodeURIComponent('In-kind contribution')}`;
+
   return (
     <div>
-      <PageHeader title="Support Our Mission" />
-      
+      <PageHeader title="Support ZANC" />
+
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-primary-800 mb-4 font-heading">Make a Difference</h2>
-            <p className="text-gray-700 leading-relaxed">
-              Your donation supports our cultural programs, community initiatives, and educational scholarships. 
-              Help us preserve Zambian heritage and strengthen our community in California.
+          <Reveal className="max-w-3xl mb-10">
+            <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Give to the community</h2>
+            <p className="mt-3 text-slate leading-relaxed">
+              ZANC is run by volunteers. Contributions go towards community events, cultural celebrations such as the annual
+              Independence gathering, and the everyday work of keeping Zambians in Northern California connected to one another.
             </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-gray-50 rounded-lg p-6 text-center border border-gray-200 hover:shadow-md transition-shadow">
-              <h3 className="text-xl font-semibold text-primary-800 mb-2 font-heading">One-Time Donation</h3>
-              <p className="text-gray-600 mb-6">
-                Support our mission with a one-time contribution of any amount.
+          </Reveal>
+
+          {/* Real payment rails — no placeholder checkout. */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <Reveal className="lg:col-span-2 rounded-xl border border-mist bg-cloud p-6 md:p-8 shadow-sm">
+              <h3 className="text-lg font-heading font-semibold text-zambia-green">Contribute by Zelle or Venmo</h3>
+              <p className="mt-3 text-sm text-slate leading-relaxed">
+                These are the same accounts used for membership and insurance payments. Please include your name and a short note
+                (for example &ldquo;donation&rdquo; or the event you are supporting) so the treasurer can record it correctly.
               </p>
-              <Button 
-                variant="primary" 
-                onClick={() => alert("This would redirect to a payment processing page in a real implementation.")}
-              >
-                Donate Now
-              </Button>
-            </div>
-            
-            <div className="bg-primary-50 rounded-lg p-6 text-center border border-primary-100 hover:shadow-md transition-shadow">
-              <div className="inline-block bg-primary-800 text-white text-xs font-semibold px-3 py-1 rounded-full mb-3">
-                Most Popular
-              </div>
-              <h3 className="text-xl font-semibold text-primary-800 mb-2 font-heading">Monthly Giving</h3>
-              <p className="text-gray-600 mb-6">
-                Join our community of monthly donors providing ongoing support.
-              </p>
-              <Button 
-                variant="primary" 
-                onClick={() => alert("This would redirect to a payment processing page in a real implementation.")}
-              >
-                Give Monthly
-              </Button>
-            </div>
-            
-            <div className="bg-gray-50 rounded-lg p-6 text-center border border-gray-200 hover:shadow-md transition-shadow">
-              <h3 className="text-xl font-semibold text-primary-800 mb-2 font-heading">Sponsor a Program</h3>
-              <p className="text-gray-600 mb-6">
-                Direct your donation to a specific initiative or program.
-              </p>
-              <Button 
-                variant="primary" 
-                onClick={() => alert("This would redirect to a payment processing page in a real implementation.")}
-              >
-                Sponsor Now
-              </Button>
-            </div>
-          </div>
-          
-          <div className="bg-gray-50 rounded-lg p-8 mb-12">
-            <h3 className="text-xl font-semibold text-primary-800 mb-4 font-heading">Where Your Donation Goes</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div>
-                <h4 className="text-lg font-medium text-primary-700 mb-2">Cultural Programs</h4>
-                <p className="text-gray-600">
-                  Support events, workshops, and activities that preserve and promote Zambian culture in California.
-                </p>
-              </div>
-              
-              <div>
-                <h4 className="text-lg font-medium text-primary-700 mb-2">Scholarship Fund</h4>
-                <p className="text-gray-600">
-                  Help Zambian students in California pursue higher education through our scholarship program.
-                </p>
-              </div>
-              
-              <div>
-                <h4 className="text-lg font-medium text-primary-700 mb-2">Community Outreach</h4>
-                <p className="text-gray-600">
-                  Fund initiatives that support vulnerable communities in Zambia, including educational and healthcare projects.
-                </p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="max-w-3xl mx-auto">
-            <h3 className="text-xl font-semibold text-primary-800 mb-4 font-heading">Other Ways to Support</h3>
-            
-            <div className="mb-6">
-              <h4 className="text-lg font-medium text-primary-700 mb-2">In-Kind Donations</h4>
-              <p className="text-gray-600 mb-2">
-                We accept donations of goods and services that support our programs. 
-                Items we currently need include:
-              </p>
-              <ul className="list-disc pl-5 text-gray-600">
-                <li>Educational materials for our outreach programs</li>
-                <li>Professional services (legal, accounting, marketing)</li>
-                <li>Technology equipment for our offices and events</li>
+              <ul className="mt-5 space-y-3 text-sm text-slate">
+                <li className="rounded-lg border border-mist bg-white px-4 py-3">
+                  <span className="font-semibold text-zambia-green">Zelle:</span>{' '}
+                  <a href={`mailto:${ZANC_CONTACT_EMAIL}`} className="text-bay-blue hover:underline">
+                    {ZANC_CONTACT_EMAIL}
+                  </a>
+                </li>
+                <li className="rounded-lg border border-mist bg-white px-4 py-3">
+                  <span className="font-semibold text-zambia-green">Venmo:</span>{' '}
+                  <span className="font-medium">@Zanc-Sacramento</span>
+                </li>
               </ul>
-            </div>
-            
-            <div className="mb-6">
-              <h4 className="text-lg font-medium text-primary-700 mb-2">Volunteer Your Time</h4>
-              <p className="text-gray-600 mb-2">
-                Your skills and time are valuable resources. Consider volunteering with ZANC to:
+              <p className="mt-5 text-sm text-slate leading-relaxed">
+                Prefer another method, or want to give towards something specific? Email{' '}
+                <a href={`mailto:${ZANC_CONTACT_EMAIL}`} className="text-bay-blue font-medium hover:underline">
+                  {ZANC_CONTACT_EMAIL}
+                </a>{' '}
+                and the team will help.
               </p>
-              <ul className="list-disc pl-5 text-gray-600">
-                <li>Help organize events and programs</li>
-                <li>Share your professional expertise</li>
-                <li>Support administrative functions</li>
-                <li>Mentor Zambian youth in California</li>
-              </ul>
-              <div className="mt-4">
-                <a href="/get-involved" className="text-primary-600 hover:text-primary-800 font-medium">
-                  Learn more about volunteering →
+            </Reveal>
+
+            <Reveal delayMs={90} className="rounded-xl border border-mist bg-white p-6 md:p-8 shadow-sm">
+              <h3 className="text-lg font-heading font-semibold text-zambia-green">Sponsor or partner</h3>
+              <p className="mt-3 text-sm text-slate leading-relaxed">
+                Businesses and organizations can sponsor programming or support a specific event. Recognition and sponsorship
+                details are agreed case by case with the committee.
+              </p>
+              <div className="mt-5">
+                <a href={sponsorMailto} className="inline-block">
+                  <Button variant="accent">Start a sponsorship conversation</Button>
                 </a>
               </div>
+            </Reveal>
+          </div>
+
+          {/* What contributions support — only programs that actually exist on this site. */}
+          <Reveal className="mt-12 rounded-xl border border-mist bg-fog p-6 md:p-8">
+            <h3 className="text-xl font-heading font-semibold text-zambia-green">Where contributions go</h3>
+            <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <h4 className="font-heading font-medium text-zambia-green mb-2">Cultural celebrations</h4>
+                <p className="text-sm text-slate leading-relaxed">
+                  The annual Zambian Independence celebration and other gatherings that keep our heritage present in Northern
+                  California.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-heading font-medium text-zambia-green mb-2">Community events</h4>
+                <p className="text-sm text-slate leading-relaxed">
+                  Hangouts, family days, the Business &amp; Investment series, and community conversations across the year.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-heading font-medium text-zambia-green mb-2">Community support</h4>
+                <p className="text-sm text-slate leading-relaxed">
+                  Helping members show up for one another — welcoming new arrivals, marking milestones, and keeping the association
+                  running.
+                </p>
+              </div>
             </div>
+          </Reveal>
+
+          {/* Non-financial support */}
+          <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Reveal className="rounded-xl border border-mist bg-white p-6 shadow-sm">
+              <h3 className="text-lg font-heading font-semibold text-zambia-green">In-kind contributions</h3>
+              <p className="mt-3 text-sm text-slate leading-relaxed">
+                Goods, venue space, or professional services can be just as valuable as a financial contribution. Tell us what you
+                have in mind and we will let you know whether it fits something we are planning.
+              </p>
+              <div className="mt-5">
+                <a href={inKindMailto} className="inline-block">
+                  <Button variant="outline">Email about in-kind giving</Button>
+                </a>
+              </div>
+            </Reveal>
+
+            <Reveal delayMs={90} className="rounded-xl border border-mist bg-white p-6 shadow-sm">
+              <h3 className="text-lg font-heading font-semibold text-zambia-green">Give your time</h3>
+              <p className="mt-3 text-sm text-slate leading-relaxed">
+                Volunteers make every ZANC event possible — setup, welcome tables, cooking, décor, and program support. There are
+                open roles for the Independence celebration right now.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link to="/independence#take-part" className="inline-block">
+                  <Button variant="outline">Independence volunteering</Button>
+                </Link>
+                <Link to="/get-involved" className="inline-block">
+                  <Button variant="outline">All ways to get involved</Button>
+                </Link>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>

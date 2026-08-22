@@ -1,9 +1,19 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import BoardMember from '../components/BoardMember';
 import BoardInviteePlaceholder from '../components/BoardInviteePlaceholder';
+import { FOUNDED_YEAR, MEMBER_STATES_SENTENCE } from '../data/siteStats';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 const About = () => {
+  useDocumentMeta({
+    title: 'About ZANC',
+    description:
+      'The Zambian Association in Northern California preserves Zambian heritage, fosters unity, and supports community ' +
+      'initiatives. Meet the elected 2026–2028 committee and appointed board invitees.',
+    path: '/about',
+  });
+
   // Elected committee (2026–2028) — elections held February 2026
   const electedCommitteeMembers = [
     {
@@ -61,7 +71,7 @@ const About = () => {
     {
       id: 2,
       name: 'Pastor Stephen Mubanga',
-      position: 'Rev. Stephen Mubanga — LA Community Coordinator',
+      position: 'Los Angeles (SoCal) area representative',
       imageUrl: '/images/members/pastor-stephen-mubanga.png',
       shortBio: 'Helping SoCal members stay connected with NorCal and the wider ZANC family.',
     },
@@ -196,23 +206,17 @@ const About = () => {
             <div>
               <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Our History</h2>
               <p className="text-slate mt-4 leading-relaxed">
-                Founded in 2017, ZANC began as a small group of Zambian expatriates who recognized the need for a formal organization
+                Founded in {FOUNDED_YEAR}, ZANC began as a small group of Zambian expatriates who recognized the need for a formal organization
                 to bring the community together. What started as informal gatherings evolved into a structured association dedicated to
                 cultural preservation and community support.
               </p>
               <p className="text-slate mt-4 leading-relaxed">
-                Today, our community spans families across California, Arizona, Nevada, Illinois, Indiana, New York, and Connecticut — with
-                active membership across multiple states.
+                Today, our community spans families across {MEMBER_STATES_SENTENCE} — with active membership across multiple states.
               </p>
               <p className="text-slate mt-4 leading-relaxed">
                 ZANC is registered as a fraternal society with the California Franchise Tax Board, maintains an active PO Box for official
                 correspondence, and banks with Wells Fargo as our trusted partner.
               </p>
-              <div className="mt-6">
-                <a href="/membership" className="inline-block">
-                  <span className="sr-only">Join ZANC</span>
-                </a>
-              </div>
             </div>
 
             <div className="bg-cloud rounded-xl border border-mist p-6">
@@ -221,7 +225,7 @@ const About = () => {
                 <li className="flex gap-4">
                   <div className="mt-1 h-3 w-3 rounded-full bg-copper" />
                   <div>
-                    <p className="font-medium text-zambia-green">2017</p>
+                    <p className="font-medium text-zambia-green">{FOUNDED_YEAR}</p>
                     <p className="text-sm text-slate">ZANC founded to connect and support the Zambian community in Northern California.</p>
                   </div>
                 </li>
@@ -242,20 +246,19 @@ const About = () => {
               </ol>
 
               <div className="mt-6">
-                <a href="/membership" className="inline-block">
-                  <span className="sr-only">Join ZANC</span>
-                </a>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <a href="/membership" className="inline-block">
-                    <button type="button" className="inline-flex items-center justify-center px-6 py-3 rounded-md bg-copper text-white font-medium hover:bg-copper-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-copper">
-                      Join ZANC
-                    </button>
-                  </a>
-                  <a href="/news" className="inline-block">
-                    <button type="button" className="inline-flex items-center justify-center px-6 py-3 rounded-md border-2 border-mist bg-white text-slate font-medium hover:bg-cloud focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bay-blue">
-                      Explore Events
-                    </button>
-                  </a>
+                  <Link
+                    to="/membership"
+                    className="inline-flex items-center justify-center px-6 py-3 rounded-md bg-copper text-white font-medium hover:bg-copper-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-copper"
+                  >
+                    Join ZANC
+                  </Link>
+                  <Link
+                    to="/news"
+                    className="inline-flex items-center justify-center px-6 py-3 rounded-md border-2 border-mist bg-white text-slate font-medium hover:bg-cloud focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bay-blue"
+                  >
+                    Explore Events
+                  </Link>
                 </div>
               </div>
             </div>

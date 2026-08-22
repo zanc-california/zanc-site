@@ -1,7 +1,13 @@
-import React from 'react';
 import PageHeader from '../components/PageHeader';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 const PrivacyPolicy = () => {
+  useDocumentMeta({
+    title: 'Privacy Policy',
+    description: 'How the Zambian Association in Northern California handles the personal information you share with us.',
+    path: '/privacy-policy',
+  });
+
   return (
     <div>
       <PageHeader title="Privacy Policy" />

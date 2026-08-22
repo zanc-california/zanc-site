@@ -14,6 +14,7 @@ const Navbar = () => {
     { to: '/about', label: 'About' },
     { to: '/membership', label: 'Join ZANC' },
     { to: '/insurance', label: 'Insurance' },
+    { to: '/independence', label: 'Independence' },
     { to: '/news', label: 'Events & News' },
     { to: '/gallery', label: 'Gallery' },
     { to: '/community', label: 'Community' },

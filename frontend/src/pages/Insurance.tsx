@@ -2,15 +2,24 @@ import { useState } from 'react';
 import PageHeader from '../components/PageHeader';
 import Button from '../components/Button';
 import { getInsuranceOptions } from '../lib/stripe';
+import { ENROLLMENT_WINDOW_LABEL, getEnrollmentStatus } from '../data/insuranceProgram';
+import { INSURED_MEMBERS, MEMBER_STATES_SENTENCE } from '../data/siteStats';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 const Insurance = () => {
   const options = getInsuranceOptions();
   const [selectedUrl, setSelectedUrl] = useState<string>(options[0]?.url ?? '');
 
-  const now = new Date();
-  const enrollmentOpens = new Date(now.getFullYear(), 5, 1); // June 1
-  const enrollmentCloses = new Date(now.getFullYear(), 6, 31, 23, 59, 59); // July 31
-  const isEnrollmentOpen = now >= enrollmentOpens && now <= enrollmentCloses;
+  const enrollment = getEnrollmentStatus();
+  const isEnrollmentOpen = enrollment.isOpen;
+
+  useDocumentMeta({
+    title: 'Group Life Insurance',
+    description:
+      `ZANC's Hartford group life insurance program for members and dependents. Open enrollment runs ${ENROLLMENT_WINDOW_LABEL} ` +
+      'each year — eligibility, rates, premium dates, and the application form.',
+    path: '/insurance',
+  });
 
   return (
     <div>
@@ -22,15 +31,23 @@ const Insurance = () => {
             {/* Top-left: overview */}
             <div className="bg-white rounded-xl border border-mist p-6 shadow-sm h-full">
               <div className={`rounded-md border px-4 py-3 text-sm ${isEnrollmentOpen ? 'border-copper/40 bg-copper-glow text-redwood' : 'border-mist bg-cloud text-slate'}`}>
-                <span className="font-semibold">Open Enrollment:</span> June 1 – July 31 each year.{' '}
-                {isEnrollmentOpen ? <span className="font-semibold">Enrollment is open.</span> : <span>Enrollment is currently closed.</span>}{' '}
-                Contact ZANC to enroll.
+                <span className="font-semibold">Open Enrollment:</span> {ENROLLMENT_WINDOW_LABEL} each year.{' '}
+                {isEnrollmentOpen ? (
+                  <>
+                    <span className="font-semibold">Enrollment is open.</span> {enrollment.nextWindowLabel} Contact ZANC to enroll.
+                  </>
+                ) : (
+                  <>
+                    <span className="font-semibold">The {enrollment.year} window has closed.</span> {enrollment.nextWindowLabel}{' '}
+                    Existing coverage is unaffected — contact ZANC with any questions in the meantime.
+                  </>
+                )}
               </div>
 
               <p className="text-gray-700 leading-relaxed mt-5">
                 ZANC partners with <span className="font-semibold">Hartford Insurance</span> to offer a cultural Group Life Insurance
-                program for our community members. The program currently supports 68 insured members (51 adults and 17 children)
-                across California, Arizona, Nevada, Illinois, Indiana, New York, and Connecticut.
+                program for our community members. The program currently supports {INSURED_MEMBERS.total} insured members (
+                {INSURED_MEMBERS.adults} adults and {INSURED_MEMBERS.children} children) across {MEMBER_STATES_SENTENCE}.
               </p>
 
               <ul className="list-disc pl-5 space-y-2 text-gray-700 mt-5">
@@ -82,7 +99,7 @@ const Insurance = () => {
                 </details>
                 <details className="border border-mist rounded-md p-3 bg-white mb-3">
                   <summary className="cursor-pointer font-medium text-slate">When do I enroll?</summary>
-                  <p className="mt-2 text-sm text-slate">Open enrollment runs June 1 – July 31 each year.</p>
+                  <p className="mt-2 text-sm text-slate">Open enrollment runs June 1 – July 31 each year. {enrollment.statusLabel}. {enrollment.nextWindowLabel}</p>
                 </details>
                 <details className="border border-mist rounded-md p-3 bg-white">
                   <summary className="cursor-pointer font-medium text-slate">How do I pay premiums?</summary>

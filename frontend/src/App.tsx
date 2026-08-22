@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
@@ -13,6 +12,7 @@ import ContactPage from './pages/ContactPage';
 import DonatePage from './pages/DonatePage';
 import Community from './pages/Community';
 import GetInvolved from './pages/GetInvolved';
+import Independence from './pages/Independence';
 import Initiatives from './pages/Initiatives';
 import AdminLayout from './admin/AdminLayout';
 import AdminLogin from './admin/AdminLogin';
@@ -41,6 +41,7 @@ function App() {
         <Route path="/membership" element={<Layout><Membership /></Layout>} />
         <Route path="/insurance" element={<Layout><Insurance /></Layout>} />
         <Route path="/community" element={<Layout><Community /></Layout>} />
+        <Route path="/independence" element={<Layout><Independence /></Layout>} />
         <Route path="/get-involved" element={<Layout><GetInvolved /></Layout>} />
         <Route path="/initiatives" element={<Layout><Initiatives /></Layout>} />
         <Route path="/forms" element={<Navigate to="/membership" replace />} />

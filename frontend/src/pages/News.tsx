@@ -9,10 +9,14 @@ import {
   CALENDAR_MODAL_SECTIONS,
   COUNTDOWN_MILESTONES,
   ZANC_COMMUNITY_EVENTS,
+  getPastEvents,
+  hasConcluded,
   shouldShowInUpcomingList,
   type CalendarLane,
   type CommunityEvent,
 } from '../data/communityCalendar2026';
+import { ENROLLMENT_WINDOW_LABEL, getEnrollmentStatus } from '../data/insuranceProgram';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 type StaticNewsArticle = {
   id: string;
@@ -55,13 +59,15 @@ const STATIC_NEWS_ARTICLES: StaticNewsArticle[] = [
   },
   {
     id: 'local-open-enrollment-insurance-2026',
-    title: 'Open enrollment — Group Life Insurance (June 1 – July 31)',
-    excerpt:
-      'Mark your calendar: ZANC’s Hartford Group Life Insurance program opens enrollment each summer. Review dates, premiums, and how to apply.',
+    title: `Group Life Insurance — open enrollment runs ${ENROLLMENT_WINDOW_LABEL}`,
+    excerpt: `ZANC’s Hartford Group Life Insurance program opens enrollment each summer. ${
+      getEnrollmentStatus().statusLabel
+    }. ${getEnrollmentStatus().nextWindowLabel}`,
     date: 'Yearly window',
     imageUrl: '/images/hartford-logo.jpg',
     bodyParagraphs: [
-      'ZANC partners with Hartford Insurance to offer a cultural Group Life Insurance program for members and eligible dependents. Each year, open enrollment runs from June 1 through July 31. If you are considering coverage—or renewing or adding dependents—this is the window to complete your paperwork and payment steps with the insurance team.',
+      `ZANC partners with Hartford Insurance to offer a cultural Group Life Insurance program for members and eligible dependents. Each year, open enrollment runs from June 1 through July 31. ${getEnrollmentStatus().statusLabel} — ${getEnrollmentStatus().nextWindowLabel}`,
+      'If you are considering coverage—or renewing or adding dependents—the open enrollment window is when you complete your paperwork and payment steps with the insurance team. Existing coverage is not affected outside that window.',
       'Premiums are collected on a semi-annual schedule; exact due dates are announced to insured members. Use the Insurance page for current rates, payment options (including Zelle and Venmo), and the downloadable application form.',
       'Not sure where to start? Open the site calendar from this page for key deadlines, or email zancsac@gmail.com with questions. We encourage every eligible household to review the program—coverage is one of the ways we protect families while staying connected as a community.',
     ],
@@ -135,6 +141,11 @@ function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; hea
         </span>
       </div>
       <div className="mt-2 flex flex-wrap items-center gap-2">
+        {hasConcluded(ev) && (
+          <span className="text-[10px] font-heading uppercase tracking-[0.08em] text-slate bg-mist/60 px-2 py-1 rounded-full border border-mist">
+            Held
+          </span>
+        )}
         {ev.lanes?.map((lane) => (
           <span
             key={lane}
@@ -198,6 +209,16 @@ function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; hea
           </video>
         </div>
       )}
+      {ev.detailPath && (
+        <div className="mt-4">
+          <Link
+            to={ev.detailPath}
+            className="inline-flex items-center gap-1 text-sm font-semibold text-copper hover:text-redwood hover:underline"
+          >
+            Full event details, hotel &amp; how to take part →
+          </Link>
+        </div>
+      )}
       {(ev.externalUrl || ev.secondaryExternalUrl) && (
         <div className="mt-4 flex flex-col gap-2">
           {ev.externalUrl && (
@@ -245,7 +266,9 @@ function FeaturedSignatureCard({ ev }: { ev: CommunityEvent }) {
       className="rounded-2xl border-2 border-copper/50 bg-gradient-to-br from-copper-glow via-white to-cloud shadow-md scroll-mt-24 overflow-hidden mb-8 md:mb-10"
     >
       <div className="px-5 py-4 md:px-8 md:py-5 border-b border-copper/20 bg-zambia-green/5">
-        <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">2026 signature anchor</p>
+        <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">
+          {ev.category === 'Flagship Event' ? 'ZANC flagship event' : '2026 signature anchor'}
+        </p>
         <h3 className="text-xl md:text-2xl font-heading font-bold text-zambia-green mt-1">{ev.title}</h3>
         <div className="mt-2 flex flex-wrap gap-2">
           <span className="text-xs font-heading uppercase tracking-[0.08em] text-copper bg-copper-glow px-2 py-1 rounded border border-mist">
@@ -260,16 +283,29 @@ function FeaturedSignatureCard({ ev }: { ev: CommunityEvent }) {
         <p className="text-slate text-sm leading-relaxed whitespace-pre-line">{ev.description}</p>
         <div className="text-sm text-slate space-y-3">
           <p>
-            <span className="font-semibold text-zambia-green">Where</span> · {ev.location}
+            <span className="font-semibold text-zambia-green">Where</span> · {ev.venueName ?? ev.location}
           </p>
-          <p className="text-xs leading-relaxed">
-            This is the prestige moment that helps neighbors plan their year around ZANC—not just hear about us once, but mark the date.
-          </p>
-          <p className="pt-2">
-            <Link to="/membership" className="font-semibold text-copper hover:underline">
-              Members — priority access when details are announced
-            </Link>
-          </p>
+          {ev.venueAddress && <p className="text-xs text-slate/90">{ev.venueAddress}</p>}
+          {ev.accommodation && (
+            <p className="text-xs leading-relaxed">
+              <span className="font-semibold text-zambia-green">Staying over</span> · Special ZANC group rate available through the
+              host hotel
+              {ev.accommodation.bookingDeadline ? `, book by ${ev.accommodation.bookingDeadline}` : ''}.
+            </p>
+          )}
+          {ev.detailPath ? (
+            <p className="pt-2">
+              <Link to={ev.detailPath} className="font-semibold text-copper hover:underline">
+                Event details, hotel booking &amp; how to take part →
+              </Link>
+            </p>
+          ) : (
+            <p className="pt-2">
+              <Link to="/membership" className="font-semibold text-copper hover:underline">
+                Members — priority access when details are announced
+              </Link>
+            </p>
+          )}
         </div>
       </div>
     </article>
@@ -277,6 +313,14 @@ function FeaturedSignatureCard({ ev }: { ev: CommunityEvent }) {
 }
 
 const News = () => {
+  useDocumentMeta({
+    title: 'Events & News',
+    description:
+      'The ZANC community calendar — upcoming events including the Zambian Independence Celebration on October 24, 2026, ' +
+      'past event recaps, community programmes, and association news.',
+    path: '/news',
+  });
+
   const [newsItems, setNewsItems] = useState<DbNewsRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -291,7 +335,8 @@ const News = () => {
 
   const events = ZANC_COMMUNITY_EVENTS;
   const upcomingEvents = events.filter((e) => shouldShowInUpcomingList(e));
-  const pastEvents = useMemo(() => events.filter((e) => e.type === 'past'), [events]);
+  // Includes events that have aged out of "upcoming" on their own, so nothing vanishes from the site.
+  const pastEvents = useMemo(() => getPastEvents(), []);
   const featuredUpcoming = useMemo(() => upcomingEvents.find((e) => e.featured), [upcomingEvents]);
   const filteredUpcomingGrid = useMemo(() => {
     const rest = upcomingEvents.filter((e) => !e.featured);

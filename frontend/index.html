@@ -2,9 +2,61 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--
+      Base metadata. Individual routes override title / description / canonical / Open Graph at
+      runtime via the useDocumentMeta hook (src/hooks/useDocumentMeta.ts). These defaults are what a
+      crawler or link unfurler sees before JavaScript runs, so keep them accurate and generic.
+    -->
     <title>Zambian Association in Northern California (ZANC)</title>
+    <meta
+      name="description"
+      content="ZANC connects Zambians and friends of Zambia across Northern California — community events, membership, group life insurance, and the annual Zambian Independence celebration."
+    />
+    <link rel="canonical" href="https://www.zancsac.com/" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/images/logo.jpg" />
+    <meta name="theme-color" content="#1B5E20" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Zambian Association in Northern California (ZANC)" />
+    <meta property="og:title" content="Zambian Association in Northern California (ZANC)" />
+    <meta
+      property="og:description"
+      content="ZANC connects Zambians and friends of Zambia across Northern California — community events, membership, group life insurance, and the annual Zambian Independence celebration."
+    />
+    <meta property="og:url" content="https://www.zancsac.com/" />
+    <meta property="og:image" content="https://www.zancsac.com/images/logo.jpg" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Zambian Association in Northern California (ZANC)" />
+    <meta
+      name="twitter:description"
+      content="ZANC connects Zambians and friends of Zambia across Northern California — community events, membership, group life insurance, and the annual Zambian Independence celebration."
+    />
+    <meta name="twitter:image" content="https://www.zancsac.com/images/logo.jpg" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Zambian Association in Northern California",
+        "alternateName": "ZANC",
+        "url": "https://www.zancsac.com",
+        "logo": "https://www.zancsac.com/images/logo.jpg",
+        "email": "zancsac@gmail.com",
+        "foundingDate": "2017",
+        "areaServed": "Northern California",
+        "sameAs": [
+          "https://www.facebook.com/profile.php?id=100064323623986",
+          "https://www.instagram.com/zanc916/"
+        ]
+      }
+    </script>
+
     <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
   </head>

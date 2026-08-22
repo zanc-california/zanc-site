@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from 'react';
 import PageHeader from '../components/PageHeader';
 import { supabase } from '../lib/supabase';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 type GalleryItem = {
   id: string;
@@ -93,6 +94,13 @@ const LOCAL_GALLERY_ITEMS: GalleryItem[] = [
 ];
 
 const Gallery = () => {
+  useDocumentMeta({
+    title: 'Gallery',
+    description:
+      'Photos from ZANC community events across Northern California — Independence celebrations, the Zambia–US roadshow, socials, and gatherings.',
+    path: '/gallery',
+  });
+
   const [remoteItems, setRemoteItems] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>('All');

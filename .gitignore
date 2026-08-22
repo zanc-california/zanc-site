@@ -38,3 +38,6 @@ backend/prisma/*.db-journal
 
 # Turbo
 .turbo/
+
+# Build artifacts from tsc --noEmit -p
+frontend/*.tsbuildinfo

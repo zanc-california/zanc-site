@@ -1,8 +1,15 @@
-import React from 'react';
 import PageHeader from '../components/PageHeader';
 import ContactForm, { ZANC_CONTACT_EMAIL } from '../components/ContactForm';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 const ContactPage = () => {
+  useDocumentMeta({
+    title: 'Contact ZANC',
+    description:
+      'Get in touch with the Zambian Association in Northern California about membership, events, insurance, volunteering, or partnerships.',
+    path: '/contact',
+  });
+
   return (
     <div>
       <PageHeader title="Contact Us" />

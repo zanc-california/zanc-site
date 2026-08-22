@@ -1,14 +1,16 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import FeaturedCommunitySpotlight from '../components/FeaturedCommunitySpotlight';
 import LandingEventSpotlightModal from '../components/LandingEventSpotlightModal';
 import SubscribeModal from '../components/SubscribeModal';
-import { getLandingSpotlightEvent } from '../data/communityCalendar2026';
+import { getIndependenceEvent, getNextUpcomingEvent } from '../data/communityCalendar2026';
 import { isJulyFourthWeek, JULY_FOURTH_2026_HERO } from '../data/julyFourth2026';
+import { HOME_STATS } from '../data/siteStats';
 import { heroImages } from '../heroImages';
 import JulyFourthCommunityNote from '../components/JulyFourthCommunityNote';
 import Reveal from '../components/Reveal';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 function eventCardExcerpt(description: string, maxLen = 158) {
   const first = description.split(/\n\n/)[0]?.trim() ?? description.trim();
@@ -34,35 +36,16 @@ const Home = () => {
   const [currentHero, setCurrentHero] = useState(0);
   const [subscribeOpen, setSubscribeOpen] = useState(false);
   const [spotlightModalOpen, setSpotlightModalOpen] = useState(false);
-  const landingSpotlightEvent = getLandingSpotlightEvent();
+  const independence = getIndependenceEvent();
+
+  const landingSpotlightEvent = getNextUpcomingEvent();
+
   const julyFourthActive = isJulyFourthWeek();
   const hero = julyFourthActive ? JULY_FOURTH_2026_HERO : heroImages[currentHero];
   const heroOutlineButtonClass =
     '!w-full sm:!w-auto !justify-center !bg-transparent !text-white border-white/80 hover:!bg-white/10 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-zambia-green';
 
-  const highlights = useMemo(
-    () => [
-      {
-        title: 'Elections 2026',
-        date: 'February 2026',
-        excerpt:
-          'General elections were recently held and a new committee was elected. Thank you to everyone who participated and helped make the process a success.',
-      },
-      {
-        title: 'Open Enrollment (Insurance)',
-        date: 'June 1 – July 31',
-        excerpt:
-          'Group Life Insurance open enrollment runs June 1 through July 31 each year. Review this year’s calendar for key deadlines.',
-      },
-      {
-        title: 'Community Events',
-        date: 'Year-round',
-        excerpt:
-          'Throughout Northern California, we host gatherings that celebrate Zambian heritage and strengthen our community.',
-      },
-    ],
-    []
-  );
+  useDocumentMeta({ path: '/' });
 
   useEffect(() => {
     if (julyFourthActive) return;
@@ -147,57 +130,99 @@ const Home = () => {
         event={landingSpotlightEvent}
       />
 
-      <section className="py-10 md:py-14 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Reveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Community Highlights</h2>
-              <p className="text-slate mt-1">What’s happening across the ZANC community in Northern California.</p>
-            </div>
-            <Link to="/news?calendar=1">
-              <Button variant="primary">Review this year’s calendar</Button>
-            </Link>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {julyFourthActive && <JulyFourthCommunityNote />}
-            {highlights.map((h, i) => (
-              <Reveal
-                key={h.title}
-                delayMs={i * 90}
-                className="group bg-cloud rounded-lg border border-mist p-6 shadow-sm ui-card-motion ui-card-motion-hover ui-card-motion-active"
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-lg font-heading font-semibold text-zambia-green motion-safe:transition-colors motion-safe:duration-300 group-hover:text-zambia-green-light">
-                    {h.title}
-                  </h3>
-                  <span className="text-xs font-heading uppercase tracking-[0.08em] text-copper bg-copper-glow px-2 py-1 rounded motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-105">
-                    {h.date}
-                  </span>
+      {/* Independence — the flagship event, given first position after the hero. */}
+      {independence && (
+        <section className="py-10 md:py-14 bg-gray-50 border-b border-mist">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Reveal className="overflow-hidden rounded-2xl border-2 border-copper/40 bg-gradient-to-br from-copper-glow via-white to-cloud shadow-md">
+              <div className="grid grid-cols-1 lg:grid-cols-5">
+                <div className="lg:col-span-3 p-6 md:p-8 lg:p-10">
+                  <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">
+                    ZANC flagship event · save the date
+                  </p>
+                  <h2 className="mt-2 text-2xl md:text-4xl font-heading font-bold text-zambia-green tracking-[-0.01em]">
+                    Zambian Independence Celebration 2026
+                  </h2>
+                  <p className="mt-3 text-lg font-heading font-semibold text-redwood">Saturday, October 24, 2026</p>
+                  <p className="mt-1 text-sm text-slate leading-relaxed">
+                    {independence.venueName}
+                    <br />
+                    {independence.venueAddress}
+                  </p>
+                  <p className="mt-4 text-slate leading-relaxed max-w-xl">
+                    One flagship Saturday celebration — formal, cultural, and social. Members and friends from Northern California,
+                    Southern California, and out of town are all warmly encouraged to join us. Programme and ticketing details are
+                    coming soon.
+                  </p>
+                  <div className="mt-6 grid grid-cols-1 gap-3 sm:flex sm:flex-row sm:flex-wrap">
+                    <Link to="/independence" className="w-full sm:w-auto">
+                      <Button variant="accent" size="lg" className="w-full sm:w-auto">
+                        Event details
+                      </Button>
+                    </Link>
+                    {independence.accommodation?.bookingUrl && (
+                      <a
+                        href={independence.accommodation.bookingUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full sm:w-auto"
+                      >
+                        <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                          Book the host hotel
+                        </Button>
+                      </a>
+                    )}
+                  </div>
                 </div>
-                <p className="text-slate mt-3 leading-relaxed">{h.excerpt}</p>
-                <div className="mt-4">
-                  <Link
-                    to="/news"
-                    className="text-bay-blue font-medium hover:underline inline-flex items-center gap-1 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:translate-x-1"
-                  >
-                    View details →
-                  </Link>
+                <div className="lg:col-span-2 border-t lg:border-t-0 lg:border-l border-copper/25 bg-white/70 p-6 md:p-8 flex flex-col justify-center gap-4">
+                  <div>
+                    <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">Where to stay</p>
+                    <p className="mt-1 text-sm text-slate leading-relaxed">
+                      Special ZANC Independence group rate available through the host hotel
+                      {independence.accommodation?.groupRate ? ` — ${independence.accommodation.groupRate}` : ''}.
+                    </p>
+                    {independence.accommodation?.bookingDeadline && (
+                      <p className="mt-1 text-sm text-slate">Book by {independence.accommodation.bookingDeadline}.</p>
+                    )}
+                  </div>
+                  <div className="border-t border-mist pt-4">
+                    <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">Help make it happen</p>
+                    <p className="mt-1 text-sm text-slate leading-relaxed">
+                      We are inviting community members to join the cooking and décor teams — defined responsibilities may be
+                      compensated.
+                    </p>
+                    <Link
+                      to="/independence#take-part"
+                      className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-bay-blue hover:underline"
+                    >
+                      See how to take part →
+                    </Link>
+                  </div>
                 </div>
-              </Reveal>
-            ))}
+              </div>
+            </Reveal>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="py-10 md:py-14 bg-white border-b border-mist">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Reveal className="mb-6">
-            <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">What&apos;s Happening in the Community</h2>
-            <p className="text-slate mt-1 max-w-2xl">
-              Ways to plug in digitally, in person, and across the diaspora — all lightweight on-ramps to participation.
-            </p>
+          <Reveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">What&apos;s Happening in the Community</h2>
+              <p className="text-slate mt-1 max-w-2xl">
+                What&apos;s coming up next, plus steady ways to plug in — in person, online, and across the diaspora.
+              </p>
+            </div>
+            <Link to="/news?calendar=1" className="shrink-0">
+              <Button variant="primary">Review this year&apos;s calendar</Button>
+            </Link>
           </Reveal>
+          {julyFourthActive && (
+            <div className="mb-6">
+              <JulyFourthCommunityNote />
+            </div>
+          )}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {landingSpotlightEvent ? (
               <Reveal
@@ -368,14 +393,9 @@ const Home = () => {
       <section className="bg-zambia-green text-white py-10 md:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
-            {[
-              { value: '2017', label: 'Founded' },
-              { value: '68+', label: 'Insured members' },
-              { value: '7', label: 'States reached' },
-              { value: '4+', label: 'Annual events' },
-            ].map((stat, i) => (
+            {HOME_STATS.map((stat, i) => (
               <Reveal key={stat.label} delayMs={i * 80} durationMs={640} className="group">
-                <p className="text-4xl md:text-5xl font-heading font-bold text-copper motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105 drop-shadow-sm">
+                <p className="text-3xl md:text-5xl font-heading font-bold text-copper motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105 drop-shadow-sm">
                   {stat.value}
                 </p>
                 <p className="mt-1 text-xs md:text-sm uppercase tracking-[0.08em] text-white/80 font-heading">{stat.label}</p>
@@ -425,14 +445,16 @@ const Home = () => {
             </div>
 
             <p className="text-xs md:text-sm uppercase tracking-[0.08em] font-heading text-redwood mt-10 lg:mt-0 lg:col-start-2 lg:row-start-1 lg:pl-10">
-              Connected in SoCal
+              Connecting with SoCal
             </p>
             <h2 className="mt-2 lg:mt-0 text-2xl md:text-3xl font-heading font-semibold text-zambia-green lg:col-start-2 lg:row-start-2 lg:pl-10">
-              Los Angeles to San Diego — we’re growing a visible Southern California circle that pairs with NorCal, not apart from it.
+              Los Angeles to San Diego — we’re strengthening connections with Zambians in Southern California.
             </h2>
             <p className="mt-3 lg:mt-0 text-slate leading-relaxed lg:col-start-2 lg:row-start-3 lg:pl-10">
-              From Greater LA and Orange County to the Inland Empire and San Diego, members gather for fellowship, culture, and mutual
-              support. SoCal and NorCal show up as sister communities—shared heritage, two home bases, one extended ZANC family.
+              There are active Zambian networks across Greater LA, Orange County, the Inland Empire, and San Diego. ZANC is a Northern
+              California association, and we are intentionally building warmer ties with those communities — starting with
+              introductions, shared updates, and open invitations. SoCal members and friends are especially encouraged to join us for
+              Independence in October.
             </p>
             <div className="mt-6 lg:mt-0 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-3 xl:gap-4 lg:col-start-2 lg:row-start-4 lg:pl-10 lg:self-stretch lg:items-stretch">
               {[
@@ -450,7 +472,13 @@ const Home = () => {
           <Reveal className="mt-10 lg:mt-12 w-full rounded-xl border border-mist bg-white/80 p-4 sm:p-6 shadow-sm ui-card-motion motion-safe:hover:shadow-md motion-safe:hover:border-zambia-green/15">
             <p className="text-sm font-heading font-semibold text-zambia-green">LA area community hub</p>
             <p className="text-sm text-slate mt-2 leading-relaxed max-w-3xl">
-              A dedicated page for Los Angeles and Southern California updates—events, contacts, and ways to plug in—is on the way.
+              A dedicated page for Los Angeles and Southern California updates—events, contacts, and ways to plug in—is being put
+              together. In the meantime, Rev. Stephen Mubanga is ZANC&apos;s Los Angeles area representative, and you can reach the
+              team at{' '}
+              <a href="mailto:zancsac@gmail.com" className="text-bay-blue font-medium hover:underline">
+                zancsac@gmail.com
+              </a>
+              .
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <span
@@ -463,7 +491,6 @@ const Home = () => {
                 </span>
               </span>
             </div>
-            <p className="text-xs text-slate/80 mt-3">For now, this home page is the only place we mention the upcoming LA hub.</p>
           </Reveal>
         </div>
       </section>
@@ -473,7 +500,7 @@ const Home = () => {
           <Reveal>
             <h2 className="text-2xl md:text-3xl font-heading font-bold mb-4">Be Part of Something Bigger</h2>
             <p className="max-w-2xl mx-auto mb-8 text-white/90">
-              Join 68+ members building bridges between Zambia and Northern California.
+              Join the members building bridges between Zambia and Northern California.
             </p>
           </Reveal>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">

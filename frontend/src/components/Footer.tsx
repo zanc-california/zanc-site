@@ -29,6 +29,7 @@ const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li><Link to="/about" className="text-white/80 hover:text-copper transition-colors">About</Link></li>
               <li><Link to="/initiatives" className="text-white/80 hover:text-copper transition-colors">Initiatives</Link></li>
+              <li><Link to="/independence" className="text-white/80 hover:text-copper transition-colors">Independence 2026</Link></li>
               <li><Link to="/news" className="text-white/80 hover:text-copper transition-colors">Events &amp; News</Link></li>
               <li><Link to="/membership" className="text-white/80 hover:text-copper transition-colors">Join ZANC</Link></li>
               <li><Link to="/insurance" className="text-white/80 hover:text-copper transition-colors">Insurance</Link></li>
@@ -62,10 +63,12 @@ const Footer = () => {
                     American Hospitality Services (AHS)
                   </span>
                 </a>
-                <p className="mt-1 text-xs text-white/65 leading-relaxed max-w-xs">
-                  A Northern California hotel development, operations, and asset-management partner — supporting hospitality and community
-                  connections across the region.
-                </p>
+                {/*
+                  Descriptive copy intentionally omitted. The previous blurb characterized AHS's
+                  business and its relationship to ZANC in terms the repository cannot support.
+                  Logo and name only until the committee decides how sponsorship and partner
+                  recognition should be worded.
+                */}
               </li>
             </ul>
           </div>

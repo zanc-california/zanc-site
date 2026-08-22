@@ -1,10 +1,17 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import Button from '../components/Button';
 import ContactForm, { ZANC_CONTACT_EMAIL } from '../components/ContactForm';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 const GetInvolved = () => {
+  useDocumentMeta({
+    title: 'Get Involved',
+    description:
+      'Ways to take part in ZANC: join as a member, review the group life insurance program, volunteer at events, or partner with us. Membership and insurance forms available to download.',
+    path: '/get-involved',
+  });
+
   return (
     <div>
       <PageHeader title="Get Involved" />

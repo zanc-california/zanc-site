@@ -1,9 +1,51 @@
 /**
  * ZANC 2026 community calendar — Events & News page.
  * Theme: A Year of Connection, Growth & Celebration
+ *
+ * This file is the single source of truth for events across the site (home spotlight, Events & News,
+ * the calendar modal, and the Independence event page). Add or update an event here and every
+ * surface follows.
  */
 
+import {
+  ENROLLMENT_WINDOW_LABEL,
+  PREMIUM_DUE_DATES_LABEL,
+  getEnrollmentStatus,
+} from './insuranceProgram';
+
 export type CalendarLane = 'family' | 'business' | 'culture' | 'sports' | 'signature';
+
+/** Host-hotel / travel block shown on event pages. Only fill fields the hotel actually confirms. */
+export type EventAccommodation = {
+  hotelName: string;
+  address?: string;
+  /** e.g. '$99 USD/night' — exactly as displayed by the booking system. */
+  groupRate?: string;
+  /** e.g. 'October 22, 2026' — the deadline the booking system shows. */
+  bookingDeadline?: string;
+  bookingUrl?: string;
+  /** Anything that needs qualifying (which nights are covered, etc.). */
+  note?: string;
+};
+
+/**
+ * A way for members to take part in planning an event. Add entries as planning progresses —
+ * cooking, décor, volunteers, music, entertainment, sponsors, ticketing, program.
+ */
+export type EventWorkstream = {
+  title: string;
+  body: string;
+  /** Omit both CTA fields when no intake mechanism has been agreed yet. */
+  ctaLabel?: string;
+  ctaHref?: string;
+  /**
+   * Short status chip shown beside the title, e.g. 'Now forming'. Use it to make the workstreams
+   * that are actively taking names visually distinct from the ones still being planned.
+   */
+  status?: string;
+  /** Renders a “More details coming soon” note instead of a CTA. */
+  pending?: boolean;
+};
 
 export type CommunityEvent = {
   title: string;
@@ -25,12 +67,24 @@ export type CommunityEvent = {
   secondaryExternalLinkLabel?: string;
   /** Filter chips: Family, Business, Culture, Sports, Signature */
   lanes?: CalendarLane[];
-  /** Hero treatment (e.g. August gala). */
+  /** Hero treatment — the one flagship card at the top of Events & News. */
   featured?: boolean;
   /** ISO start time for “next milestone” countdown (Pacific). */
   countdownAt?: string;
-  /** When true, this upcoming event is eligible for the home page spotlight card (see getLandingSpotlightEvent). */
-  homeSpotlight?: boolean;
+  /**
+   * ISO time after which the event is over and moves to “Past”. Defaults to `countdownAt`.
+   * Set this for all-day events with no confirmed start time so they stay listed for the whole day.
+   */
+  endsAt?: string;
+  /** Internal route with a full event page (e.g. '/independence'). */
+  detailPath?: string;
+  /** Venue name + street address, when confirmed. */
+  venueName?: string;
+  venueAddress?: string;
+  /** Host-hotel / travel information for events people travel to. */
+  accommodation?: EventAccommodation;
+  /** Community planning workstreams people can join (cooking, décor, volunteers, sponsors…). */
+  workstreams?: EventWorkstream[];
   /** Optional gallery stills (e.g. past event recap). */
   galleryImages?: string[];
   videoUrl?: string;
@@ -41,33 +95,69 @@ export type CommunityEvent = {
 /** Milestones for countdown widget — only firm dates; first future date wins. */
 export const COUNTDOWN_MILESTONES: { at: string; label: string }[] = [
   { at: '2026-09-27T15:00:00-07:00', label: 'ZANC Matchday — Bay FC vs Orlando Pride' },
+  { at: '2026-10-24T00:00:00-07:00', label: 'Zambian Independence Celebration — Woodland' },
 ];
 
-/** Upcoming list + spotlight: hide once `countdownAt` has passed (TBA events stay until given a date). */
+/**
+ * Where an event sits in its lifecycle right now.
+ *
+ * Authored `type: 'past'` always wins. Otherwise a dated event flips to 'past' once `endsAt`
+ * (falling back to `countdownAt`) is behind us, so events age out on their own instead of being
+ * dropped from the site. Undated (TBA) events stay 'upcoming' until someone gives them a date.
+ */
+export function getEventStatus(ev: CommunityEvent, now: Date = new Date()): 'upcoming' | 'past' {
+  if (ev.type === 'past') return 'past';
+  const overAt = ev.endsAt ?? ev.countdownAt;
+  if (overAt && new Date(overAt) <= now) return 'past';
+  return 'upcoming';
+}
+
+/** True for events that belong in the Upcoming list / home spotlight. */
 export function shouldShowInUpcomingList(ev: CommunityEvent, now: Date = new Date()): boolean {
-  if (ev.type !== 'upcoming') return false;
-  if (!ev.countdownAt) return true;
-  return new Date(ev.countdownAt) > now;
+  return getEventStatus(ev, now) === 'upcoming';
+}
+
+/** True for an event that has concluded but was authored as upcoming — render it with a “Held” badge. */
+export function hasConcluded(ev: CommunityEvent, now: Date = new Date()): boolean {
+  return ev.type === 'upcoming' && getEventStatus(ev, now) === 'past';
 }
 
 /**
- * Event to feature on the home page: prefers an upcoming event with `homeSpotlight` that still passes
- * shouldShowInUpcomingList. Otherwise the upcoming event matching the next COUNTDOWN_MILESTONES date.
- * Toggle spotlight by setting `homeSpotlight` on one event in this file.
+ * Past events, most recently concluded first: events that just aged out lead, then the authored
+ * archive in its curated order. Nothing is ever silently dropped from the site.
  */
-export function getLandingSpotlightEvent(now: Date = new Date()): CommunityEvent | null {
-  const active = ZANC_COMMUNITY_EVENTS.filter((e) => shouldShowInUpcomingList(e, now));
-  const flagged = active.filter((e) => e.homeSpotlight);
-  for (const e of flagged) {
-    return e;
-  }
-  const sorted = [...COUNTDOWN_MILESTONES].sort((a, b) => +new Date(a.at) - +new Date(b.at));
-  const next = sorted.find((m) => new Date(m.at) > now);
-  if (!next) return null;
-  return active.find((e) => e.countdownAt === next.at) ?? null;
+export function getPastEvents(now: Date = new Date()): CommunityEvent[] {
+  const justEnded = ZANC_COMMUNITY_EVENTS.filter((e) => hasConcluded(e, now)).sort(
+    (a, b) => +new Date(b.endsAt ?? b.countdownAt ?? 0) - +new Date(a.endsAt ?? a.countdownAt ?? 0)
+  );
+  const archive = ZANC_COMMUNITY_EVENTS.filter((e) => e.type === 'past');
+  return [...justEnded, ...archive];
+}
+
+/**
+ * The “Next up” card on the home page: the soonest dated upcoming event that does not already have
+ * its own home-page feature block. Events with a `detailPath` (currently Independence) get a full
+ * banner of their own, so they are excluded here to avoid showing the same event twice.
+ *
+ * Returns null when no dated events remain — the caller then falls back to a generic Events card.
+ */
+export function getNextUpcomingEvent(now: Date = new Date()): CommunityEvent | null {
+  return (
+    ZANC_COMMUNITY_EVENTS.filter((e) => shouldShowInUpcomingList(e, now) && e.countdownAt && !e.detailPath).sort(
+      (a, b) => +new Date(a.countdownAt!) - +new Date(b.countdownAt!)
+    )[0] ?? null
+  );
 }
 
 export const CALENDAR_2026_THEME = 'A Year of Connection, Growth & Celebration';
+
+/** Evaluated once per page load — accurate for a SPA session. */
+const enrollmentStatus = getEnrollmentStatus();
+
+/** The Independence celebration — resolved by anchor so callers never re-declare its details. */
+export function getIndependenceEvent(): CommunityEvent | undefined {
+  return ZANC_COMMUNITY_EVENTS.find((e) => e.anchorId === 'independence-2026');
+}
 
 /** Rows for the modal calendar (insurance + 2026 pulse). */
 export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
@@ -76,31 +166,24 @@ export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
     lines: [CALENDAR_2026_THEME],
   },
   {
-    title: 'May',
-    lines: ["Mother's Day Mimosa Brunch — May 2 (held)", 'Community Conversations (Virtual) — date TBA'],
-  },
-  {
-    title: 'June',
-    lines: ['Golf Outing — TBA'],
-  },
-  {
-    title: 'July',
-    lines: ['Denim and White Day Party — Jul 4 (community)', 'ZANC Summer Picnic & Family Day — date TBA'],
-  },
-  {
-    title: 'August (signature)',
+    title: 'Earlier this year (held)',
     lines: [
-      'ROOTS & RISE: Skills Exchange + Signature Gala & Taste of Zambia — date & times TBA',
-      'Pricing TBA',
+      'Big Boy No. 4014 public viewing, Roseville — April',
+      "Mother's Day Mimosa Brunch — May 2",
+      'Denim and White Day Party — Jul 4 (community-organized)',
     ],
   },
   {
     title: 'September',
-    lines: ['ZANC Matchday — Bay FC vs Orlando Pride — Sep 27'],
+    lines: ['ZANC Matchday — Bay FC vs Orlando Pride — Sun, Sep 27'],
   },
   {
-    title: 'October',
-    lines: ['Zambia Independence Celebration 2026 — date TBA'],
+    title: 'October (flagship)',
+    lines: [
+      'Zambian Independence Celebration — Sat, Oct 24',
+      'Fairfield by Marriott Inn & Suites Sacramento Airport Woodland',
+      'Program, timing and ticketing — more details coming soon',
+    ],
   },
   {
     title: 'November',
@@ -109,6 +192,14 @@ export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
   {
     title: 'December',
     lines: ['Year-End Reflection & Toy Drive — date TBA'],
+  },
+  {
+    title: 'Still to be scheduled',
+    lines: [
+      'Golf Outing — date TBA',
+      'ZANC Summer Picnic & Family Day — date TBA',
+      'ROOTS & RISE: Skills Exchange + Signature Gala — date TBA',
+    ],
   },
   {
     title: 'Recurring programs',
@@ -121,8 +212,9 @@ export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
   {
     title: 'Group Life Insurance',
     lines: [
-      'Open enrollment — June 1 – July 31',
-      'Premium due dates — January 25 & July 25 (confirm with the insurance team)',
+      `Open enrollment — ${ENROLLMENT_WINDOW_LABEL} each year`,
+      `${enrollmentStatus.statusLabel}. ${enrollmentStatus.nextWindowLabel}`,
+      `Premium due dates — ${PREMIUM_DUE_DATES_LABEL} (confirm with the insurance team)`,
     ],
   },
 ];
@@ -157,12 +249,12 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     location: '2614 Marigold Lane',
     type: 'upcoming',
     category: 'Community Social',
-    feeNote: '21+ · Eventbrite',
+    feeNote: '21+',
     anchorId: 'denim-white-day-party-july-2026',
     imageUrl: '/images/postings/other-events.png',
     heroImageTall: true,
-    externalUrl: 'https://www.eventbrite.com/e/denim-and-white-day-party',
-    externalLinkLabel: 'Get tickets on Eventbrite',
+    // Ticket link removed once the event had passed — the placeholder Eventbrite URL never resolved
+    // to a real listing. If this becomes an annual event, add the real link with the next edition.
     lanes: ['family', 'culture'],
     communityOrganized: true,
     countdownAt: '2026-07-04T21:00:00-07:00',
@@ -184,8 +276,8 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
   {
     title: 'ZANC Summer Picnic & Family Day',
     description:
-      'A relaxed summer gathering—BBQ / potluck, kids’ games, soccer, dominoes and cards, music, and introductions for new members. Aiming for July 4 weekend when confirmed.\n\n' +
-      'Bring a dish, bring a friend, bring the energy.',
+      'A relaxed summer gathering—BBQ / potluck, kids’ games, soccer, dominoes and cards, music, and introductions for new members.\n\n' +
+      'Bring a dish, bring a friend, bring the energy. Date and venue to be announced.',
     dateLabel: 'TBA',
     location: 'TBA',
     type: 'upcoming',
@@ -208,7 +300,9 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     feeNote: 'TBA',
     anchorId: 'roots-rise-gala-2026',
     lanes: ['signature', 'culture', 'business'],
-    featured: true,
+    // NOTE FOR ZANC: this was pencilled in for August and no date was ever confirmed. It is kept
+    // listed as TBA rather than deleted — confirm whether it is still planned for 2026 or should
+    // move to 2027, then either give it a date or retire the listing.
   },
   {
     title: 'ZANC Matchday: Bay FC vs Orlando Pride',
@@ -225,19 +319,75 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     externalUrl: 'mailto:zancsac@gmail.com?subject=Bay%20FC%20Matchday%202026%20-%20tickets%20%2F%20van',
     externalLinkLabel: 'Email ZANC — tickets / van interest',
     countdownAt: '2026-09-27T15:00:00-07:00',
+    endsAt: '2026-09-28T00:00:00-07:00',
   },
   {
-    title: 'Zambia Independence Celebration 2026',
+    title: 'Zambian Independence Celebration 2026',
     description:
-      'Our flagship cultural weekend—anthem, speeches, dinner, dance, performances, state-of-ZANC update, and sponsor recognition. The heart of who we are in NorCal.\n\n' +
-      'Date, venue, sponsorship, and ticketing TBA.',
-    dateLabel: 'TBA',
-    location: 'TBA',
+      'One flagship Saturday celebration in Woodland — a formal, cultural, and social evening marking Zambian Independence, and the moment the ZANC community comes together in full.\n\n' +
+      'Members and friends from Northern California, Southern California, and out of town are all warmly encouraged to attend. Hotel rooms are available at the host hotel, where a special ZANC Independence group rate has been arranged.\n\n' +
+      'Program, timing, and ticketing are still being finalized — more details coming soon.',
+    dateLabel: 'Sat, Oct 24, 2026',
+    location: 'Woodland, CA',
     type: 'upcoming',
     category: 'Flagship Event',
-    feeNote: 'TBA',
+    feeNote: 'Ticketing TBA',
     anchorId: 'independence-2026',
+    detailPath: '/independence',
     lanes: ['culture', 'signature'],
+    featured: true,
+    // Day-level only: no start time has been confirmed, so the countdown targets the start of the
+    // day and `endsAt` keeps the event listed as upcoming for the whole of Oct 24.
+    countdownAt: '2026-10-24T00:00:00-07:00',
+    endsAt: '2026-10-25T00:00:00-07:00',
+    // SAVE THE DATE ARTWORK: drop the file in frontend/public/images/postings/ and set
+    // imageUrl below (e.g. '/images/postings/independence-2026-save-the-date.png'). The page and
+    // its social preview pick it up automatically — see Independence.tsx.
+    // imageUrl: '/images/postings/independence-2026-save-the-date.png',
+    venueName: 'Fairfield by Marriott Inn & Suites Sacramento Airport Woodland',
+    venueAddress: '2100 Freeway Drive, Woodland, CA 95776',
+    accommodation: {
+      hotelName: 'Fairfield by Marriott Inn & Suites Sacramento Airport Woodland',
+      address: '2100 Freeway Drive, Woodland, CA 95776',
+      groupRate: '$99 USD/night',
+      bookingDeadline: 'October 22, 2026',
+      bookingUrl: 'https://app.marriott.com/resview2?id=1787092104701&key=GRP&app=resvlink',
+      note: 'Rates and available nights are shown and confirmed by the hotel at booking.',
+    },
+    workstreams: [
+      {
+        title: 'Cooking team',
+        status: 'Now forming',
+        body:
+          'Before looking at outside catering, ZANC is first inviting community members who would like to be part of the Independence cooking team. Members who take on defined major cooking responsibilities may be compensated for that work.',
+        ctaLabel: 'Email ZANC about cooking',
+        ctaHref:
+          'mailto:zancsac@gmail.com?subject=Independence%202026%20-%20cooking%20team&body=I%27d%20like%20to%20help%20with%20cooking%20for%20Independence%202026.%0A%0AName%3A%0APhone%3A%0ADishes%20or%20area%20I%27d%20like%20to%20take%20on%3A%0A',
+      },
+      {
+        title: 'Décor team',
+        status: 'Now forming',
+        body:
+          'We are looking for community members interested in helping shape the look and feel of the celebration. Members who take on defined décor responsibilities may be compensated for that work.',
+        ctaLabel: 'Email ZANC about décor',
+        ctaHref:
+          'mailto:zancsac@gmail.com?subject=Independence%202026%20-%20d%C3%A9cor%20team&body=I%27d%20like%20to%20help%20with%20d%C3%A9cor%20for%20Independence%202026.%0A%0AName%3A%0APhone%3A%0AWhat%20I%27d%20like%20to%20take%20on%3A%0A',
+      },
+      {
+        title: 'Music and DJ requests',
+        status: 'Details coming soon',
+        body:
+          'Community members have already expressed interest in submitting DJ and music requests. We are still working out how requests will be collected — watch this page.',
+        pending: true,
+      },
+      {
+        title: 'Volunteering, entertainment, and sponsorship',
+        status: 'Details coming soon',
+        body:
+          'There will be more ways to take part as planning progresses, including volunteering on the day, entertainment, and sponsorship. Details will be published here as they are confirmed.',
+        pending: true,
+      },
+    ],
   },
   {
     title: 'Community Hangout / Thanksgiving Mixer',

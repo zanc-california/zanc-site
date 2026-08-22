@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import CommunityVoiceQuotes from '../components/CommunityVoiceQuotes';
 import { ZANC_CONTACT_EMAIL } from '../components/ContactForm';
 import { supabase } from '../lib/supabase';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 const LINK360_URL = 'https://link360.vercel.app/';
 
@@ -29,6 +30,13 @@ type Opportunity = {
 const OPPORTUNITY_CATEGORY_LABELS = ['Jobs', 'Housing', 'Scholarships', 'Business Opportunities'] as const;
 
 export default function Community() {
+  useDocumentMeta({
+    title: 'Community Board',
+    description:
+      'The ZANC community board — jobs, housing, scholarships, and business opportunities shared by members, plus a place to suggest events and ideas.',
+    path: '/community',
+  });
+
   const categories: SuggestionCategory[] = useMemo(
     () => ['Event Idea', 'Community Service', 'Partnership', 'General Feedback'],
     []
