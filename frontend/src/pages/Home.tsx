@@ -222,7 +222,7 @@ const Home = () => {
             <div>
               <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">What&apos;s Happening in the Community</h2>
               <p className="text-slate mt-1 max-w-2xl">
-                What&apos;s coming up next, plus steady ways to plug in — in person, online, and across the diaspora.
+                Our matchday stays on the card. Around it, nearby gatherings friends of the community may want to catch.
               </p>
             </div>
             <Link to="/news?calendar=1" className="shrink-0">
@@ -291,24 +291,32 @@ const Home = () => {
             )}
             {[
               {
-                title: 'Community Hangouts',
-                excerpt: 'Casual gatherings, games, and connection.',
-                href: '/news#community-hangouts',
-                external: false,
+                title: 'Naija Fest — Palo Alto',
+                excerpt:
+                  'Sat, Sep 26 · 3–8 PM. Free, all-ages Nigerian Independence afternoon — DJs, food, vendors, and room for elders and kids.',
+                href: 'https://www.eventbrite.com/e/naija-fest-2026-bay-area-tickets-1995474566144',
+                linkLabel: 'Free RSVP →',
+                until: '2026-09-27T00:00:00-07:00',
               },
               {
-                title: 'Shipping to Zambia',
-                excerpt: 'Coordinate shared container shipping.',
-                href: 'https://link360.vercel.app/',
-                external: true,
+                title: 'African Arts Festival',
+                excerpt:
+                  'Sat, Oct 3 · 11 AM–4 PM at Yerba Buena Gardens. Free family day of African music, dance, food, and activities for children.',
+                href: 'https://ybgfestival.org/event/african-arts-festival-2026/',
+                linkLabel: 'See the festival →',
+                until: '2026-10-04T00:00:00-07:00',
               },
               {
-                title: 'Business & Investment Series',
-                excerpt: "Learn how diaspora can engage in Zambia's growth.",
-                href: '/news#business-investment-series',
-                external: false,
+                title: 'MoAD fall exhibitions',
+                excerpt:
+                  'The Museum of the African Diaspora in San Francisco reopens Sep 30 with new fall shows — an easy cultural afternoon in the city.',
+                href: 'https://www.moadsf.org/exhibitions',
+                linkLabel: 'Plan a visit →',
+                until: '2026-12-07T00:00:00-07:00',
               },
-            ].map((card, i) => (
+            ]
+              .filter((card) => new Date(card.until) > new Date())
+              .map((card, i) => (
               <Reveal
                 key={card.title}
                 delayMs={(i + 1) * 80}
@@ -319,23 +327,14 @@ const Home = () => {
                 </h3>
                 <p className="text-slate mt-3 leading-relaxed text-sm flex-1">{card.excerpt}</p>
                 <div className="mt-4">
-                  {card.external ? (
-                    <a
-                      href={card.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-bay-blue font-medium text-sm hover:underline inline-flex items-center gap-1 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:translate-x-1"
-                    >
-                      Start on Link360 →
-                    </a>
-                  ) : (
-                    <Link
-                      to={card.href}
-                      className="text-bay-blue font-medium text-sm hover:underline inline-flex items-center gap-1 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:translate-x-1"
-                    >
-                      Learn more →
-                    </Link>
-                  )}
+                  <a
+                    href={card.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-bay-blue font-medium text-sm hover:underline inline-flex items-center gap-1 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:translate-x-1"
+                  >
+                    {card.linkLabel}
+                  </a>
                 </div>
               </Reveal>
             ))}
