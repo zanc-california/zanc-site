@@ -95,7 +95,8 @@ export type CommunityEvent = {
 /** Milestones for countdown widget — only firm dates; first future date wins. */
 export const COUNTDOWN_MILESTONES: { at: string; label: string }[] = [
   { at: '2026-09-27T15:00:00-07:00', label: 'ZANC Matchday — Bay FC vs Orlando Pride' },
-  { at: '2026-10-24T00:00:00-07:00', label: 'Zambian Independence Celebration — Woodland' },
+  { at: '2026-10-22T11:30:00-07:00', label: 'Zambia flag raising — San Francisco City Hall' },
+  { at: '2026-10-24T18:00:00-07:00', label: 'Zambian Independence Celebration — Woodland' },
 ];
 
 /**
@@ -159,6 +160,11 @@ export function getIndependenceEvent(): CommunityEvent | undefined {
   return ZANC_COMMUNITY_EVENTS.find((e) => e.anchorId === 'independence-2026');
 }
 
+/** Civic flag raising at San Francisco City Hall, two days before the Woodland celebration. */
+export function getFlagRaisingEvent(): CommunityEvent | undefined {
+  return ZANC_COMMUNITY_EVENTS.find((e) => e.anchorId === 'sf-flag-raising-2026');
+}
+
 /** Rows for the modal calendar (insurance + 2026 pulse). */
 export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
   {
@@ -180,9 +186,10 @@ export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
   {
     title: 'October (flagship)',
     lines: [
-      'Zambian Independence Celebration — Sat, Oct 24',
+      'Zambia flag raising — San Francisco City Hall — Thu, Oct 22, 11:30 AM',
+      'Zambian Independence Celebration — Sat, Oct 24 · doors 5:30 PM · 6:00 PM · $55',
       'Fairfield by Marriott Inn & Suites Sacramento Airport Woodland',
-      'Program, timing and ticketing — more details coming soon',
+      'Host-hotel group rate $99/night — book by October 22',
     ],
   },
   {
@@ -322,37 +329,53 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     endsAt: '2026-09-28T00:00:00-07:00',
   },
   {
+    title: 'Zambia Flag Raising — San Francisco City Hall',
+    description:
+      'A civic flag-raising for Zambia’s 62nd Independence. Honorary Consul of the Republic of Zambia for California, Rajen Ranchhod, invites Zambians across the Bay Area and Northern California — and friends of Zambia — to come out and support this occasion.\n\n' +
+      'Seeing the Zambian flag raised at San Francisco City Hall is a proud moment for the community and for Zambia in the United States. Our appreciation to the City of San Francisco and its Protocol Office for working with us to make it possible.\n\n' +
+      'Thursday, October 22, 2026 · 11:30 AM · San Francisco City Hall. One Zambia, One Nation.',
+    dateLabel: 'Thu, Oct 22 · 11:30 AM',
+    location: 'San Francisco City Hall',
+    type: 'upcoming',
+    category: 'Civic ceremony',
+    feeNote: 'Open gathering',
+    anchorId: 'sf-flag-raising-2026',
+    imageUrl: '/images/postings/sf-flag-raising-2026.jpg',
+    heroImageTall: true,
+    lanes: ['culture', 'signature'],
+    countdownAt: '2026-10-22T11:30:00-07:00',
+    endsAt: '2026-10-23T00:00:00-07:00',
+    venueName: 'San Francisco City Hall',
+    venueAddress: '1 Dr. Carlton B. Goodlett Place, San Francisco, CA 94102',
+  },
+  {
     title: 'Zambian Independence Celebration 2026',
     description:
-      'One flagship Saturday celebration in Woodland — a formal, cultural, and social evening marking Zambian Independence, and the moment the ZANC community comes together in full.\n\n' +
-      'Members and friends from Northern California, Southern California, and out of town are all warmly encouraged to attend. Hotel rooms are available at the host hotel, where a special ZANC Independence group rate has been arranged.\n\n' +
-      'Program, timing, and ticketing are still being finalized — more details coming soon.',
-    dateLabel: 'Sat, Oct 24, 2026',
+      'One flagship Saturday celebration in Woodland — an evening of heritage, dignity, and celebration marking 62 years of Zambian Independence.\n\n' +
+      'Saturday, October 24, 2026. Doors open at 5:30 PM; the celebration begins at 6:00 PM. Admission is $55. Fairfield by Marriott Inn & Suites Sacramento Airport Woodland, 2100 Freeway Drive, Woodland, CA.\n\n' +
+      'Members and friends from Northern California, Southern California, and out of town are all warmly encouraged to attend. The celebration is at the host hotel, where a ZANC group rate of $99/night is open through October 22.',
+    dateLabel: 'Sat, Oct 24 · 6:00 PM',
     location: 'Woodland, CA',
     type: 'upcoming',
     category: 'Flagship Event',
-    feeNote: 'Ticketing TBA',
+    feeNote: '$55 admission',
     anchorId: 'independence-2026',
     detailPath: '/independence',
+    imageUrl: '/images/postings/independence-2026-save-the-date.jpg',
     lanes: ['culture', 'signature'],
     featured: true,
-    // Day-level only: no start time has been confirmed, so the countdown targets the start of the
-    // day and `endsAt` keeps the event listed as upcoming for the whole of Oct 24.
-    countdownAt: '2026-10-24T00:00:00-07:00',
+    countdownAt: '2026-10-24T18:00:00-07:00',
     endsAt: '2026-10-25T00:00:00-07:00',
-    // SAVE THE DATE ARTWORK: drop the file in frontend/public/images/postings/ and set
-    // imageUrl below (e.g. '/images/postings/independence-2026-save-the-date.png'). The page and
-    // its social preview pick it up automatically — see Independence.tsx.
-    // imageUrl: '/images/postings/independence-2026-save-the-date.png',
     venueName: 'Fairfield by Marriott Inn & Suites Sacramento Airport Woodland',
     venueAddress: '2100 Freeway Drive, Woodland, CA 95776',
     accommodation: {
       hotelName: 'Fairfield by Marriott Inn & Suites Sacramento Airport Woodland',
       address: '2100 Freeway Drive, Woodland, CA 95776',
-      groupRate: '$99 USD/night',
+      groupRate: '$99/night',
       bookingDeadline: 'October 22, 2026',
-      bookingUrl: 'https://app.marriott.com/resview2?id=1787092104701&key=GRP&app=resvlink',
-      note: 'Rates and available nights are shown and confirmed by the hotel at booking.',
+      bookingUrl:
+        'https://www.marriott.com/event-reservations/reservation-link.mi?id=1787180376578&key=GRP&app=resvlink&_p=c11335dc9d047af1e7038cfdee&__branch_flow_type=chrome_deepview&__branch_flow_id=1618974438233809510',
+      note: 'Hotel booking is now open for guests traveling in for October 24, or staying that weekend. The hotel is also the celebration venue. Thank you to the Ranchhod family and the hotel team for making these arrangements possible. Rates and available nights are confirmed by Marriott at booking.',
     },
     workstreams: [
       {
@@ -384,7 +407,7 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
         title: 'Volunteering, entertainment, and sponsorship',
         status: 'Details coming soon',
         body:
-          'There will be more ways to take part as planning progresses, including volunteering on the day, entertainment, and sponsorship. Details will be published here as they are confirmed.',
+          'American Hospitality Services is sponsoring this year’s celebration. More ways to take part are still being planned, including volunteering on the day and entertainment. Additional details will be published here as they are confirmed.',
         pending: true,
       },
     ],

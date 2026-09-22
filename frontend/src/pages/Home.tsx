@@ -143,16 +143,27 @@ const Home = () => {
                   <h2 className="mt-2 text-2xl md:text-4xl font-heading font-bold text-zambia-green tracking-[-0.01em]">
                     Zambian Independence Celebration 2026
                   </h2>
-                  <p className="mt-3 text-lg font-heading font-semibold text-redwood">Saturday, October 24, 2026</p>
+                  <p className="mt-3 text-lg font-heading font-semibold text-redwood">
+                    Saturday, October 24, 2026 · 6:00 PM
+                  </p>
                   <p className="mt-1 text-sm text-slate leading-relaxed">
+                    Doors open at 5:30 PM · Admission $55
+                    <br />
                     {independence.venueName}
                     <br />
                     {independence.venueAddress}
                   </p>
                   <p className="mt-4 text-slate leading-relaxed max-w-xl">
-                    One flagship Saturday celebration — formal, cultural, and social. Members and friends from Northern California,
-                    Southern California, and out of town are all warmly encouraged to join us. Programme and ticketing details are
-                    coming soon.
+                    An evening of heritage, dignity, and celebration. Members and friends from Northern California, Southern
+                    California, and out of town are warmly encouraged to join us. Hotel rooms at the venue are $99/night through
+                    October 22.
+                  </p>
+                  <p className="mt-3 text-sm text-slate leading-relaxed max-w-xl">
+                    Also that week:{' '}
+                    <Link to="/independence#flag-raising" className="font-medium text-bay-blue hover:underline">
+                      Zambia flag raising at San Francisco City Hall
+                    </Link>{' '}
+                    — Thursday, October 22, 11:30 AM.
                   </p>
                   <div className="mt-6 grid grid-cols-1 gap-3 sm:flex sm:flex-row sm:flex-wrap">
                     <Link to="/independence" className="w-full sm:w-auto">

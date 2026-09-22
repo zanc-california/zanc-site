@@ -3,16 +3,17 @@ import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import Reveal from '../components/Reveal';
 import SubscribeModal from '../components/SubscribeModal';
-import { getIndependenceEvent } from '../data/communityCalendar2026';
+import { getFlagRaisingEvent, getIndependenceEvent } from '../data/communityCalendar2026';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { SITE_ORIGIN } from '../lib/siteMeta';
 
 const META_DESCRIPTION =
-  'Join the Zambian community in Northern California on Saturday, October 24, 2026 in Woodland, California ' +
-  'for ZANC’s Independence Celebration. Host hotel rooms and a special ZANC group rate are available.';
+  'ZANC’s Independence Celebration is Saturday, October 24, 2026 in Woodland — doors 5:30 PM, celebration at 6:00 PM, ' +
+  'admission $55. Host-hotel rooms are $99/night through October 22. Flag raising at San Francisco City Hall is Thursday, October 22 at 11:30 AM.';
 
 const Independence = () => {
   const event = getIndependenceEvent();
+  const flagRaising = getFlagRaisingEvent();
   const [subscribeOpen, setSubscribeOpen] = useState(false);
 
   useDocumentMeta({
@@ -25,8 +26,15 @@ const Independence = () => {
       '@context': 'https://schema.org',
       '@type': 'Event',
       name: 'Zambian Independence Celebration 2026',
-      // Date only — no start time has been confirmed, so none is published.
-      startDate: '2026-10-24',
+      startDate: '2026-10-24T18:00:00-07:00',
+      doorTime: '2026-10-24T17:30:00-07:00',
+      offers: {
+        '@type': 'Offer',
+        price: '55',
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+        url: `${SITE_ORIGIN}/independence`,
+      },
       eventStatus: 'https://schema.org/EventScheduled',
       eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
       description: META_DESCRIPTION,
@@ -71,7 +79,10 @@ const Independence = () => {
               <br />
               Celebration 2026
             </h1>
-            <p className="mt-5 text-white text-lg md:text-xl font-heading font-semibold">Saturday, October 24, 2026</p>
+            <p className="mt-5 text-white text-lg md:text-xl font-heading font-semibold">
+              Saturday, October 24, 2026 · 6:00 PM
+            </p>
+            <p className="mt-1 text-white/90">Doors open at 5:30 PM · Admission $55</p>
             <p className="mt-2 text-white/90 leading-relaxed">
               {event.venueName}
               <br />
@@ -118,20 +129,36 @@ const Independence = () => {
               <figure className="mx-auto max-w-2xl overflow-hidden rounded-xl border border-mist bg-cloud shadow-sm">
                 <img
                   src={event.imageUrl}
-                  alt="Save the Date — ZANC Zambian Independence Celebration, Saturday October 24, 2026, Woodland, California"
+                  alt="Save the Date — Zambia Independence Celebration, Saturday October 24, 2026, 6:00 PM, doors 5:30 PM, admission $55, Woodland, California"
                   className="w-full h-auto object-contain"
                   loading="eager"
                 />
+                <figcaption className="px-4 py-3 text-sm text-slate leading-relaxed border-t border-mist">
+                  Presented by ZANC. Sponsored by American Hospitality Services. Doors 5:30 PM · celebration 6:00 PM ·
+                  admission $55.
+                </figcaption>
               </figure>
             </Reveal>
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { label: 'Date', value: 'Saturday, October 24, 2026', note: 'One flagship Saturday celebration.' },
+              {
+                label: 'Date',
+                value: 'Saturday, October 24, 2026',
+                note: 'Doors open at 5:30 PM. Celebration at 6:00 PM.',
+              },
               { label: 'Venue', value: event.venueName ?? 'TBA', note: event.venueAddress ?? '' },
-              { label: 'Character', value: 'Formal · cultural · social', note: 'Program details to be announced.' },
-              { label: 'Tickets', value: 'More details coming soon', note: 'Pricing and ticketing are not yet confirmed.' },
+              {
+                label: 'Admission',
+                value: '$55',
+                note: 'An evening of heritage, dignity, and celebration.',
+              },
+              {
+                label: 'Flag raising',
+                value: 'Thursday, October 22 · 11:30 AM',
+                note: 'San Francisco City Hall — a civic ceremony two days before the celebration.',
+              },
             ].map((item) => (
               <Reveal key={item.label} className="rounded-xl border border-mist bg-cloud p-5 h-full">
                 <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">{item.label}</p>
@@ -143,9 +170,9 @@ const Independence = () => {
 
           <Reveal className="mt-8 rounded-xl border border-copper/30 bg-copper-glow/60 p-5 md:p-6">
             <p className="text-sm text-redwood leading-relaxed">
-              <span className="font-heading font-semibold">Still being finalized.</span> Start and end times, the program,
-              performers, catering, dress code, and ticket pricing have not been confirmed yet. Everything will be published on this
-              page as soon as it is decided — check back, or{' '}
+              <span className="font-heading font-semibold">Still being finalized.</span> The full program, performers, and how
+              music requests will be collected are not confirmed yet. Those details will be published on this page as soon as they
+              are decided — check back, or{' '}
               <button
                 type="button"
                 onClick={() => setSubscribeOpen(true)}
@@ -160,14 +187,69 @@ const Independence = () => {
         </div>
       </section>
 
+      {flagRaising && (
+        <section id="flag-raising" className="py-10 md:py-14 bg-white border-b border-mist scroll-mt-24">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Reveal className="mb-6">
+              <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">
+                Flag raising at San Francisco City Hall
+              </h2>
+              <p className="text-slate mt-1 max-w-2xl">
+                Thursday, October 22, 2026 · 11:30 AM. A civic celebration two days before the Woodland evening.
+              </p>
+            </Reveal>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+              {flagRaising.imageUrl && (
+                <Reveal>
+                  <figure className="overflow-hidden rounded-xl border border-mist bg-cloud shadow-sm">
+                    <img
+                      src={flagRaising.imageUrl}
+                      alt="Zambia in San Francisco — civic flag raising at San Francisco City Hall"
+                      className="w-full h-auto object-contain"
+                    />
+                    <figcaption className="px-4 py-3 text-sm text-slate leading-relaxed border-t border-mist">
+                      Date confirmed: Thursday, October 22, 2026 at 11:30 AM, San Francisco City Hall.
+                    </figcaption>
+                  </figure>
+                </Reveal>
+              )}
+              <Reveal className="rounded-xl border border-mist bg-cloud p-6">
+                <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">Honorary Consul</p>
+                <p className="mt-3 text-slate leading-relaxed">
+                  Zambians across the Bay Area and Northern California, together with friends of Zambia, are invited to come out
+                  and support this occasion. Seeing the Zambian flag raised at San Francisco City Hall is a proud moment for the
+                  community — a chance to celebrate our heritage and represent Zambia in the United States.
+                </p>
+                <p className="mt-3 text-slate leading-relaxed">
+                  Our appreciation to the City of San Francisco and its Protocol Office for working with us to make this possible.
+                  Let us show up and celebrate in the spirit of One Zambia, One Nation.
+                </p>
+                <p className="mt-4 text-sm font-heading font-semibold text-zambia-green">
+                  Rajen Ranchhod
+                  <span className="block font-normal text-slate">
+                    Honorary Consul of the Republic of Zambia · California
+                  </span>
+                </p>
+                <p className="mt-4 text-sm text-slate">
+                  {flagRaising.venueName}
+                  <br />
+                  {flagRaising.venueAddress}
+                </p>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Hotel + travel */}
       {accommodation && (
         <section className="py-10 md:py-14 bg-fog border-b border-mist">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Reveal className="mb-6">
-              <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Where to stay</h2>
+              <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Hotel booking now open</h2>
               <p className="text-slate mt-1 max-w-2xl">
-                Special ZANC Independence group rate available through the host hotel.
+                Special ZANC group rate at the host hotel — the same place as the October 24 celebration. Reserve early if you
+                are traveling in for the weekend.
               </p>
             </Reveal>
 
@@ -293,8 +375,8 @@ const Independence = () => {
           <Reveal>
             <h2 className="text-2xl md:text-3xl font-heading font-bold mb-4">See you on October 24</h2>
             <p className="max-w-2xl mx-auto mb-8 text-white/90">
-              Join the ZANC email list to hear first when tickets, program details, and travel updates are released. This page is
-              kept up to date as each decision is made, so it is always the most current source.
+              Join the ZANC email list for program updates. This page stays current as each decision is made — hotel booking,
+              admission, and the City Hall flag raising are already here.
             </p>
           </Reveal>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
