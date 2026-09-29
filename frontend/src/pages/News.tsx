@@ -8,10 +8,10 @@ import {
   CALENDAR_2026_THEME,
   CALENDAR_MODAL_SECTIONS,
   COUNTDOWN_MILESTONES,
-  ZANC_COMMUNITY_EVENTS,
+  getArchivedPlans,
   getPastEvents,
+  getUpcomingEvents,
   hasConcluded,
-  shouldShowInUpcomingList,
   type CalendarLane,
   type CommunityEvent,
 } from '../data/communityCalendar2026';
@@ -372,10 +372,28 @@ const News = () => {
   const upcomingSectionRef = useRef<HTMLDivElement>(null);
   const countdown = useNextCountdownMilestone();
 
-  const events = ZANC_COMMUNITY_EVENTS;
-  const upcomingEvents = events.filter((e) => shouldShowInUpcomingList(e));
+  const upcomingEvents = getUpcomingEvents();
+  const archivedPlans = getArchivedPlans();
   // Includes events that have aged out of "upcoming" on their own, so nothing vanishes from the site.
   const pastEvents = useMemo(() => getPastEvents(), []);
+  const archivedPlansBlock = (
+    <details id="archived-plans" className="rounded-xl border border-mist bg-white p-5 sm:p-6">
+      <summary className="cursor-pointer font-heading font-semibold text-zambia-green">
+        Archived 2026 plans — not held ({archivedPlans.length})
+      </summary>
+      <p className="mt-3 text-sm text-slate leading-relaxed">
+        These plans did not go ahead. Any future edition will be announced separately once confirmed.
+      </p>
+      <div className="mt-4 divide-y divide-mist">
+        {archivedPlans.map((ev) => (
+          <article key={ev.anchorId} id={ev.anchorId} className="py-4 first:pt-0 last:pb-0">
+            <h4 className="font-semibold text-zambia-green">{ev.title}</h4>
+            <p className="mt-2 text-sm text-slate leading-relaxed">{ev.description}</p>
+          </article>
+        ))}
+      </div>
+    </details>
+  );
   const featuredUpcoming = useMemo(() => upcomingEvents.find((e) => e.featured), [upcomingEvents]);
   const filteredUpcomingGrid = useMemo(() => {
     const rest = upcomingEvents.filter((e) => !e.featured);
@@ -709,14 +727,15 @@ const News = () => {
                   ))}
                 </div>
               </div>
+              {archivedPlansBlock}
             </div>
           )}
 
           {tab === 'upcoming' && (
             <div className="space-y-6">
               <p className="text-slate text-sm max-w-2xl leading-relaxed">
-                The full arc of 2026 — from brunches to the signature gala — with room for recurring programs that keep the rhythm
-                going.
+                Join us for the flag raising and Independence celebration. Confirmed dates appear first, followed by programs
+                still being planned.
               </p>
               <div ref={upcomingSectionRef} id="upcoming-events" className="scroll-mt-28 space-y-1">
                 {upcomingEventsBlock('h3')}
@@ -725,10 +744,13 @@ const News = () => {
           )}
 
           {tab === 'past' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 md:gap-8">
-              {pastEvents.map((ev) => (
-                <EventProgramCard key={ev.anchorId ?? ev.title} ev={ev} />
-              ))}
+            <div className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 md:gap-8">
+                {pastEvents.map((ev) => (
+                  <EventProgramCard key={ev.anchorId ?? ev.title} ev={ev} />
+                ))}
+              </div>
+              {archivedPlansBlock}
             </div>
           )}
 

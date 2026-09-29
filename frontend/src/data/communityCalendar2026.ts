@@ -52,7 +52,7 @@ export type CommunityEvent = {
   description: string;
   dateLabel: string;
   location: string;
-  type: 'past' | 'upcoming';
+  type: 'past' | 'upcoming' | 'archived';
   /** Program tag shown on cards (e.g. Community Forum). */
   category?: string;
   series?: boolean;
@@ -111,11 +111,13 @@ export const COUNTDOWN_MILESTONES: { at: string; label: string }[] = [
 /**
  * Where an event sits in its lifecycle right now.
  *
- * Authored `type: 'past'` always wins. Otherwise a dated event flips to 'past' once `endsAt`
+ * Archived plans remain separate from held events. Authored `type: 'past'` stays past.
+ * Otherwise a dated event flips to 'past' once `endsAt`
  * (falling back to `countdownAt`) is behind us, so events age out on their own instead of being
- * dropped from the site. Undated (TBA) events stay 'upcoming' until someone gives them a date.
+ * dropped from the site. Undated plans stay upcoming until dated or explicitly archived.
  */
-export function getEventStatus(ev: CommunityEvent, now: Date = new Date()): 'upcoming' | 'past' {
+export function getEventStatus(ev: CommunityEvent, now: Date = new Date()): CommunityEvent['type'] {
+  if (ev.type === 'archived') return 'archived';
   if (ev.type === 'past') return 'past';
   const overAt = ev.endsAt ?? ev.countdownAt;
   if (overAt && new Date(overAt) <= now) return 'past';
@@ -125,6 +127,19 @@ export function getEventStatus(ev: CommunityEvent, now: Date = new Date()): 'upc
 /** True for events that belong in the Upcoming list / home spotlight. */
 export function shouldShowInUpcomingList(ev: CommunityEvent, now: Date = new Date()): boolean {
   return getEventStatus(ev, now) === 'upcoming';
+}
+
+/** Confirmed dates lead; undated plans retain their curated order at the end. */
+export function getUpcomingEvents(now: Date = new Date()): CommunityEvent[] {
+  return ZANC_COMMUNITY_EVENTS.filter((e) => shouldShowInUpcomingList(e, now)).sort(
+    (a, b) => (a.countdownAt ? +new Date(a.countdownAt) : Infinity) -
+      (b.countdownAt ? +new Date(b.countdownAt) : Infinity)
+  );
+}
+
+/** Plans not held, kept separate from completed-event highlights. */
+export function getArchivedPlans(): CommunityEvent[] {
+  return ZANC_COMMUNITY_EVENTS.filter((e) => e.type === 'archived');
 }
 
 /** True for an event that has concluded but was authored as upcoming — render it with a “Held” badge. */
@@ -211,11 +226,10 @@ export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
     lines: ['Year-End Reflection & Toy Drive — date TBA'],
   },
   {
-    title: 'Still to be scheduled',
+    title: 'Archived 2026 plans — not held',
     lines: [
-      'Golf Outing — date TBA',
-      'ZANC Summer Picnic & Family Day — date TBA',
-      'ROOTS & RISE: Skills Exchange + Signature Gala — date TBA',
+      'Golf Outing, Summer Picnic & Family Day, and ROOTS & RISE did not take place as planned in 2026.',
+      'These ideas are archived. Any future edition will be announced separately once confirmed.',
     ],
   },
   {
@@ -277,15 +291,13 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     countdownAt: '2026-07-04T21:00:00-07:00',
   },
   {
-    title: 'Golf Outing (TBA)',
+    title: 'Golf Outing',
     description:
-      'A relaxed golf outing to connect, laugh, and enjoy NorCal together. Course, date and time, format, pricing, and RSVP are still to be announced.\n\n' +
-      'Stay tuned here and in your ZANC email; we’ll share full details as soon as they’re set.',
-    dateLabel: 'TBA',
-    location: 'TBA',
-    type: 'upcoming',
+      'The proposed community golf outing did not take place in 2026. The plan is archived; no replacement date is confirmed.',
+    dateLabel: '2026 plan · not held',
+    location: 'Not scheduled',
+    type: 'archived',
     category: 'Social / Family',
-    feeNote: 'TBA',
     anchorId: 'golf-outing-tba',
     imageUrl: '/images/postings/golf-event.png',
     lanes: ['family', 'sports'],
@@ -293,33 +305,25 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
   {
     title: 'ZANC Summer Picnic & Family Day',
     description:
-      'A relaxed summer gathering—BBQ / potluck, kids’ games, soccer, dominoes and cards, music, and introductions for new members.\n\n' +
-      'Bring a dish, bring a friend, bring the energy. Date and venue to be announced.',
-    dateLabel: 'TBA',
-    location: 'TBA',
-    type: 'upcoming',
+      'The proposed summer picnic and family day did not take place in 2026. The plan is archived; a future gathering will be announced if confirmed.',
+    dateLabel: '2026 plan · not held',
+    location: 'Not scheduled',
+    type: 'archived',
     category: 'Community Social',
-    feeNote: 'TBA',
     anchorId: 'summer-picnic-2026',
     lanes: ['family', 'culture', 'sports'],
   },
   {
     title: 'ROOTS & RISE: ZANC Signature Gala + Skills Exchange',
     description:
-      'Our prestige anchor for 2026—two movements in one day (times TBA).\n\n' +
-      'Skills Exchange Forum — short member-led presentations and conversations: home buying in California, careers in healthcare, starting a business, tech & AI opportunities, financial literacy, shipping / diaspora trade, and more.\n\n' +
-      'Gala mixer + Taste of Zambia showcase — an elegant evening around the theme “What Is Zambian Cuisine?” Community-contributed dishes representing regions, tribes, and modern interpretations—with labels, dish stories, soft music, light awards, and networking.\n\n' +
-      'Date, venue, schedule, and ticket tiers will be announced here.',
-    dateLabel: 'TBA',
-    location: 'TBA',
-    type: 'upcoming',
+      'The proposed skills exchange and gala did not take place in 2026. The concept is archived; no future date, venue or ticketing is confirmed. The October 24 Independence celebration remains a separate event.',
+    dateLabel: '2026 plan · not held',
+    location: 'Not scheduled',
+    type: 'archived',
     category: 'Signature Event',
-    feeNote: 'TBA',
     anchorId: 'roots-rise-gala-2026',
     lanes: ['signature', 'culture', 'business'],
-    // NOTE FOR ZANC: this was pencilled in for August and no date was ever confirmed. It is kept
-    // listed as TBA rather than deleted — confirm whether it is still planned for 2026 or should
-    // move to 2027, then either give it a date or retire the listing.
+    // Organizer confirmed on September 29 that these three plans never materialized.
   },
   {
     title: 'ZANC Matchday: Bay FC vs Orlando Pride',
