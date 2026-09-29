@@ -30,6 +30,19 @@ type StaticNewsArticle = {
 /** Site-authored micro-articles (shown on News + All tabs). Order = left-to-right (newest dated stories first). */
 const STATIC_NEWS_ARTICLES: StaticNewsArticle[] = [
   {
+    id: 'sacramento-lusaka-visit-2026',
+    title: 'Opening a conversation between Sacramento and Lusaka',
+    excerpt: 'ZANC and Zambia’s Honorary Consul met with Vice Mayor Karina Talamantes’ office to introduce Zambia and explore opportunities for cooperation.',
+    date: 'September 28, 2026',
+    imageUrl: '/images/postings/sacramento-visit-2026-09-28.png',
+    bodyParagraphs: [
+      'On September 28, ZANC President Mabvuto Kaela and Rajen Ranchhod, Honorary Consul of the Republic of Zambia in California, visited Sacramento City Hall for a 30-minute introductory discussion with Vice Mayor Karina Talamantes’ office.',
+      'The conversation introduced Zambia, its strengths and its regional context, and explored the proposed Sacramento–Lusaka capital-to-capital initiative. Areas raised included agriculture and food systems, education and youth exchange, trade and investment, tourism and culture, and cooperation between public institutions.',
+      'The proposal suggests exploring a suitable cooperation framework, identifying a city point of contact and bringing regional partners together for a roundtable. It also raises the possibility of a Sacramento–Zambia Business, Agriculture & Investment Forum in 2027. These remain proposals for further discussion; no formal partnership or forum has been agreed.',
+      'We also invited the Vice Mayor’s team to our October 24 Independence celebration in Woodland. They will check their schedules, and attendance remains unconfirmed. Thank you to the Vice Mayor’s office for making time to learn about Zambia and meet with our community representatives.',
+    ],
+  },
+  {
     id: 'local-rev-mubanga-socal-rep',
     title: 'Rev. Stephen Mubanga named ZANC’s Los Angeles (SoCal) area representative',
     excerpt:
@@ -653,7 +666,7 @@ const News = () => {
                 {upcomingEventsBlock('h4')}
               </div>
 
-              <div>
+              <div id="latest-updates" className="scroll-mt-28">
                 <h3 className="text-lg font-heading font-semibold text-zambia-green mb-2">Latest updates</h3>
                 <p className="text-sm text-slate mb-6 max-w-2xl leading-relaxed">
                   Micro articles and announcements. Tap any card to read the full story in a pop-up.

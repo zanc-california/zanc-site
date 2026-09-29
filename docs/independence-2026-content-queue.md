@@ -1,67 +1,39 @@
 # Independence 2026 — content queue
 
-Running checklist of what still needs to be added to the site as planning progresses.
+Updated September 29, 2026 from organizer confirmations and approved flyers.
 
-**Event:** Zambian Independence Celebration — Saturday, October 24, 2026
-**Venue:** Fairfield by Marriott Inn & Suites Sacramento Airport Woodland, 2100 Freeway Drive, Woodland, CA 95776
-**Page:** `/independence` — [frontend/src/pages/Independence.tsx](../frontend/src/pages/Independence.tsx)
-**Data:** the `independence-2026` entry in [frontend/src/data/communityCalendar2026.ts](../frontend/src/data/communityCalendar2026.ts)
+## Confirmed content in this release
 
-Almost everything below is edited in the **data file**, not the page. Update the event object and the
-home page banner, the Events & News flagship card, the calendar modal and the page all follow.
+- Woodland celebration: Saturday, October 24, 2026; doors 5:30 PM, program 6:00 PM.
+- Fairfield by Marriott Inn & Suites Sacramento Airport Woodland, 2100 Freeway Drive, Woodland, CA 95776.
+- Adults 18+ $55; ages 10–17 $25; under 10 free. Reserve for every attendee; hall capacity is 160, not a live count of seats available.
+- Reservation URL: https://www.eventbrite.com/e/zambias-62nd-independence-celebration-registration-2002341560509
+- Joseph Prouse, Jean Nangwala and Dj LittyRocket confirmed. Full program times remain pending.
+- American Hospitality Services sponsor; additional area-business and volunteer inquiries welcomed through ZANC.
+- Family, guest and artist flyers available to view and download. The approved flyers include Zelle details; website copy directs visitors through the completed reservation link without requiring a separate payment step.
+- San Francisco City Hall flag raising: Friday, October 23, 2026, 11:30 AM. Updated countdown, calendar, event listing, page and flyer.
+- Hotel group rate remains $99/night, with October 22 booking deadline. This deadline is separate from the flag-raising date.
+- September 28 Sacramento visit recap and original group photo: introductory discussion with Vice Mayor Karina Talamantes’ office. Sacramento–Lusaka cooperation and a possible 2027 forum remain proposals. Independence attendance by the office is not confirmed.
 
----
+## Editing locations
 
-## Published and confirmed
+- `frontend/src/data/communityCalendar2026.ts`: event data, countdown, calendar, reservation URL, guest flyers and workstreams.
+- `frontend/src/pages/Independence.tsx`: event page and structured data.
+- `frontend/src/pages/Home.tsx`: event promotion and visit recap preview.
+- `frontend/src/pages/News.tsx`: site-authored visit article.
+- `frontend/public/images/postings/`: public, approved artwork and visit photograph.
 
-- [x] Date — Saturday, October 24, 2026
-- [x] Venue name and street address
-- [x] Host hotel group rate ($99 USD/night) and booking deadline (October 22, 2026)
-- [x] Marriott group booking link
-- [x] Cooking team invitation (compensation contemplated for defined major responsibilities)
-- [x] Décor team invitation (compensation contemplated for assigned work)
-- [x] Event schema.org structured data, page title, description and social preview text
+Raw correspondence, trackers and private coordination remain outside the public build.
 
-## Waiting on a decision — currently shown as "More details coming soon"
+## Still to confirm
 
-- [ ] **Start and end times.** Add to the `Character`/`Date` cards and to `startDate` in the JSON-LD
-      on the Independence page once set.
-- [ ] **Ticket pricing and how to buy.** Replace `feeNote: 'Ticketing TBA'` and add a CTA. If tickets
-      are sold externally, use `externalUrl` + `externalLinkLabel` on the event.
-- [ ] **Programme / run of show.** Speeches, cultural performances, dinner, awards — add as a new
-      section on the page once the committee signs it off.
-- [ ] **Dress code / theme**, if there is one.
-- [ ] **Catering decision.** The page currently says the cooking team is being assembled *before*
-      deciding whether outside catering is needed. Update the cooking workstream once that is settled.
-- [ ] **Music / DJ.** A request-collection mechanism has not been agreed. The workstream card is
-      deliberately CTA-less until it is — add `ctaLabel` + `ctaHref` when a method exists.
-- [ ] **Volunteer roles** for the day. Split out of the combined "Volunteering, entertainment and
-      sponsorship" workstream once roles are defined.
-- [ ] **Sponsors and sponsorship tiers.** Do not list a sponsor before it is agreed in writing.
-- [ ] **Entertainment / performers.**
+- Detailed running order, performance and speaking times, and any end-time revision.
+- Music-request collection method, volunteer assignments, final menu and dress guidance.
+- Additional sponsors and any agreed benefits; do not announce an interested party as a sponsor.
+- Hotel group-rate eligible nights and any room-block limit.
+- Civic guests who accept invitations; do not list invitees as confirmed attendees.
+- After-event photographs and recap.
 
-## Assets needed
+## Artwork provenance
 
-- [ ] **Save the Date / event artwork — BLOCKING, one-line fix.** The image slot is built and the
-      page + social preview are already wired to it; it renders nothing because no such file exists
-      in the repo. To activate:
-      1. Save the WhatsApp flyer to `frontend/public/images/postings/independence-2026-save-the-date.png`
-      2. Uncomment the `imageUrl` line on the `independence-2026` event in `communityCalendar2026.ts`
-
-      That single line makes the graphic appear near the top of `/independence` **and** become the
-      Open Graph preview image for every WhatsApp/Facebook share of the link. Ideal dimensions for
-      the social preview are 1200×630; a taller flyer still displays fine on the page itself.
-- [ ] Photos after the event, for the past-event recap (see the Mother's Day entry for the pattern:
-      `imageUrl` + `galleryImages` + optional `videoUrl`).
-
-## To verify with the hotel
-
-- [ ] **Which nights the group rate covers.** The site deliberately does not claim Friday night is
-      included. Confirm in the Marriott booking interface, then add it to `accommodation.note` if it is.
-- [ ] Whether the group block has a room cap worth mentioning.
-
-## After the event
-
-Nothing to delete. Set `type: 'past'` on the event, or simply leave it — `endsAt` is set to
-2026-10-25T00:00:00-07:00, so it moves itself into "Past highlights" with a **Held** badge the day
-after. Then swap the description to past tense and add photos.
+The flag-raising flyer uses the existing artwork with its bottom banner corrected to “FRIDAY, OCTOBER 23, 2026” and “11:30 AM • SAN FRANCISCO CITY HALL”. The original is preserved. All other flyers were copied from the organizer-approved versions; no new guest or sponsor claims were added.

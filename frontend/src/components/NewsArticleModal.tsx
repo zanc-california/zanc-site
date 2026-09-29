@@ -79,11 +79,11 @@ const NewsArticleModal = ({ open, onClose, article }: NewsArticleModalProps) => 
             <>
               {article.date && <p className="text-sm text-slate mb-4">{article.date}</p>}
               {article.imageUrl ? (
-                <div className="mb-6 rounded-lg overflow-hidden border border-mist bg-cloud aspect-[4/3] max-h-64 w-full">
+                <div className="mb-6 rounded-lg overflow-hidden border border-mist bg-cloud w-full">
                   <img
                     src={article.imageUrl}
                     alt={article.title}
-                    className="w-full h-full object-cover object-top"
+                    className="w-full max-h-[32rem] object-contain"
                   />
                 </div>
               ) : null}

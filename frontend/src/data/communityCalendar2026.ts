@@ -92,10 +92,19 @@ export type CommunityEvent = {
   communityOrganized?: boolean;
 };
 
+export const INDEPENDENCE_RESERVATION_URL =
+  'https://www.eventbrite.com/e/zambias-62nd-independence-celebration-registration-2002341560509';
+
+export const INDEPENDENCE_FEATURES = [
+  { name: 'Joseph Prouse', role: 'Special guest', description: 'Hear his story of 21 days in Zambia’s Luangwa Valley on Naked and Afraid.', imageUrl: '/images/postings/joseph-prouse-2026.png' },
+  { name: 'Jean Nangwala', role: 'Zambian Afro Pop artist', description: 'A contemporary Zambian musical voice joins our Independence celebration.', imageUrl: '/images/postings/jean-nangwala-2026.png' },
+  { name: 'Dj LittyRocket', role: 'On the decks', description: 'Our community member brings the music for an evening together.', imageUrl: '/images/postings/dj-littyrocket-2026.png' },
+];
+
 /** Milestones for countdown widget — only firm dates; first future date wins. */
 export const COUNTDOWN_MILESTONES: { at: string; label: string }[] = [
   { at: '2026-09-27T15:00:00-07:00', label: 'ZANC Matchday — Bay FC vs Orlando Pride' },
-  { at: '2026-10-22T11:30:00-07:00', label: 'Zambia flag raising — San Francisco City Hall' },
+  { at: '2026-10-23T11:30:00-07:00', label: 'Zambia flag raising — San Francisco City Hall' },
   { at: '2026-10-24T18:00:00-07:00', label: 'Zambian Independence Celebration — Woodland' },
 ];
 
@@ -160,7 +169,7 @@ export function getIndependenceEvent(): CommunityEvent | undefined {
   return ZANC_COMMUNITY_EVENTS.find((e) => e.anchorId === 'independence-2026');
 }
 
-/** Civic flag raising at San Francisco City Hall, two days before the Woodland celebration. */
+/** Civic flag raising at San Francisco City Hall, the day before the Woodland celebration. */
 export function getFlagRaisingEvent(): CommunityEvent | undefined {
   return ZANC_COMMUNITY_EVENTS.find((e) => e.anchorId === 'sf-flag-raising-2026');
 }
@@ -186,8 +195,9 @@ export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
   {
     title: 'October (flagship)',
     lines: [
-      'Zambia flag raising — San Francisco City Hall — Thu, Oct 22, 11:30 AM',
-      'Zambian Independence Celebration — Sat, Oct 24 · doors 5:30 PM · 6:00 PM · $55',
+      'Zambia flag raising — San Francisco City Hall — Fri, Oct 23, 11:30 AM',
+      'Zambian Independence Celebration — Sat, Oct 24 · doors 5:30 PM · 6:00 PM',
+      'Adults 18+ $55 · ages 10–17 $25 · under 10 free — advance reservations requested for everyone',
       'Fairfield by Marriott Inn & Suites Sacramento Airport Woodland',
       'Host-hotel group rate $99/night — book by October 22',
     ],
@@ -333,18 +343,18 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     description:
       'A civic flag-raising for Zambia’s 62nd Independence. Honorary Consul of the Republic of Zambia for California, Rajen Ranchhod, invites Zambians across the Bay Area and Northern California — and friends of Zambia — to come out and support this occasion.\n\n' +
       'Seeing the Zambian flag raised at San Francisco City Hall is a proud moment for the community and for Zambia in the United States. Our appreciation to the City of San Francisco and its Protocol Office for working with us to make it possible.\n\n' +
-      'Thursday, October 22, 2026 · 11:30 AM · San Francisco City Hall. One Zambia, One Nation.',
-    dateLabel: 'Thu, Oct 22 · 11:30 AM',
+      'Friday, October 23, 2026 · 11:30 AM · San Francisco City Hall. One Zambia, One Nation.',
+    dateLabel: 'Fri, Oct 23 · 11:30 AM',
     location: 'San Francisco City Hall',
     type: 'upcoming',
     category: 'Civic ceremony',
     feeNote: 'Open gathering',
     anchorId: 'sf-flag-raising-2026',
-    imageUrl: '/images/postings/sf-flag-raising-2026.jpg',
+    imageUrl: '/images/postings/sf-flag-raising-2026-confirmed.png',
     heroImageTall: true,
     lanes: ['culture', 'signature'],
-    countdownAt: '2026-10-22T11:30:00-07:00',
-    endsAt: '2026-10-23T00:00:00-07:00',
+    countdownAt: '2026-10-23T11:30:00-07:00',
+    endsAt: '2026-10-24T00:00:00-07:00',
     venueName: 'San Francisco City Hall',
     venueAddress: '1 Dr. Carlton B. Goodlett Place, San Francisco, CA 94102',
   },
@@ -352,16 +362,18 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     title: 'Zambian Independence Celebration 2026',
     description:
       'One flagship Saturday celebration in Woodland — an evening of heritage, dignity, and celebration marking 62 years of Zambian Independence.\n\n' +
-      'Saturday, October 24, 2026. Doors open at 5:30 PM; the celebration begins at 6:00 PM. Admission is $55. Fairfield by Marriott Inn & Suites Sacramento Airport Woodland, 2100 Freeway Drive, Woodland, CA.\n\n' +
-      'Members and friends from Northern California, Southern California, and out of town are all warmly encouraged to attend. The celebration is at the host hotel, where a ZANC group rate of $99/night is open through October 22.',
+      'Saturday, October 24, 2026. Doors open at 5:30 PM; the celebration begins at 6:00 PM. Adults 18+ $55; ages 10–17 $25; children under 10 free. Reserve in advance, including all children; the hall has a capacity of 160. Fairfield by Marriott Inn & Suites Sacramento Airport Woodland, 2100 Freeway Drive, Woodland, CA.\n\n' +
+      'Confirmed for the evening: special guest Joseph Prouse, Zambian Afro Pop artist Jean Nangwala, and Dj LittyRocket. Members and friends of Zambia are warmly welcome. The celebration is at the host hotel, where a ZANC group rate of $99/night is open through October 22.',
     dateLabel: 'Sat, Oct 24 · 6:00 PM',
     location: 'Woodland, CA',
     type: 'upcoming',
     category: 'Flagship Event',
-    feeNote: '$55 admission',
+    feeNote: 'Adults $55 · ages 10–17 $25 · under 10 free',
+    externalUrl: INDEPENDENCE_RESERVATION_URL,
+    externalLinkLabel: 'Reserve your place',
     anchorId: 'independence-2026',
     detailPath: '/independence',
-    imageUrl: '/images/postings/independence-2026-save-the-date.jpg',
+    imageUrl: '/images/postings/independence-2026-family.png',
     lanes: ['culture', 'signature'],
     featured: true,
     countdownAt: '2026-10-24T18:00:00-07:00',
@@ -382,7 +394,7 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
         title: 'Cooking team',
         status: 'Now forming',
         body:
-          'Before looking at outside catering, ZANC is first inviting community members who would like to be part of the Independence cooking team. Members who take on defined major cooking responsibilities may be compensated for that work.',
+          'ZANC is organizing community cooking with supplemental dishes and welcomes members who would like to help. Members who take on defined major cooking responsibilities may be compensated for that work.',
         ctaLabel: 'Email ZANC about cooking',
         ctaHref:
           'mailto:zancsac@gmail.com?subject=Independence%202026%20-%20cooking%20team&body=I%27d%20like%20to%20help%20with%20cooking%20for%20Independence%202026.%0A%0AName%3A%0APhone%3A%0ADishes%20or%20area%20I%27d%20like%20to%20take%20on%3A%0A',
@@ -397,18 +409,19 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
           'mailto:zancsac@gmail.com?subject=Independence%202026%20-%20d%C3%A9cor%20team&body=I%27d%20like%20to%20help%20with%20d%C3%A9cor%20for%20Independence%202026.%0A%0AName%3A%0APhone%3A%0AWhat%20I%27d%20like%20to%20take%20on%3A%0A',
       },
       {
-        title: 'Music and DJ requests',
+        title: 'Music with Dj LittyRocket',
         status: 'Details coming soon',
         body:
-          'Community members have already expressed interest in submitting DJ and music requests. We are still working out how requests will be collected — watch this page.',
+          'Dj LittyRocket is confirmed for the evening. Details about music requests and the running order will follow.',
         pending: true,
       },
       {
-        title: 'Volunteering, entertainment, and sponsorship',
-        status: 'Details coming soon',
+        title: 'Volunteering and sponsorship',
+        status: 'Get involved',
         body:
-          'American Hospitality Services is sponsoring this year’s celebration. More ways to take part are still being planned, including volunteering on the day and entertainment. Additional details will be published here as they are confirmed.',
-        pending: true,
+          'Thank you to American Hospitality Services for sponsoring the celebration. Area businesses interested in sponsorship or in-kind contributions, and community members who would like to volunteer, are welcome to contact ZANC.',
+        ctaLabel: 'Contact ZANC',
+        ctaHref: 'mailto:zancsac@gmail.com?subject=Independence%202026%20-%20volunteering%20or%20sponsorship',
       },
     ],
   },

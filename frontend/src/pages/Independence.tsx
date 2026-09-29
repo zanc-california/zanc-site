@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import Reveal from '../components/Reveal';
 import SubscribeModal from '../components/SubscribeModal';
-import { getFlagRaisingEvent, getIndependenceEvent } from '../data/communityCalendar2026';
+import { getFlagRaisingEvent, getIndependenceEvent, INDEPENDENCE_FEATURES, INDEPENDENCE_RESERVATION_URL } from '../data/communityCalendar2026';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { SITE_ORIGIN } from '../lib/siteMeta';
 
 const META_DESCRIPTION =
   'ZANC’s Independence Celebration is Saturday, October 24, 2026 in Woodland — doors 5:30 PM, celebration at 6:00 PM, ' +
-  'admission $55. Host-hotel rooms are $99/night through October 22. Flag raising at San Francisco City Hall is Thursday, October 22 at 11:30 AM.';
+  'adults $55, ages 10–17 $25, under 10 free. Reserve your place. San Francisco City Hall flag raising: Friday, October 23 at 11:30 AM.';
 
 const Independence = () => {
   const event = getIndependenceEvent();
@@ -20,21 +20,18 @@ const Independence = () => {
     title: 'Zambian Independence Celebration 2026',
     description: META_DESCRIPTION,
     path: '/independence',
-    // Falls back to the ZANC logo until Save the Date artwork is added to the event data.
-    image: event?.imageUrl,
+    image: '/images/postings/independence-2026-banner.png',
     jsonLd: event && {
       '@context': 'https://schema.org',
       '@type': 'Event',
       name: 'Zambian Independence Celebration 2026',
       startDate: '2026-10-24T18:00:00-07:00',
       doorTime: '2026-10-24T17:30:00-07:00',
-      offers: {
-        '@type': 'Offer',
-        price: '55',
-        priceCurrency: 'USD',
-        availability: 'https://schema.org/InStock',
-        url: `${SITE_ORIGIN}/independence`,
-      },
+      offers: [
+        { name: 'Adults 18 and over', price: '55' },
+        { name: 'Ages 10–17', price: '25' },
+        { name: 'Children under 10', price: '0' },
+      ].map((offer) => ({ ...offer, '@type': 'Offer', priceCurrency: 'USD', url: INDEPENDENCE_RESERVATION_URL })),
       eventStatus: 'https://schema.org/EventScheduled',
       eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
       description: META_DESCRIPTION,
@@ -82,17 +79,21 @@ const Independence = () => {
             <p className="mt-5 text-white text-lg md:text-xl font-heading font-semibold">
               Saturday, October 24, 2026 · 6:00 PM
             </p>
-            <p className="mt-1 text-white/90">Doors open at 5:30 PM · Admission $55</p>
+            <p className="mt-1 text-white/90">Doors open at 5:30 PM · Adults $55 · Ages 10–17 $25 · Under 10 free</p>
             <p className="mt-2 text-white/90 leading-relaxed">
               {event.venueName}
               <br />
               {event.venueAddress}
             </p>
             <p className="mt-5 text-white/90 leading-relaxed max-w-2xl">
-              One flagship Saturday celebration — formal, cultural, and social. Members and friends from Northern California,
-              Southern California, and out of town are all warmly encouraged to join us.
+              Bring the whole family for Zambian food, music and community. Join Joseph Prouse, Jean Nangwala and
+              Dj LittyRocket as we celebrate 62 years of independence.
             </p>
+            <p className="mt-3 text-white/90 text-sm">Please reserve early and include everyone attending, including children. Hall capacity: 160.</p>
             <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-row sm:flex-wrap">
+              <a href={INDEPENDENCE_RESERVATION_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center rounded-md bg-copper px-6 py-3 text-lg font-medium text-white hover:bg-copper-light focus-visible:ring-2 focus-visible:ring-white">
+                Reserve your place
+              </a>
               {accommodation?.bookingUrl && (
                 <a href={accommodation.bookingUrl} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
                   <Button variant="accent" size="lg" className="w-full sm:w-auto">
@@ -119,23 +120,21 @@ const Independence = () => {
       {/* At a glance */}
       <section className="py-10 md:py-14 bg-white border-b border-mist">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/*
-            Save the Date artwork. Renders only once `imageUrl` is set on the Independence event —
-            visual continuity for people arriving from WhatsApp, where the flyer has already
-            circulated. See the note in communityCalendar2026.ts for where to drop the file.
-          */}
+          {/* Approved family flyer, also available to download and share. */}
           {event.imageUrl && (
             <Reveal className="mb-8 md:mb-10">
               <figure className="mx-auto max-w-2xl overflow-hidden rounded-xl border border-mist bg-cloud shadow-sm">
                 <img
                   src={event.imageUrl}
-                  alt="Save the Date — Zambia Independence Celebration, Saturday October 24, 2026, 6:00 PM, doors 5:30 PM, admission $55, Woodland, California"
+                  width={1122}
+                  height={1402}
+                  alt="Zambia Independence Celebration family flyer: October 24 in Woodland, adults $55, ages 10–17 $25, under 10 free"
                   className="w-full h-auto object-contain"
                   loading="eager"
                 />
                 <figcaption className="px-4 py-3 text-sm text-slate leading-relaxed border-t border-mist">
                   Presented by ZANC. Sponsored by American Hospitality Services. Doors 5:30 PM · celebration 6:00 PM ·
-                  admission $55.
+                  adults $55 · ages 10–17 $25 · under 10 free. <a href={event.imageUrl} download className="font-semibold text-bay-blue underline">Download the family flyer</a>
                 </figcaption>
               </figure>
             </Reveal>
@@ -151,13 +150,13 @@ const Independence = () => {
               { label: 'Venue', value: event.venueName ?? 'TBA', note: event.venueAddress ?? '' },
               {
                 label: 'Admission',
-                value: '$55',
-                note: 'An evening of heritage, dignity, and celebration.',
+                value: 'Adults $55 · Ages 10–17 $25',
+                note: 'Children under 10 free. Reserve for everyone in your party.',
               },
               {
                 label: 'Flag raising',
-                value: 'Thursday, October 22 · 11:30 AM',
-                note: 'San Francisco City Hall — a civic ceremony two days before the celebration.',
+                value: 'Friday, October 23 · 11:30 AM',
+                note: 'San Francisco City Hall — a civic ceremony the day before the celebration.',
               },
             ].map((item) => (
               <Reveal key={item.label} className="rounded-xl border border-mist bg-cloud p-5 h-full">
@@ -170,9 +169,8 @@ const Independence = () => {
 
           <Reveal className="mt-8 rounded-xl border border-copper/30 bg-copper-glow/60 p-5 md:p-6">
             <p className="text-sm text-redwood leading-relaxed">
-              <span className="font-heading font-semibold">Still being finalized.</span> The full program, performers, and how
-              music requests will be collected are not confirmed yet. Those details will be published on this page as soon as they
-              are decided — check back, or{' '}
+              <span className="font-heading font-semibold">Reservations are open.</span> Complete your reservation through the link above.
+              The full running order and music-request details will follow. You can also{' '}
               <button
                 type="button"
                 onClick={() => setSubscribeOpen(true)}
@@ -181,9 +179,31 @@ const Independence = () => {
               >
                 join the ZANC email list
               </button>{' '}
-              to hear first.
+              for program updates.
             </p>
           </Reveal>
+        </div>
+      </section>
+
+      <section id="lineup" className="py-10 md:py-14 bg-fog border-b border-mist scroll-mt-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Meet the evening’s guests and artists</h2>
+          <p className="mt-2 text-slate">Confirmed for October 24. Share the flyers with family and friends; speaking and performance times will follow.</p>
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+            {INDEPENDENCE_FEATURES.map((guest) => (
+              <article key={guest.name} className="overflow-hidden rounded-xl border border-mist bg-white shadow-sm">
+                <a href={guest.imageUrl} target="_blank" rel="noopener noreferrer" aria-label={`Open ${guest.name} flyer in full size`}>
+                  <img src={guest.imageUrl} alt={`${guest.name} Independence celebration flyer`} width={1122} height={1402} className="w-full h-auto" loading="lazy" />
+                </a>
+                <div className="p-5">
+                  <p className="text-xs uppercase tracking-wide text-copper">{guest.role}</p>
+                  <h3 className="mt-1 text-xl font-heading font-semibold text-zambia-green">{guest.name}</h3>
+                  <p className="mt-2 text-sm text-slate">{guest.description}</p>
+                  <a href={guest.imageUrl} download className="mt-4 inline-block font-medium text-bay-blue underline">Download flyer</a>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -195,7 +215,7 @@ const Independence = () => {
                 Flag raising at San Francisco City Hall
               </h2>
               <p className="text-slate mt-1 max-w-2xl">
-                Thursday, October 22, 2026 · 11:30 AM. A civic celebration two days before the Woodland evening.
+                Friday, October 23, 2026 · 11:30 AM. A civic celebration the day before the Woodland evening.
               </p>
             </Reveal>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
@@ -204,11 +224,13 @@ const Independence = () => {
                   <figure className="overflow-hidden rounded-xl border border-mist bg-cloud shadow-sm">
                     <img
                       src={flagRaising.imageUrl}
+                      width={1254}
+                      height={1254}
                       alt="Zambia in San Francisco — civic flag raising at San Francisco City Hall"
                       className="w-full h-auto object-contain"
                     />
                     <figcaption className="px-4 py-3 text-sm text-slate leading-relaxed border-t border-mist">
-                      Date confirmed: Thursday, October 22, 2026 at 11:30 AM, San Francisco City Hall.
+                      Date confirmed: Friday, October 23, 2026 at 11:30 AM, San Francisco City Hall.
                     </figcaption>
                   </figure>
                 </Reveal>
@@ -380,6 +402,7 @@ const Independence = () => {
             </p>
           </Reveal>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a href={INDEPENDENCE_RESERVATION_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center rounded-md bg-copper px-6 py-3 text-lg font-medium text-white hover:bg-copper-light focus-visible:ring-2 focus-visible:ring-white">Reserve your place</a>
             <Button
               type="button"
               variant="accent"

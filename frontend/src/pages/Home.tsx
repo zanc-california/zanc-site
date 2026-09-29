@@ -4,7 +4,7 @@ import Button from '../components/Button';
 import FeaturedCommunitySpotlight from '../components/FeaturedCommunitySpotlight';
 import LandingEventSpotlightModal from '../components/LandingEventSpotlightModal';
 import SubscribeModal from '../components/SubscribeModal';
-import { getIndependenceEvent, getNextUpcomingEvent } from '../data/communityCalendar2026';
+import { getIndependenceEvent, getNextUpcomingEvent, INDEPENDENCE_RESERVATION_URL } from '../data/communityCalendar2026';
 import { isJulyFourthWeek, JULY_FOURTH_2026_HERO } from '../data/julyFourth2026';
 import { HOME_STATS } from '../data/siteStats';
 import { heroImages } from '../heroImages';
@@ -138,7 +138,7 @@ const Home = () => {
               <div className="grid grid-cols-1 lg:grid-cols-5">
                 <div className="lg:col-span-3 p-6 md:p-8 lg:p-10">
                   <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">
-                    ZANC flagship event · save the date
+                    ZANC flagship event · reservations open
                   </p>
                   <h2 className="mt-2 text-2xl md:text-4xl font-heading font-bold text-zambia-green tracking-[-0.01em]">
                     Zambian Independence Celebration 2026
@@ -147,25 +147,26 @@ const Home = () => {
                     Saturday, October 24, 2026 · 6:00 PM
                   </p>
                   <p className="mt-1 text-sm text-slate leading-relaxed">
-                    Doors open at 5:30 PM · Admission $55
+                    Doors open at 5:30 PM · Adults $55 · Ages 10–17 $25 · Under 10 free
                     <br />
                     {independence.venueName}
                     <br />
                     {independence.venueAddress}
                   </p>
                   <p className="mt-4 text-slate leading-relaxed max-w-xl">
-                    An evening of heritage, dignity, and celebration. Members and friends from Northern California, Southern
-                    California, and out of town are warmly encouraged to join us. Hotel rooms at the venue are $99/night through
-                    October 22.
+                    Zambian food, music and community with Joseph Prouse, Jean Nangwala and Dj LittyRocket.
+                    Reserve early for everyone in your party, including children. Hall capacity: 160.
+                    Host-hotel rooms are $99/night; book by October 22.
                   </p>
                   <p className="mt-3 text-sm text-slate leading-relaxed max-w-xl">
                     Also that week:{' '}
                     <Link to="/independence#flag-raising" className="font-medium text-bay-blue hover:underline">
                       Zambia flag raising at San Francisco City Hall
                     </Link>{' '}
-                    — Thursday, October 22, 11:30 AM.
+                    — Friday, October 23, 11:30 AM.
                   </p>
                   <div className="mt-6 grid grid-cols-1 gap-3 sm:flex sm:flex-row sm:flex-wrap">
+                    <a href={INDEPENDENCE_RESERVATION_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center rounded-md bg-copper px-6 py-3 text-lg font-medium text-white hover:bg-copper-light focus-visible:ring-2 focus-visible:ring-zambia-green">Reserve your place</a>
                     <Link to="/independence" className="w-full sm:w-auto">
                       <Button variant="accent" size="lg" className="w-full sm:w-auto">
                         Event details
@@ -187,6 +188,7 @@ const Home = () => {
                 </div>
                 <div className="lg:col-span-2 border-t lg:border-t-0 lg:border-l border-copper/25 bg-white/70 p-6 md:p-8 flex flex-col justify-center gap-4">
                   <div>
+                    <Link to="/independence#lineup"><img src="/images/postings/independence-2026-banner.png" alt="Zambia Independence celebration with family admission prices" width={1774} height={887} className="w-full h-auto rounded-lg mb-5" loading="lazy" /></Link>
                     <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">Where to stay</p>
                     <p className="mt-1 text-sm text-slate leading-relaxed">
                       Special ZANC Independence group rate available through the host hotel
@@ -216,13 +218,25 @@ const Home = () => {
         </section>
       )}
 
+      <section className="py-8 bg-cloud border-b border-mist">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-6 sm:grid-cols-[180px_1fr] items-center">
+          <img src="/images/postings/sacramento-visit-2026-09-28.png" alt="ZANC representatives visiting Sacramento City Hall" width={645} height={815} className="w-full h-auto max-w-[180px] rounded-lg" loading="lazy" />
+          <div>
+            <p className="text-xs uppercase tracking-wide text-copper">Community update · September 28, 2026</p>
+            <h2 className="mt-2 text-2xl font-heading font-semibold text-zambia-green">Opening a conversation between Sacramento and Lusaka</h2>
+            <p className="mt-2 text-slate max-w-3xl">ZANC and Zambia’s Honorary Consul visited Vice Mayor Karina Talamantes’ office to introduce Zambia and discuss opportunities for cultural, educational and economic cooperation.</p>
+            <Link to="/news#latest-updates" className="mt-3 inline-block font-medium text-bay-blue underline">Read the visit recap</Link>
+          </div>
+        </div>
+      </section>
+
       <section className="py-10 md:py-14 bg-white border-b border-mist">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
             <div>
               <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">What&apos;s Happening in the Community</h2>
               <p className="text-slate mt-1 max-w-2xl">
-                Our matchday stays on the card. Around it, nearby gatherings friends of the community may want to catch.
+                Upcoming ZANC events and nearby gatherings for our community and friends.
               </p>
             </div>
             <Link to="/news?calendar=1" className="shrink-0">
