@@ -230,7 +230,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="py-10 md:py-14 bg-white border-b border-mist">
+      <section id="community-happenings" className="py-10 md:py-14 bg-white border-b border-mist scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
             <div>
@@ -248,7 +248,7 @@ const Home = () => {
               <JulyFourthCommunityNote />
             </div>
           )}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))' }}>
             {landingSpotlightEvent ? (
               <Reveal
                 key={landingSpotlightEvent.anchorId ?? landingSpotlightEvent.title}
@@ -256,16 +256,27 @@ const Home = () => {
                 className="group h-full flex flex-col bg-cloud rounded-lg border border-copper/25 p-6 shadow-[0_4px_24px_-4px_rgba(27,94,32,0.1),0_0_36px_rgba(184,115,51,0.14)] ring-2 ring-copper/15 ring-offset-2 ring-offset-white ui-card-motion ui-card-motion-hover ui-card-motion-active"
               >
                 <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">Next up</p>
-                <div className="mt-2 flex items-start justify-between gap-2">
+                <div className="mt-2 space-y-3">
                   <h3 className="text-lg font-heading font-semibold text-zambia-green motion-safe:transition-colors motion-safe:duration-300 group-hover:text-zambia-green-light">
                     {landingSpotlightEvent.title}
                   </h3>
-                  <span className="text-[10px] font-heading uppercase tracking-[0.08em] text-copper bg-copper-glow px-2 py-1 rounded border border-mist shrink-0">
+                  <span className="inline-block text-xs font-heading uppercase tracking-[0.08em] text-copper bg-copper-glow px-2 py-1 rounded border border-mist">
                     {landingSpotlightEvent.dateLabel}
                   </span>
                 </div>
-                <p className="text-slate mt-3 leading-relaxed text-sm flex-1">{eventCardExcerpt(landingSpotlightEvent.description)}</p>
-                <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+                <p className="text-slate mt-3 leading-relaxed text-sm">
+                  {landingSpotlightEvent.anchorId === 'sf-flag-raising-2026'
+                    ? 'Join Zambians and friends of Zambia for a civic celebration of 62 years of independence, hosted at San Francisco City Hall.'
+                    : eventCardExcerpt(landingSpotlightEvent.description)}
+                </p>
+                {landingSpotlightEvent.anchorId === 'sf-flag-raising-2026' && (
+                  <dl className="mt-4 space-y-3 border-t border-mist pt-4 text-sm text-slate">
+                    <div><dt className="font-semibold text-zambia-green">Where</dt><dd>1 Dr. Carlton B. Goodlett Place, San Francisco.</dd></div>
+                    <div><dt className="font-semibold text-zambia-green">Come together</dt><dd>Honorary Consul Rajen Ranchhod invites our community and friends to celebrate Zambia’s heritage and presence in Northern California.</dd></div>
+                    <div><dt className="font-semibold text-zambia-green">Make it a weekend</dt><dd>The Woodland Independence celebration follows on Saturday, October 24.</dd></div>
+                  </dl>
+                )}
+                <div className="mt-auto pt-5 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
                   <button
                     type="button"
                     onClick={() => setSpotlightModalOpen(true)}
@@ -315,7 +326,13 @@ const Home = () => {
               {
                 title: 'African Arts Festival',
                 excerpt:
-                  'Sat, Oct 3 · 11 AM–4 PM at Yerba Buena Gardens. Free family day of African music, dance, food, and activities for children.',
+                  'A free, family-friendly day of live African and diaspora music and dance, presented by Duniya Dance and Drum Company and Yerba Buena Gardens Festival.',
+                schedule: 'Sat, Oct 3 · 11 AM–4 PM',
+                details: [
+                  { label: 'Where', text: 'Great Lawn, Yerba Buena Gardens — Mission Street between 3rd and 4th, San Francisco.' },
+                  { label: 'For the family', text: 'Dance and drum lessons, face-painting and performances including Chinyakare Ensemble and Fua dia Congo.' },
+                  { label: 'Make a day of it', text: 'African food, clothing, jewelry and other goods for sale. Admission is free; RSVP through the organizer.' },
+                ],
                 href: 'https://ybgfestival.org/event/african-arts-festival-2026/',
                 linkLabel: 'See the festival →',
                 until: '2026-10-04T00:00:00-07:00',
@@ -323,9 +340,16 @@ const Home = () => {
               {
                 title: 'MoAD fall exhibitions',
                 excerpt:
-                  'The Museum of the African Diaspora in San Francisco reopens Sep 30 with new fall shows — an easy cultural afternoon in the city.',
+                  'Explore contemporary art and stories of the African diaspora at the Museum of the African Diaspora in San Francisco.',
+                schedule: 'Fall season opens September 30',
+                details: [
+                  { label: 'On view', text: 'Dewey Crumpler: Sonic Lineages; After the Island, exploring Jamaican diaspora ceramics; and Dorian Reid’s Calling All Cats!' },
+                  { label: 'Where', text: '685 Mission Street at Third. Allow around an hour for the galleries; check museum hours before heading out.' },
+                  { label: 'Admission', text: 'Adults $15; seniors, students and educators $7; under 12 free. Free admission on the second Saturday of each month.' },
+                ],
                 href: 'https://www.moadsf.org/exhibitions',
-                linkLabel: 'Plan a visit →',
+                linkLabel: 'Explore exhibitions →',
+                visitHref: 'https://www.moadsf.org/visit',
                 until: '2026-12-07T00:00:00-07:00',
               },
             ]
@@ -339,8 +363,16 @@ const Home = () => {
                 <h3 className="text-lg font-heading font-semibold text-zambia-green motion-safe:transition-colors motion-safe:duration-300 group-hover:text-zambia-green-light">
                   {card.title}
                 </h3>
-                <p className="text-slate mt-3 leading-relaxed text-sm flex-1">{card.excerpt}</p>
-                <div className="mt-4">
+                {card.schedule && <p className="mt-3 text-xs font-heading uppercase tracking-wide text-copper">{card.schedule}</p>}
+                <p className="text-slate mt-3 leading-relaxed text-sm">{card.excerpt}</p>
+                {card.details && (
+                  <dl className="mt-4 space-y-3 border-t border-mist pt-4 text-sm text-slate">
+                    {card.details.map((detail) => (
+                      <div key={detail.label}><dt className="font-semibold text-zambia-green">{detail.label}</dt><dd>{detail.text}</dd></div>
+                    ))}
+                  </dl>
+                )}
+                <div className="mt-auto pt-5 flex flex-wrap gap-x-4 gap-y-2">
                   <a
                     href={card.href}
                     target="_blank"
@@ -349,6 +381,7 @@ const Home = () => {
                   >
                     {card.linkLabel}
                   </a>
+                  {card.visitHref && <a href={card.visitHref} target="_blank" rel="noopener noreferrer" className="text-bay-blue font-medium text-sm hover:underline">Hours &amp; admission →</a>}
                 </div>
               </Reveal>
             ))}
