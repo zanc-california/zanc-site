@@ -27,7 +27,7 @@ type StaticNewsArticle = {
   bodyParagraphs: string[];
 };
 
-/** Site-authored micro-articles (shown on News + All tabs). Order = left-to-right (newest dated stories first). */
+/** Site-authored micro-articles (News + All tabs): latest recap, related updates, then the archive. */
 const STATIC_NEWS_ARTICLES: StaticNewsArticle[] = [
   {
     id: 'sacramento-lusaka-visit-2026',
@@ -40,6 +40,32 @@ const STATIC_NEWS_ARTICLES: StaticNewsArticle[] = [
       'The conversation introduced Zambia, its strengths and its regional context, and explored the proposed Sacramento–Lusaka capital-to-capital initiative. Areas raised included agriculture and food systems, education and youth exchange, trade and investment, tourism and culture, and cooperation between public institutions.',
       'The proposal suggests exploring a suitable cooperation framework, identifying a city point of contact and bringing regional partners together for a roundtable. It also raises the possibility of a Sacramento–Zambia Business, Agriculture & Investment Forum in 2027. These remain proposals for further discussion; no formal partnership or forum has been agreed.',
       'We also invited the Vice Mayor’s team to our October 24 Independence celebration in Woodland. They will check their schedules, and attendance remains unconfirmed. Thank you to the Vice Mayor’s office for making time to learn about Zambia and meet with our community representatives.',
+    ],
+  },
+  {
+    id: 'sf-flag-raising-community-2026',
+    title: 'Zambia’s flag at San Francisco City Hall: a moment to share',
+    excerpt: 'Join us on October 23 at 11:30 AM as we celebrate Zambia’s independence, our community’s presence in Northern California and the relationships we hope to build.',
+    date: 'Looking ahead · October 23, 2026',
+    imageUrl: '/images/postings/sf-flag-raising-2026-confirmed.png',
+    bodyParagraphs: [
+      'Zambians and friends of Zambia are invited to San Francisco City Hall on Friday, October 23, 2026 at 11:30 AM for a civic flag-raising marking Zambia’s 62nd independence anniversary. The gathering takes place at 1 Dr. Carlton B. Goodlett Place, San Francisco, the day before our community celebration in Woodland.',
+      'For ZANC, this is an opportunity to celebrate our heritage in the civic life of the region we call home. For our children and younger community members, seeing Zambia’s flag at City Hall can make that connection tangible: pride in where our families come from, alongside a sense of belonging and contribution here in Northern California.',
+      'For Zambia, the occasion offers a chance to introduce more neighbors to our country, its people and its culture. Our hope is that the conversations begun around this celebration can grow into sustained cultural exchange, educational connections and introductions between people with shared interests in business and community service. Those possibilities depend on relationships and follow-through beyond the ceremony.',
+      'ZANC is supporting the invitation from Rajen Ranchhod, Zambia’s Honorary Consul in California. We thank the City of San Francisco and its Protocol Office for working with us on the occasion, and encourage our community and friends to come together in the spirit of One Zambia, One Nation.',
+    ],
+  },
+  {
+    id: 'global-sacramento-launch-2026',
+    title: 'Global Sacramento: connecting our community with the wider world',
+    excerpt: 'Attending the September 22 launch at the Crocker Art Museum opened conversations about cultural diplomacy, education and trade between Zambia and Greater Sacramento.',
+    date: 'September 22, 2026',
+    imageUrl: '/images/postings/global-sacramento-launch-2026.png',
+    bodyParagraphs: [
+      'ZANC was represented at Global Sacramento’s launch celebration at the Crocker Art Museum on September 22, 2026. The evening brought international dialogue, culture and community together, with a panel themed “Sacramento Meets the World: Diplomacy, Culture & Commerce.”',
+      'For our community, the launch was a reminder that international connections can begin close to home. Sharing Zambian food, music and heritage gives people a reason to meet, ask questions and learn about one another. Those encounters can also open conversations about education, tourism, agriculture, technology and trade.',
+      'Zambians living in Northern California bring knowledge, professional experience and relationships in both places. ZANC can help make introductions, share community perspectives and identify people interested in practical exchanges that would benefit Zambia and the Sacramento region. Attendance at the launch is an opening for that work, with any future collaboration to be developed through further discussion.',
+      'Thank you to the Global Sacramento organizers and everyone who contributed to the launch. We look forward to staying engaged and helping more members of our community take part in the region’s international conversations.',
     ],
   },
   {
