@@ -152,7 +152,7 @@ export function getArchivedPlans(): CommunityEvent[] {
   return ZANC_COMMUNITY_EVENTS.filter((e) => e.type === 'archived');
 }
 
-/** True for an event that has concluded but was authored as upcoming — render it with a “Held” badge. */
+/** True when a scheduled date has passed; this alone does not confirm attendance or that it was held. */
 export function hasConcluded(ev: CommunityEvent, now: Date = new Date()): boolean {
   return ev.type === 'upcoming' && getEventStatus(ev, now) === 'past';
 }
@@ -228,12 +228,8 @@ export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
     ],
   },
   {
-    title: 'November',
-    lines: ['Thanksgiving Community Mixer — date TBA'],
-  },
-  {
-    title: 'December',
-    lines: ['Year-End Reflection & Toy Drive — date TBA'],
+    title: 'ZANC plans awaiting dates',
+    lines: ['Thanksgiving Community Mixer — not yet scheduled', 'Year-End Reflection & Toy Drive — not yet scheduled'],
   },
   {
     title: 'Archived 2026 plans — not held',
@@ -243,7 +239,7 @@ export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
     ],
   },
   {
-    title: 'Recurring programs',
+    title: 'Recurring programs — next dates to be confirmed',
     lines: [
       'Community Hangouts — bi-monthly',
       'Business & Investment Series — quarterly',
@@ -366,7 +362,7 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     anchorId: 'sf-flag-raising-2026',
     imageUrl: '/images/postings/sf-flag-raising-2026-confirmed.png',
     heroImageTall: true,
-    lanes: ['culture', 'signature'],
+    lanes: ['family', 'culture', 'signature'],
     countdownAt: '2026-10-23T11:30:00-07:00',
     endsAt: '2026-10-24T00:00:00-07:00',
     venueName: 'San Francisco City Hall',
@@ -388,7 +384,7 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     anchorId: 'independence-2026',
     detailPath: '/independence',
     imageUrl: '/images/postings/independence-2026-family.png',
-    lanes: ['culture', 'signature'],
+    lanes: ['family', 'culture', 'signature'],
     featured: true,
     countdownAt: '2026-10-24T18:00:00-07:00',
     endsAt: '2026-10-25T00:00:00-07:00',

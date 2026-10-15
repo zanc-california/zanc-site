@@ -2,12 +2,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import CommunityPhotoStrip from '../components/CommunityPhotoStrip';
 import NewsFeedCard from '../components/NewsFeedCard';
+import CommunityCalendarModal from '../components/CommunityCalendarModal';
+import NearbyEventCard from '../components/NearbyEventCard';
+import { getUpcomingNearbyEvents } from '../data/nearbyEvents2026';
 import NewsArticleModal, { type ModalArticleContent } from '../components/NewsArticleModal';
 import Button from '../components/Button';
 import { supabase } from '../lib/supabase';
 import {
   CALENDAR_2026_THEME,
-  CALENDAR_MODAL_SECTIONS,
   COUNTDOWN_MILESTONES,
   getArchivedPlans,
   getPastEvents,
@@ -124,8 +126,6 @@ const LANE_LABELS: Record<CalendarLane, string> = {
   signature: 'Signature',
 };
 
-const UPCOMING_GRID_PAGE_SIZE = 4;
-
 function useNextCountdownMilestone() {
   const [tick, setTick] = useState(0);
   useEffect(() => {
@@ -165,12 +165,12 @@ function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; hea
           <img
             src={ev.imageUrl}
             alt={imageAlt}
-            className={`w-full object-cover object-center ${ev.heroImageTall ? 'h-48 sm:h-60 min-h-[12rem]' : 'h-44 sm:h-52'}`}
+            className={`w-full object-center ${ev.heroImageTall ? 'h-64 sm:h-72 object-contain' : 'h-44 sm:h-52 object-cover'}`}
             loading="lazy"
           />
         </div>
       )}
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex flex-col items-start gap-3">
         {headingLevel === 'h3' ? (
           <h3 className={titleClass}>{ev.title}</h3>
         ) : (
@@ -183,7 +183,7 @@ function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; hea
       <div className="mt-2 flex flex-wrap items-center gap-2">
         {hasConcluded(ev) && (
           <span className="text-[10px] font-heading uppercase tracking-[0.08em] text-slate bg-mist/60 px-2 py-1 rounded-full border border-mist">
-            Held
+            Past date
           </span>
         )}
         {ev.lanes?.map((lane) => (
@@ -212,6 +212,7 @@ function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; hea
       <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate">
         <span className="px-2 py-1 rounded-full bg-cloud border border-mist">{ev.location}</span>
       </div>
+      {ev.venueAddress && <p className="mt-2 text-xs text-slate">{ev.venueAddress}</p>}
       {ev.galleryImages && ev.galleryImages.length > 0 && (
         <div className="mt-4">
           <p className="text-xs font-heading uppercase tracking-[0.08em] text-copper mb-2">Event photos</p>
@@ -268,7 +269,7 @@ function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; hea
               rel="noopener noreferrer"
               className="text-sm font-medium text-bay-blue hover:underline"
             >
-              {ev.externalLinkLabel ?? 'Official details (City of Roseville)'}
+              {ev.externalLinkLabel ?? 'Official details'}
             </a>
           )}
           {ev.secondaryExternalUrl && (
@@ -287,65 +288,27 @@ function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; hea
         <p className="mt-4 pt-4 border-t border-mist text-[11px] text-slate/75 italic leading-relaxed">
           Community-organized event — shared for visibility only; not directly sponsored by ZANC.
         </p>
-      ) : (
-        <p className="mt-4 pt-4 border-t border-mist text-xs text-slate leading-relaxed">
-          <Link to="/membership" className="font-semibold text-copper hover:text-redwood hover:underline">
-            ZANC members
-          </Link>{' '}
-          receive priority access and discounted pricing where noted—join or renew to stay close to the calendar.
-        </p>
-      )}
+      ) : null}
     </article>
   );
 }
 
 function FeaturedSignatureCard({ ev }: { ev: CommunityEvent }) {
   return (
-    <article
-      id={ev.anchorId}
-      className="rounded-2xl border-2 border-copper/50 bg-gradient-to-br from-copper-glow via-white to-cloud shadow-md scroll-mt-24 overflow-hidden mb-8 md:mb-10"
-    >
-      <div className="px-5 py-4 md:px-8 md:py-5 border-b border-copper/20 bg-zambia-green/5">
-        <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">
-          {ev.category === 'Flagship Event' ? 'ZANC flagship event' : '2026 signature anchor'}
-        </p>
-        <h3 className="text-xl md:text-2xl font-heading font-bold text-zambia-green mt-1">{ev.title}</h3>
-        <div className="mt-2 flex flex-wrap gap-2">
-          <span className="text-xs font-heading uppercase tracking-[0.08em] text-copper bg-copper-glow px-2 py-1 rounded border border-mist">
-            {ev.dateLabel}
-          </span>
-          {ev.feeNote && (
-            <span className="text-xs text-slate bg-white px-2 py-1 rounded border border-mist">{ev.feeNote}</span>
-          )}
+    <article id={ev.anchorId} className="rounded-2xl border border-copper/40 bg-white shadow-sm scroll-mt-28 overflow-hidden">
+      <img src="/images/postings/independence-2026-banner.png" alt="Celebrating 62 years of Zambian independence" width="1774" height="887" className="w-full h-auto" />
+      <div className="p-5 sm:p-7">
+        <p className="text-xs font-heading uppercase tracking-widest text-copper">ZANC Independence celebration</p>
+        <h4 className="mt-2 text-2xl font-heading font-bold text-zambia-green">{ev.title}</h4>
+        <p className="mt-3 text-sm leading-relaxed text-slate">An evening of Zambian heritage, music and community in Woodland. Families and friends of Zambia are warmly welcome.</p>
+        <div className="mt-5 space-y-3 text-sm text-slate">
+          <p className="font-semibold text-zambia-green">{ev.dateLabel} · doors open 5:30 PM</p>
+          <p>{ev.venueName}<span className="block mt-1 text-xs">{ev.venueAddress}</span></p>
+          <p className="rounded-lg bg-copper-glow/60 p-3">{ev.feeNote}<span className="block mt-1 text-xs">Advance reservations requested for everyone, including children.</span></p>
         </div>
-      </div>
-      <div className="p-5 md:p-8 grid md:grid-cols-2 gap-6 md:gap-10">
-        <p className="text-slate text-sm leading-relaxed whitespace-pre-line">{ev.description}</p>
-        <div className="text-sm text-slate space-y-3">
-          <p>
-            <span className="font-semibold text-zambia-green">Where</span> · {ev.venueName ?? ev.location}
-          </p>
-          {ev.venueAddress && <p className="text-xs text-slate/90">{ev.venueAddress}</p>}
-          {ev.accommodation && (
-            <p className="text-xs leading-relaxed">
-              <span className="font-semibold text-zambia-green">Staying over</span> · Special ZANC group rate available through the
-              host hotel
-              {ev.accommodation.bookingDeadline ? `, book by ${ev.accommodation.bookingDeadline}` : ''}.
-            </p>
-          )}
-          {ev.detailPath ? (
-            <p className="pt-2">
-              <Link to={ev.detailPath} className="font-semibold text-copper hover:underline">
-                Event details, hotel booking &amp; how to take part →
-              </Link>
-            </p>
-          ) : (
-            <p className="pt-2">
-              <Link to="/membership" className="font-semibold text-copper hover:underline">
-                Members — priority access when details are announced
-              </Link>
-            </p>
-          )}
+        <div className="mt-6 flex flex-wrap items-center gap-4">
+          {ev.externalUrl && <a href={ev.externalUrl} target="_blank" rel="noopener noreferrer" className="inline-flex rounded-lg bg-zambia-green px-5 py-3 text-sm font-semibold !text-white hover:bg-redwood">Reserve your place ↗</a>}
+          {ev.detailPath && <Link to={ev.detailPath} className="text-sm font-semibold text-copper hover:underline">Full details &amp; hotel →</Link>}
         </div>
       </div>
     </article>
@@ -369,14 +332,16 @@ const News = () => {
   const [articleModalOpen, setArticleModalOpen] = useState(false);
   const [modalArticle, setModalArticle] = useState<ModalArticleContent | null>(null);
   const [eventLaneFilter, setEventLaneFilter] = useState<CalendarLane | 'all'>('all');
-  const [upcomingGridExpanded, setUpcomingGridExpanded] = useState(false);
   const upcomingSectionRef = useRef<HTMLDivElement>(null);
   const countdown = useNextCountdownMilestone();
 
-  const upcomingEvents = getUpcomingEvents();
+  const allUpcomingEvents = getUpcomingEvents();
+  const upcomingEvents = allUpcomingEvents.filter((event) => event.countdownAt);
+  const plannedEvents = allUpcomingEvents.filter((event) => !event.countdownAt);
+  const nearbyEvents = getUpcomingNearbyEvents().filter((event) => eventLaneFilter === 'all' || event.lanes.includes(eventLaneFilter));
   const archivedPlans = getArchivedPlans();
   // Includes events that have aged out of "upcoming" on their own, so nothing vanishes from the site.
-  const pastEvents = useMemo(() => getPastEvents(), []);
+  const pastEvents = getPastEvents();
   const archivedPlansBlock = (
     <details id="archived-plans" className="rounded-xl border border-mist bg-white p-5 sm:p-6">
       <summary className="cursor-pointer font-heading font-semibold text-zambia-green">
@@ -406,10 +371,6 @@ const News = () => {
     if (eventLaneFilter === 'all') return true;
     return Boolean(featuredUpcoming.lanes?.includes(eventLaneFilter));
   }, [featuredUpcoming, eventLaneFilter]);
-
-  useEffect(() => {
-    setUpcomingGridExpanded(false);
-  }, [eventLaneFilter]);
 
   const focusUpcomingEvents = useCallback(() => {
     setTab('all');
@@ -536,6 +497,7 @@ const News = () => {
             excerpt={article.excerpt}
             date={article.date}
             imageUrl={article.imageUrl}
+            imageFit={['sf-flag-raising-community-2026', 'local-elections-2026', 'local-open-enrollment-insurance-2026'].includes(article.id) ? 'contain' : 'cover'}
             onOpen={() => openStaticArticle(article)}
           />
         ))}
@@ -563,7 +525,7 @@ const News = () => {
   const upcomingEventsBlock = (cardHeading: 'h3' | 'h4') => (
     <>
       {!countdown.ended && (
-        <div className="relative mb-6 rounded-xl border border-copper/25 bg-white p-4 md:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-[0_4px_24px_-4px_rgba(27,94,32,0.12),0_0_0_1px_rgba(184,115,51,0.14),0_0_40px_rgba(184,115,51,0.2),0_0_72px_rgba(27,94,32,0.08)] ring-2 ring-copper/20 ring-offset-2 ring-offset-fog">
+        <div className="mb-6 rounded-xl border border-mist bg-white p-4 md:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">Next milestone</p>
             <p className="font-heading font-semibold text-zambia-green mt-0.5">{countdown.label}</p>
@@ -582,13 +544,14 @@ const News = () => {
       )}
 
       <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center gap-x-2 gap-y-2 mb-5">
-        <span className="text-xs font-medium text-slate shrink-0">Lanes:</span>
+        <span className="text-xs font-medium text-slate shrink-0">Explore:</span>
         <div className="flex flex-wrap gap-2">
           {laneFilterIds.map((id) => (
             <button
               key={id}
               type="button"
               onClick={() => setEventLaneFilter(id)}
+              aria-pressed={eventLaneFilter === id}
               className={`px-3 py-1.5 rounded-full border text-xs font-medium transition-colors ${
                 eventLaneFilter === id
                   ? 'bg-copper text-white border-copper'
@@ -601,40 +564,44 @@ const News = () => {
         </div>
       </div>
 
-      {showFeaturedCard && featuredUpcoming ? <FeaturedSignatureCard ev={featuredUpcoming} /> : null}
+      {(showFeaturedCard || filteredUpcomingGrid.length > 0) && (
+        <section aria-label="ZANC community gatherings">
+          <p className="mb-4 text-xs font-heading uppercase tracking-widest text-copper">With our ZANC community</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+            {showFeaturedCard && featuredUpcoming && <FeaturedSignatureCard ev={featuredUpcoming} />}
+            {filteredUpcomingGrid.map((ev) => <EventProgramCard key={ev.anchorId ?? ev.title} ev={ev} headingLevel={cardHeading} />)}
+          </div>
+        </section>
+      )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 md:gap-8">
-        {(upcomingGridExpanded ? filteredUpcomingGrid : filteredUpcomingGrid.slice(0, UPCOMING_GRID_PAGE_SIZE)).map((ev) => (
-          <EventProgramCard key={ev.anchorId ?? ev.title} ev={ev} headingLevel={cardHeading} />
-        ))}
-      </div>
-      {filteredUpcomingGrid.length === 0 ? (
-        <p className="text-sm text-slate mt-4">Nothing in this lane right now — choose &quot;All&quot; or another category.</p>
-      ) : null}
-      {filteredUpcomingGrid.length > UPCOMING_GRID_PAGE_SIZE ? (
-        <div className="mt-5 flex flex-wrap items-center gap-3">
-          <Button
-            variant="outline"
-            type="button"
-            onClick={() => setUpcomingGridExpanded((v) => !v)}
-            className="border-mist text-slate hover:bg-cloud"
-          >
-            {upcomingGridExpanded
-              ? 'Show fewer events'
-              : `View more (${filteredUpcomingGrid.length - UPCOMING_GRID_PAGE_SIZE} more)`}
-          </Button>
-        </div>
-      ) : null}
-
-      <div className="mt-6 bg-white rounded-xl border border-mist p-6 shadow-sm max-w-2xl">
-        <p className="text-slate text-sm">
-          Full 2026 pulse, insurance deadlines, and premium dates — open the calendar anytime.
-        </p>
-        <div className="mt-4">
-          <Button variant="accent" onClick={openCalendar}>
-            Open calendar
-          </Button>
-        </div>
+      {nearbyEvents.length > 0 && (
+        <section aria-labelledby="nearby-events-heading" className="mt-10 sm:mt-12">
+          <div className="mb-6 max-w-3xl">
+            <p className="text-xs font-heading uppercase tracking-widest text-copper">Around Northern California</p>
+            <h3 id="nearby-events-heading" className="mt-2 text-2xl font-heading font-semibold text-zambia-green">More ways to get together</h3>
+            <p className="mt-3 text-sm leading-relaxed text-slate">Local outings to enjoy between ZANC gatherings. These events are run by the hosts named on each card; ZANC is sharing them for the community.</p>
+            <p className="mt-2 text-xs text-slate">Organizer listings checked October 14, 2026. Visit their pages for current details. The ladies’ picnic is a community-supplied save-the-date.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {nearbyEvents.map((event) => <NearbyEventCard key={event.id} event={event} />)}
+          </div>
+        </section>
+      )}
+      {!showFeaturedCard && filteredUpcomingGrid.length === 0 && nearbyEvents.length === 0 && (
+        <div className="rounded-xl bg-white border border-mist p-6 text-sm text-slate" role="status">No confirmed upcoming events in this category yet. Choose All to explore the calendar.</div>
+      )}
+      {plannedEvents.length > 0 && (
+        <details className="mt-8 rounded-xl border border-mist bg-white p-5 sm:p-6">
+          <summary className="cursor-pointer font-heading font-semibold text-zambia-green">ZANC programs awaiting dates ({plannedEvents.length})</summary>
+          <p className="mt-3 text-sm text-slate">These ideas and recurring programs are still being planned. We’ll add them to the calendar when dates and arrangements are confirmed.</p>
+          <ul className="mt-4 grid sm:grid-cols-2 gap-x-8 gap-y-3 text-sm text-slate">
+            {plannedEvents.map((event) => <li id={event.anchorId} key={event.anchorId} className="scroll-mt-28 border-t border-mist pt-3">{event.title}</li>)}
+          </ul>
+        </details>
+      )}
+      <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-xl border border-mist p-5 sm:p-6 bg-cloud">
+        <div><p className="font-heading font-semibold text-zambia-green">Keep the community calendar close</p><p className="mt-1 text-sm text-slate">ZANC dates, program plans and insurance deadlines in one place.</p></div>
+        <Button variant="outline" onClick={openCalendar} className="shrink-0">Open calendar</Button>
       </div>
     </>
   );
@@ -679,6 +646,7 @@ const News = () => {
                 key={t.id}
                 type="button"
                 onClick={() => setTab(t.id)}
+                aria-pressed={tab === t.id}
                 className={`px-4 py-2 rounded-full border text-sm font-medium transition-colors ${
                   tab === t.id ? 'bg-zambia-green text-white border-zambia-green' : 'bg-white text-slate border-mist hover:bg-cloud'
                 }`}
@@ -693,7 +661,7 @@ const News = () => {
               <div ref={upcomingSectionRef} id="upcoming-events" className="scroll-mt-28 pb-10 md:pb-12 border-b border-mist/80">
                 <h3 className="text-lg font-heading font-semibold text-zambia-green mb-2">Upcoming events</h3>
                 <p className="text-sm text-slate mb-6 max-w-2xl leading-relaxed">
-                  Social, professional, cultural, and signature moments — filter by lane, then save the dates that fit your story.
+                  Confirmed ZANC gatherings and community outings across Northern California. Find a date, bring a friend and make a day of it.
                 </p>
                 {upcomingEventsBlock('h4')}
               </div>
@@ -701,14 +669,14 @@ const News = () => {
               <div id="latest-updates" className="scroll-mt-28">
                 <h3 className="text-lg font-heading font-semibold text-zambia-green mb-2">Latest updates</h3>
                 <p className="text-sm text-slate mb-6 max-w-2xl leading-relaxed">
-                  Micro articles and announcements. Tap any card to read the full story in a pop-up.
+                  Stories, announcements and updates from our community.
                 </p>
                 {newsGrid}
               </div>
 
               <div id="past-highlights" className="pt-2">
                 <h3 className="text-lg font-heading font-semibold text-zambia-green mb-2">Past highlights</h3>
-                <p className="text-sm text-slate mb-6 max-w-2xl leading-relaxed">Where we’ve already shown up together.</p>
+                <p className="text-sm text-slate mb-6 max-w-2xl leading-relaxed">Past gatherings and earlier community calendar listings.</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 md:gap-8">
                   {pastEvents.map((ev) => (
                     <EventProgramCard key={ev.anchorId ?? ev.title} ev={ev} headingLevel="h4" />
@@ -722,8 +690,7 @@ const News = () => {
           {tab === 'upcoming' && (
             <div className="space-y-6">
               <p className="text-slate text-sm max-w-2xl leading-relaxed">
-                Join us for the flag raising and Independence celebration. Confirmed dates appear first, followed by programs
-                still being planned.
+                Explore confirmed ZANC gatherings, local outings and community save-the-dates. All event times are Pacific.
               </p>
               <div ref={upcomingSectionRef} id="upcoming-events" className="scroll-mt-28 space-y-1">
                 {upcomingEventsBlock('h3')}
@@ -746,7 +713,7 @@ const News = () => {
             <div>
               <h3 className="text-lg font-heading font-semibold text-zambia-green mb-4">Latest updates</h3>
               <p className="text-sm text-slate mb-6 max-w-2xl">
-                Tap a story to read the full article in a pop-up—no cramped preview cards.
+                Catch up on community life, civic connections and association news.
               </p>
               {newsGrid}
             </div>
@@ -758,43 +725,8 @@ const News = () => {
 
       <NewsArticleModal open={articleModalOpen} onClose={closeArticleModal} article={modalArticle} />
 
-      {isCalendarOpen && (
-        <div className="fixed inset-0 z-50">
-          <div className="absolute inset-0 bg-black/50" onClick={closeCalendar} />
-          <div className="absolute inset-0 flex items-center justify-center p-4">
-            <div className="w-full max-w-2xl bg-white rounded-xl shadow-xl overflow-hidden border border-mist">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200">
-                <h3 className="text-lg font-heading font-semibold text-zambia-green">2026 ZANC calendar pulse</h3>
-                <button
-                  type="button"
-                  onClick={closeCalendar}
-                  className="text-gray-500 hover:text-gray-800 px-2 py-1 rounded"
-                  aria-label="Close calendar"
-                >
-                  ✕
-                </button>
-              </div>
-              <div className="p-5 max-h-[min(70vh,520px)] overflow-y-auto space-y-4">
-                {CALENDAR_MODAL_SECTIONS.map((block) => (
-                  <div key={block.title} className="rounded-md border border-mist p-4 bg-cloud">
-                    <p className="font-heading font-semibold text-zambia-green capitalize">{block.title}</p>
-                    <ul className="mt-2 text-gray-700 text-sm space-y-1 list-disc pl-5">
-                      {block.lines.map((line) => (
-                        <li key={line}>{line}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-                <div className="pt-2 flex justify-end">
-                  <Button variant="outline" onClick={closeCalendar}>
-                    Close
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <CommunityCalendarModal open={isCalendarOpen} onClose={closeCalendar} />
+
     </div>
   );
 };
