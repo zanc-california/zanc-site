@@ -63,15 +63,15 @@ const Independence = () => {
   return (
     <div className="bg-fog">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-zambia-green">
+      <section aria-labelledby="independence-title" className="relative overflow-hidden bg-zambia-green">
         <div className="absolute inset-0 bg-gradient-to-br from-zambia-green via-zambia-green-light to-redwood opacity-95" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
-          <div className="max-w-3xl">
+        <div className="relative max-w-7xl mx-auto grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+          <div className="min-w-0">
             <p className="inline-flex items-center gap-2 text-white/90 text-sm uppercase tracking-[0.08em] font-heading">
               <span className="h-2 w-2 rounded-full bg-copper shadow-[0_0_12px_rgba(184,115,51,0.65)]" />
-              ZANC flagship event
+              62 years of independence · One Zambia, One Nation
             </p>
-            <h1 className="mt-4 text-3xl md:text-5xl font-heading font-bold text-white tracking-[-0.02em] drop-shadow">
+            <h1 id="independence-title" className="mt-4 text-4xl sm:text-5xl lg:text-[3.25rem] leading-[1.08] font-heading font-bold text-white tracking-[-0.03em]">
               Zambian Independence
               <br />
               Celebration 2026
@@ -79,76 +79,60 @@ const Independence = () => {
             <p className="mt-5 text-white text-lg md:text-xl font-heading font-semibold">
               Saturday, October 24, 2026 · 6:00 PM
             </p>
-            <p className="mt-1 text-white/90">Doors open at 5:30 PM · Adults $55 · Ages 10–17 $25 · Under 10 free</p>
+            <p className="mt-1 text-white/90">Doors open at 5:30 PM · Woodland, California</p>
             <p className="mt-2 text-white/90 leading-relaxed">
               {event.venueName}
               <br />
               {event.venueAddress}
             </p>
             <p className="mt-5 text-white/90 leading-relaxed max-w-2xl">
-              Bring the whole family for Zambian food, music and community. Join Joseph Prouse, Jean Nangwala and
-              Dj LittyRocket, along with confirmed consular, civic and regional business guests, as we celebrate 62 years of independence.
+              Bring the whole family for Zambian food, music and community. Celebrate with Joseph Prouse,
+              Jean Nangwala, Dj LittyRocket and friends of Zambia from across Northern California.
             </p>
-            <p className="mt-3 text-white/90 text-sm">Please reserve early and include everyone attending, including children. Hall capacity: 160.</p>
+            <p className="mt-5 font-semibold text-white">Adults $55 · Ages 10–17 $25 · Under 10 free</p>
             <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-row sm:flex-wrap">
-              <a href={INDEPENDENCE_RESERVATION_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center rounded-md bg-copper px-6 py-3 text-lg font-medium text-white hover:bg-copper-light focus-visible:ring-2 focus-visible:ring-white">
+              <a href={INDEPENDENCE_RESERVATION_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-lg font-semibold text-zambia-green hover:bg-copper-glow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
                 Reserve your place
               </a>
-              <a href="#confirmed-guests" className="inline-flex items-center justify-center rounded-md border border-white/80 px-6 py-3 text-lg font-medium text-white hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-white">
-                See who’s joining us
-              </a>
-              {accommodation?.bookingUrl && (
-                <a href={accommodation.bookingUrl} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-                  <Button variant="accent" size="lg" className="w-full sm:w-auto">
-                    Book the host hotel
-                  </Button>
-                </a>
-              )}
-              <a href="#take-part" className="w-full sm:w-auto">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="!w-full sm:!w-auto !justify-center !bg-transparent !text-white border-white/80 hover:!bg-white/10 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-zambia-green"
-                >
-                  Help make it happen
-                </Button>
+              <a href="#lineup" className="inline-flex items-center justify-center rounded-md border border-white/70 px-6 py-3 text-lg font-medium text-white hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-white">
+                Explore the evening
               </a>
             </div>
+            <p className="mt-4 text-white/90 text-sm leading-relaxed">Reserve for everyone attending, including children. Hall capacity: 160.</p>
+            <p className="mt-6 border-t border-white/20 pt-5 text-sm text-white/90">Presented by ZANC · Sponsored by American Hospitality Services</p>
           </div>
+          {INDEPENDENCE_COMMUNITY_FLYER && (
+            <figure className="w-full max-w-sm mx-auto lg:ml-auto lg:mr-0">
+              <a href={INDEPENDENCE_COMMUNITY_FLYER} target="_blank" rel="noopener noreferrer" className="block overflow-hidden rounded-xl border border-white/30 shadow-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white" aria-label="Open the community flyer in full size">
+                <img src={INDEPENDENCE_COMMUNITY_FLYER} width={1086} height={1448} alt="Community flyer featuring Jean Nangwala, Joseph Prouse, Rajen Ranchhod, Catherine Bonnefoy, John Shea and Eduardo Madrid Moreno" className="w-full h-auto" loading="eager" />
+              </a>
+              <figcaption className="mt-4 text-sm text-white/90 leading-relaxed">
+                <a href={INDEPENDENCE_COMMUNITY_FLYER} download className="font-medium text-white underline underline-offset-4">Download community flyer</a>
+                {event.imageUrl && <> · <a href={event.imageUrl} download className="text-white underline underline-offset-4">Family flyer</a></>}
+                <span className="mt-2 block text-xs text-white/80">AI-assisted layout using supplied and public-source photos. The full guest list below also includes Ognian Gavrilov.</span>
+              </figcaption>
+            </figure>
+          )}
         </div>
       </section>
+
+      <nav aria-label="On this page" className="border-b border-mist bg-white">
+        <div className="max-w-7xl mx-auto flex flex-wrap gap-x-6 gap-y-1 px-4 sm:px-6 lg:px-8 py-3 text-sm font-medium">
+          <a href="#event-details" className="py-2 text-zambia-green hover:underline">Event details</a>
+          <a href="#lineup" className="py-2 text-zambia-green hover:underline">Music & special guest</a>
+          <a href="#confirmed-guests" className="py-2 text-zambia-green hover:underline">Community guests</a>
+          {flagRaising && <a href="#flag-raising" className="py-2 text-zambia-green hover:underline">Flag raising · Oct 23</a>}
+          {accommodation && <a href="#hotel" className="py-2 text-zambia-green hover:underline">Hotel & travel</a>}
+          {workstreams?.length ? <a href="#take-part" className="py-2 text-zambia-green hover:underline">Get involved</a> : null}
+        </div>
+      </nav>
 
       <SubscribeModal open={subscribeOpen} onClose={() => setSubscribeOpen(false)} />
 
       {/* At a glance */}
-      <section className="py-10 md:py-14 bg-white border-b border-mist">
+      <section id="event-details" aria-labelledby="event-details-title" className="py-10 md:py-12 bg-white border-b border-mist scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Community update flyer, also available to download and share. */}
-          {INDEPENDENCE_COMMUNITY_FLYER && (
-            <Reveal className="mb-8 md:mb-10">
-              <div className="mb-5 text-center">
-                <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Look who’s joining us!</h2>
-                <p className="mt-2 text-slate">Make sure you’re in the room. Bring the family and reserve everyone’s place in advance.</p>
-              </div>
-              <figure className="mx-auto max-w-2xl overflow-hidden rounded-xl border border-mist bg-cloud shadow-sm">
-                <img
-                  src={INDEPENDENCE_COMMUNITY_FLYER}
-                  width={1086}
-                  height={1448}
-                  alt="Look who’s joining us: Jean Nangwala, Joseph Prouse, Rajen Ranchhod, Catherine Bonnefoy, John Shea and Eduardo Madrid Moreno at Zambia’s October 24 Independence celebration in Woodland"
-                  className="w-full h-auto object-contain"
-                  loading="eager"
-                />
-                <figcaption className="px-4 py-3 text-sm text-slate leading-relaxed border-t border-mist">
-                  Presented by ZANC. Sponsored by American Hospitality Services. Doors 5:30 PM · celebration 6:00 PM ·
-                  adults $55 · ages 10–17 $25 · under 10 free. <a href={INDEPENDENCE_COMMUNITY_FLYER} download className="font-semibold text-bay-blue underline">Download the community flyer</a>
-                  {event.imageUrl && <> · <a href={event.imageUrl} download className="font-semibold text-bay-blue underline">Family flyer</a></>}
-                  <span className="mt-2 block text-xs">AI-assisted flyer layout using supplied and public-source photos. See the latest confirmed guests below, including Ognian Gavrilov.</span>
-                </figcaption>
-              </figure>
-            </Reveal>
-          )}
-
+          <h2 id="event-details-title" className="mb-6 text-2xl font-heading font-semibold text-zambia-green">Your evening at a glance</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
@@ -169,7 +153,7 @@ const Independence = () => {
               },
             ].map((item) => (
               <Reveal key={item.label} className="rounded-xl border border-mist bg-cloud p-5 h-full">
-                <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">{item.label}</p>
+                <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-redwood">{item.label}</p>
                 <p className="mt-2 font-heading font-semibold text-zambia-green leading-snug">{item.value}</p>
                 <p className="mt-2 text-sm text-slate leading-relaxed">{item.note}</p>
               </Reveal>
@@ -200,14 +184,14 @@ const Independence = () => {
           <p className="mt-2 text-slate">Confirmed for October 24. Share the flyers with family and friends; speaking and performance times will follow.</p>
           <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
             {INDEPENDENCE_FEATURES.map((guest) => (
-              <article key={guest.name} className="overflow-hidden rounded-xl border border-mist bg-white shadow-sm">
-                <a href={guest.imageUrl} target="_blank" rel="noopener noreferrer" aria-label={`Open ${guest.name} flyer in full size`}>
-                  <img src={guest.imageUrl} alt={`${guest.name} Independence celebration flyer`} width={1122} height={1402} className="w-full h-auto" loading="lazy" />
+              <article key={guest.name} className="flex flex-row md:flex-col overflow-hidden rounded-xl border border-mist bg-white shadow-sm">
+                <a href={guest.imageUrl} target="_blank" rel="noopener noreferrer" className="w-28 sm:w-36 md:w-full shrink-0 bg-cloud" aria-label={`Open ${guest.name} flyer in full size`}>
+                  <img src={guest.imageUrl} alt={`${guest.name} Independence celebration flyer`} width={1122} height={1402} className="w-full aspect-[4/5] object-contain bg-cloud" loading="lazy" />
                 </a>
-                <div className="p-5">
-                  <p className="text-xs uppercase tracking-wide text-copper">{guest.role}</p>
+                <div className="flex min-w-0 flex-1 flex-col p-4 lg:p-5">
+                  <p className="text-xs uppercase tracking-wide text-redwood">{guest.role}</p>
                   <h3 className="mt-1 text-xl font-heading font-semibold text-zambia-green">{guest.name}</h3>
-                  <p className="mt-2 text-sm text-slate">{guest.description}</p>
+                  <p className="mt-2 flex-1 text-sm text-slate">{guest.description}</p>
                   <a href={guest.imageUrl} download className="mt-4 inline-block font-medium text-bay-blue underline">Download flyer</a>
                 </div>
               </article>
@@ -218,15 +202,15 @@ const Independence = () => {
 
       <section id="confirmed-guests" className="py-10 md:py-14 bg-white border-b border-mist scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-xs uppercase tracking-wide font-heading text-copper">Confirmed for October 24</p>
+          <p className="text-xs uppercase tracking-wide font-heading text-redwood">Confirmed for October 24</p>
           <h2 className="mt-2 text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Joining our community celebration</h2>
           <p className="mt-3 max-w-3xl text-slate">We look forward to welcoming guests from the consular, civic and regional business communities for an evening of Zambian food, music and connection.</p>
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
             {INDEPENDENCE_CONFIRMED_GUESTS.map((guest) => (
-              <article key={guest.name} className="overflow-hidden rounded-xl border border-mist bg-cloud shadow-sm">
-                <img src={guest.imageUrl} alt={guest.name} width={600} height={600} className="w-full aspect-square object-cover object-top" loading="lazy" />
-                <div className="p-5">
-                  <h3 className="text-xl font-heading font-semibold text-zambia-green">{guest.name}</h3>
+              <article key={guest.name} className="flex items-start gap-4 rounded-xl border border-mist bg-cloud p-4 lg:flex-col lg:p-0 lg:overflow-hidden">
+                <img src={guest.imageUrl} alt={guest.name} width={600} height={600} className="h-24 w-24 shrink-0 rounded-lg object-cover object-top lg:h-auto lg:w-full lg:aspect-[4/5] lg:rounded-none" loading="lazy" />
+                <div className="min-w-0 lg:p-4">
+                  <h3 className="text-lg font-heading font-semibold text-zambia-green">{guest.name}</h3>
                   <p className="mt-2 text-sm font-medium text-slate">{guest.title}</p>
                   <p className="mt-1 text-sm text-slate">{guest.affiliation}</p>
                 </div>
@@ -250,15 +234,16 @@ const Independence = () => {
                 Friday, October 23, 2026 · 11:30 AM. A civic celebration the day before the Woodland evening.
               </p>
             </Reveal>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-8 lg:gap-12 items-center">
               {flagRaising.imageUrl && (
-                <Reveal>
+                <Reveal className="w-full max-w-md mx-auto">
                   <figure className="overflow-hidden rounded-xl border border-mist bg-cloud shadow-sm">
                     <img
                       src={flagRaising.imageUrl}
                       width={1254}
                       height={1254}
                       alt="Zambia in San Francisco — civic flag raising at San Francisco City Hall"
+                      loading="lazy"
                       className="w-full h-auto object-contain"
                     />
                     <figcaption className="px-4 py-3 text-sm text-slate leading-relaxed border-t border-mist">
@@ -268,7 +253,7 @@ const Independence = () => {
                 </Reveal>
               )}
               <Reveal className="rounded-xl border border-mist bg-cloud p-6">
-                <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">Honorary Consul</p>
+                <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-redwood">Honorary Consul</p>
                 <p className="mt-3 text-slate leading-relaxed">
                   Zambians across the Bay Area and Northern California, together with friends of Zambia, are invited to come out
                   and support this occasion. Seeing the Zambian flag raised at San Francisco City Hall is a proud moment for the
@@ -297,7 +282,7 @@ const Independence = () => {
 
       {/* Hotel + travel */}
       {accommodation && (
-        <section className="py-10 md:py-14 bg-fog border-b border-mist">
+        <section id="hotel" className="py-10 md:py-14 bg-fog border-b border-mist scroll-mt-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Reveal className="mb-6">
               <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Hotel booking now open</h2>
@@ -315,13 +300,13 @@ const Independence = () => {
                 <dl className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {accommodation.groupRate && (
                     <div className="rounded-lg border border-mist bg-cloud px-4 py-3">
-                      <dt className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">Group rate</dt>
+                      <dt className="text-[11px] font-heading uppercase tracking-[0.12em] text-redwood">Group rate</dt>
                       <dd className="mt-1 font-heading font-semibold text-zambia-green">{accommodation.groupRate}</dd>
                     </div>
                   )}
                   {accommodation.bookingDeadline && (
                     <div className="rounded-lg border border-mist bg-cloud px-4 py-3">
-                      <dt className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">Book by</dt>
+                      <dt className="text-[11px] font-heading uppercase tracking-[0.12em] text-redwood">Book by</dt>
                       <dd className="mt-1 font-heading font-semibold text-zambia-green">{accommodation.bookingDeadline}</dd>
                     </div>
                   )}
@@ -332,7 +317,7 @@ const Independence = () => {
                 {accommodation.bookingUrl && (
                   <div className="mt-6">
                     <a href={accommodation.bookingUrl} target="_blank" rel="noopener noreferrer" className="inline-block">
-                      <Button variant="accent">Book at the group rate</Button>
+                      <span className="inline-flex rounded-md bg-zambia-green px-5 py-3 font-medium text-white hover:bg-zambia-green-light">Book at the group rate</span>
                     </a>
                     <p className="mt-3 text-xs text-slate/80 leading-relaxed">
                       Booking is handled entirely by Marriott. Availability, the nights covered, and the final rate are confirmed
@@ -356,7 +341,7 @@ const Independence = () => {
                     href="mailto:zancsac@gmail.com?subject=Independence%202026%20-%20travel%20and%20accommodation"
                     className="inline-block"
                   >
-                    <Button variant="outline">Email ZANC about travel</Button>
+                    <span className="inline-flex rounded-md border border-mist px-4 py-3 font-medium text-zambia-green hover:bg-cloud">Email ZANC about travel</span>
                   </a>
                 </div>
               </Reveal>
@@ -402,7 +387,7 @@ const Independence = () => {
                   {ws.ctaHref && ws.ctaLabel && (
                     <div className="mt-5">
                       <a href={ws.ctaHref} className="inline-block">
-                        <Button variant="outline">{ws.ctaLabel}</Button>
+                        <span className="inline-flex rounded-md border border-mist bg-white px-4 py-3 font-medium text-zambia-green hover:bg-cloud">{ws.ctaLabel}</span>
                       </a>
                     </div>
                   )}
@@ -429,15 +414,16 @@ const Independence = () => {
           <Reveal>
             <h2 className="text-2xl md:text-3xl font-heading font-bold mb-4">See you on October 24</h2>
             <p className="max-w-2xl mx-auto mb-8 text-white/90">
-              Join the ZANC email list for program updates. This page stays current as each decision is made — hotel booking,
-              admission, and the City Hall flag raising are already here.
+              Bring your family, reconnect with friends and celebrate Zambia together. Reserve your place,
+              or join the email list for the latest program updates.
             </p>
           </Reveal>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a href={INDEPENDENCE_RESERVATION_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center rounded-md bg-copper px-6 py-3 text-lg font-medium text-white hover:bg-copper-light focus-visible:ring-2 focus-visible:ring-white">Reserve your place</a>
+            <a href={INDEPENDENCE_RESERVATION_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-lg font-semibold text-zambia-green hover:bg-copper-glow focus-visible:ring-2 focus-visible:ring-white">Reserve your place</a>
             <Button
               type="button"
-              variant="accent"
+              variant="outline"
+              className="!bg-transparent !text-white !border-white/70 hover:!bg-white/10"
               size="lg"
               onClick={() => setSubscribeOpen(true)}
               aria-haspopup="dialog"
@@ -445,15 +431,7 @@ const Independence = () => {
             >
               Get Independence updates
             </Button>
-            <Link to="/membership">
-              <Button
-                variant="outline"
-                size="lg"
-                className="!bg-transparent !text-white border-2 border-white/90 hover:!bg-white hover:!text-zambia-green focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-zambia-green"
-              >
-                Join ZANC
-              </Button>
-            </Link>
+            <Link to="/membership" className="inline-flex items-center justify-center px-4 py-3 font-medium text-white underline underline-offset-4">Join ZANC</Link>
           </div>
         </div>
       </section>

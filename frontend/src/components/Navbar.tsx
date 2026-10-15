@@ -43,8 +43,19 @@ const Navbar = () => {
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsMenuOpen(false);
+    };
+    const desktop = window.matchMedia('(min-width: 1280px)');
+    const closeOnDesktop = () => {
+      if (desktop.matches) setIsMenuOpen(false);
+    };
+    window.addEventListener('keydown', closeOnEscape);
+    desktop.addEventListener('change', closeOnDesktop);
     return () => {
       document.body.style.overflow = '';
+      window.removeEventListener('keydown', closeOnEscape);
+      desktop.removeEventListener('change', closeOnDesktop);
     };
   }, [isMenuOpen]);
 
@@ -65,7 +76,7 @@ const Navbar = () => {
 
           <div className="flex items-center gap-3">
             <button
-              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-mist bg-white hover:bg-cloud md:hidden"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-mist bg-white hover:bg-cloud xl:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMenuOpen}
@@ -73,9 +84,9 @@ const Navbar = () => {
             >
               {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
-            <div className="hidden md:flex items-center gap-6">
+            <div className="hidden xl:flex items-center gap-5 text-sm whitespace-nowrap">
               {navLinks.map(({ to, label }) => (
-                <Link key={to} to={to} className={linkClass(to)}>
+                <Link key={to} to={to} aria-current={isActive(to) ? 'page' : undefined} className={linkClass(to)}>
                   {label}
                 </Link>
               ))}
@@ -84,11 +95,11 @@ const Navbar = () => {
         </nav>
 
         {isMenuOpen && (
-          <div className="md:hidden pb-4">
+          <div className="xl:hidden pb-4">
             <div className="fixed inset-0 top-[73px] bg-black/25 backdrop-blur-[1px]" onClick={() => setIsMenuOpen(false)} />
             <div
               id="mobile-nav"
-              className="relative rounded-2xl border border-mist bg-white p-3 shadow-xl ui-modal-pop"
+              className="relative max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-2xl border border-mist bg-white p-3 shadow-xl ui-modal-pop"
             >
               <div className="rounded-xl border border-copper/20 bg-copper-glow/50 px-4 py-3">
                 <p className="text-xs font-heading uppercase tracking-[0.08em] text-redwood">Menu</p>
@@ -98,7 +109,7 @@ const Navbar = () => {
               </div>
               <div className="mt-3 space-y-1">
               {navLinks.map(({ to, label }) => (
-                  <Link key={to} to={to} className={mobileLinkClass(to)} onClick={() => setIsMenuOpen(false)}>
+                  <Link key={to} to={to} aria-current={isActive(to) ? 'page' : undefined} className={mobileLinkClass(to)} onClick={() => setIsMenuOpen(false)}>
                     <span>{label}</span>
                     <span aria-hidden className="text-copper">→</span>
                   </Link>
