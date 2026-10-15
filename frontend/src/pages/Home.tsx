@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import FeaturedCommunitySpotlight from '../components/FeaturedCommunitySpotlight';
@@ -7,7 +7,7 @@ import SubscribeModal from '../components/SubscribeModal';
 import { getIndependenceEvent, getNextUpcomingEvent, INDEPENDENCE_RESERVATION_URL } from '../data/communityCalendar2026';
 import { isJulyFourthWeek, JULY_FOURTH_2026_HERO } from '../data/julyFourth2026';
 import { HOME_STATS } from '../data/siteStats';
-import { heroImages } from '../heroImages';
+import HomeHero from '../components/HomeHero';
 import JulyFourthCommunityNote from '../components/JulyFourthCommunityNote';
 import Reveal from '../components/Reveal';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
@@ -33,7 +33,6 @@ function RegionMiniCard({ label, icon }: { label: string; icon: string }) {
 }
 
 const Home = () => {
-  const [currentHero, setCurrentHero] = useState(0);
   const [subscribeOpen, setSubscribeOpen] = useState(false);
   const [spotlightModalOpen, setSpotlightModalOpen] = useState(false);
   const independence = getIndependenceEvent();
@@ -41,87 +40,28 @@ const Home = () => {
   const landingSpotlightEvent = getNextUpcomingEvent();
 
   const julyFourthActive = isJulyFourthWeek();
-  const hero = julyFourthActive ? JULY_FOURTH_2026_HERO : heroImages[currentHero];
+  const hero = JULY_FOURTH_2026_HERO;
   const heroOutlineButtonClass =
     '!w-full sm:!w-auto !justify-center !bg-transparent !text-white border-white/80 hover:!bg-white/10 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-zambia-green';
 
   useDocumentMeta({ path: '/' });
 
-  useEffect(() => {
-    if (julyFourthActive) return;
-    const interval = setInterval(() => {
-      setCurrentHero((prev) => (prev + 1) % heroImages.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [julyFourthActive]);
-
   return (
     <div className="bg-fog">
-      <section className={`relative overflow-hidden ${julyFourthActive ? 'min-h-[min(72vh,640px)]' : ''}`}>
-        <div className="absolute inset-0">
-          <img
-            src={hero.src}
-            alt={hero.alt}
-            className={`w-full h-full object-cover ${julyFourthActive ? 'object-center' : ''}`}
-          />
-          <div
-            className={
-              julyFourthActive
-                ? 'absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent'
-                : 'absolute inset-0 bg-gradient-to-r from-zambia-green/90 via-zambia-green/60 to-black/20'
-            }
-          />
-        </div>
-
-        <div
-          className={`relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${
-            julyFourthActive ? 'flex min-h-[min(72vh,640px)] flex-col justify-end py-10 md:py-14' : 'py-16 md:py-24'
-          }`}
-        >
-          <div className={julyFourthActive ? 'w-full' : 'max-w-2xl'}>
-            {!julyFourthActive && (
-              <>
-                <p className="inline-flex items-center gap-2 text-white/90 text-sm uppercase tracking-[0.08em] font-heading">
-                  <span className="h-2 w-2 rounded-full bg-copper ui-hero-pulse-dot shadow-[0_0_12px_rgba(184,115,51,0.65)]" />
-                  Zambian soul, NorCal polish
-                </p>
-                <h1 className="mt-4 text-4xl md:text-6xl font-heading font-bold text-white tracking-[-0.02em] drop-shadow">
-                  Zambian Heritage.
-                  <br />
-                  NorCal Community.
-                </h1>
-                <p className="mt-5 text-white/90 text-base md:text-lg leading-relaxed">
-                  Connecting Zambians across Northern California since 2017 — rooted in culture, thriving in community.
-                </p>
-              </>
-            )}
-
-            <div className={`grid grid-cols-1 gap-3 sm:flex sm:flex-row sm:flex-wrap ${julyFourthActive ? '' : 'mt-8'}`}>
-              <Link to="/membership" className="w-full sm:w-auto">
-                <Button variant="accent" size="lg" className="w-full sm:w-auto">
-                  Join ZANC
-                </Button>
-              </Link>
-              <Link to="/news" className="w-full sm:w-auto">
-                <Button variant="outline" size="lg" className={heroOutlineButtonClass}>
-                  Explore Events
-                </Button>
-              </Link>
-              <Button
-                type="button"
-                variant="outline"
-                size="lg"
-                onClick={() => setSubscribeOpen(true)}
-                className={heroOutlineButtonClass}
-                aria-haspopup="dialog"
-                aria-label="Open subscribe form for ZANC email updates"
-              >
-                Subscribe
-              </Button>
+      {julyFourthActive ? (
+        <section className="relative min-h-[min(72vh,640px)] overflow-hidden">
+          <img src={hero.src} alt={hero.alt} className="absolute inset-0 h-full w-full object-cover object-center" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+          <div className="relative mx-auto flex min-h-[min(72vh,640px)] max-w-7xl flex-col justify-end px-4 py-10 sm:px-6 md:py-14 lg:px-8">
+            <h1 className="sr-only">Zambian Heritage. NorCal Community.</h1>
+            <div className="grid grid-cols-1 gap-3 sm:flex sm:flex-wrap">
+              <Link to="/membership" className="inline-flex items-center justify-center rounded-md bg-copper px-6 py-3 text-lg font-medium text-white hover:bg-copper-light">Join ZANC</Link>
+              <Link to="/news" className="inline-flex items-center justify-center rounded-md border-2 border-white/80 px-6 py-3 text-lg font-medium text-white hover:bg-white/10">Explore Events</Link>
+              <Button type="button" variant="outline" size="lg" onClick={() => setSubscribeOpen(true)} className={heroOutlineButtonClass} aria-haspopup="dialog" aria-label="Open subscribe form for ZANC email updates">Subscribe</Button>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : <HomeHero onSubscribe={() => setSubscribeOpen(true)} />}
 
       <SubscribeModal open={subscribeOpen} onClose={() => setSubscribeOpen(false)} />
       <LandingEventSpotlightModal

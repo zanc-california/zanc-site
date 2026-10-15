@@ -1,4 +1,6 @@
+import { Users, ShieldCheck, HandHeart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import CommunityPhotoStrip from '../components/CommunityPhotoStrip';
 import PageHeader from '../components/PageHeader';
 import Button from '../components/Button';
 import ContactForm, { ZANC_CONTACT_EMAIL } from '../components/ContactForm';
@@ -30,38 +32,37 @@ const GetInvolved = () => {
           </div>
 
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="rounded-lg border border-primary-200 bg-primary-50 p-6 shadow-sm">
+            <div className="flex flex-col rounded-xl border border-primary-200 bg-primary-50 p-6 shadow-sm">
+              <Users size={28} className="mb-4 text-zambia-green" aria-hidden="true" />
               <h3 className="text-xl font-semibold text-primary-800 mb-3 font-heading">Join ZANC</h3>
               <p className="text-gray-700 mb-5">
                 Membership connects you to events, elections, updates, and the broader ZANC community.
               </p>
-              <Link to="/membership">
-                <Button variant="primary" className="w-full">View Membership Options</Button>
-              </Link>
+              <Link to="/membership" className="mt-auto rounded-md bg-zambia-green px-4 py-3 text-center font-medium text-white hover:bg-zambia-green-light">View Membership Options</Link>
             </div>
 
-            <div className="rounded-lg border border-mist bg-white p-6 shadow-sm">
+            <div className="flex flex-col rounded-xl border border-mist bg-white p-6 shadow-sm">
+              <ShieldCheck size={28} className="mb-4 text-zambia-green" aria-hidden="true" />
               <h3 className="text-xl font-semibold text-primary-800 mb-3 font-heading">Group Life Insurance</h3>
               <p className="text-gray-700 mb-5">
                 Review eligibility, rates, payment methods, and current enrollment guidance on the insurance page.
               </p>
-              <Link to="/insurance">
-                <Button variant="outline" className="w-full">Review Insurance Details</Button>
-              </Link>
+              <Link to="/insurance" className="mt-auto rounded-md border border-zambia-green px-4 py-3 text-center font-medium text-zambia-green hover:bg-cloud">Review Insurance Details</Link>
             </div>
 
-            <div className="rounded-lg border border-mist bg-white p-6 shadow-sm">
+            <div className="flex flex-col rounded-xl border border-mist bg-white p-6 shadow-sm">
+              <HandHeart size={28} className="mb-4 text-zambia-green" aria-hidden="true" />
               <h3 className="text-xl font-semibold text-primary-800 mb-3 font-heading">Volunteer or Partner</h3>
               <p className="text-gray-700 mb-5">
                 If you want to volunteer, sponsor a program, or support an event, email the team directly.
               </p>
-              <a href={`mailto:${ZANC_CONTACT_EMAIL}`} className="block">
-                <Button variant="accent" className="w-full">Email ZANC</Button>
-              </a>
+              <a href={`mailto:${ZANC_CONTACT_EMAIL}`} className="mt-auto rounded-md bg-copper-glow px-4 py-3 text-center font-medium text-redwood hover:bg-mist">Email ZANC</a>
             </div>
           </div>
         </div>
       </section>
+
+      <CommunityPhotoStrip />
 
       <section className="py-12 md:py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

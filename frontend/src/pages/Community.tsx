@@ -130,8 +130,26 @@ export default function Community() {
 
       <section className="py-12 md:py-16 bg-fog">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-10 grid items-center gap-8 md:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <p className="text-xs font-heading uppercase tracking-[0.12em] text-redwood">Your community, your voice</p>
+              <h2 className="mt-3 text-3xl font-heading font-semibold text-zambia-green">Good things begin with a conversation.</h2>
+              <p className="mt-4 max-w-xl leading-relaxed text-slate-600">Meet others, share an opportunity, or help shape what comes next. There’s more than one way to be part of ZANC.</p>
+              <nav aria-label="Community quick links" className="mt-5 flex flex-wrap gap-3">
+                {[
+                  { href: '#community-conversations', label: 'Conversations' },
+                  { href: '#opportunities', label: 'Opportunities' },
+                  { href: '#share-an-idea', label: 'Share an idea' },
+                ].map((item) => <a key={item.href} href={item.href} className="inline-flex min-h-11 items-center rounded-full border border-zambia-green/25 bg-white px-4 py-2 text-sm font-medium text-zambia-green hover:bg-copper-glow focus-visible:outline focus-visible:outline-2 focus-visible:outline-zambia-green">{item.label} <span className="ml-2" aria-hidden="true">↓</span></a>)}
+              </nav>
+            </div>
+            <figure className="overflow-hidden rounded-xl border border-mist bg-white">
+              <img src="/images/community/gathering-640.webp" alt="Community friends gathered together in a living room" width={640} height={480} className="aspect-[4/3] w-full object-cover" />
+              <figcaption className="px-4 py-3 text-sm text-slate-600">Familiar faces, shared stories, new connections.</figcaption>
+            </figure>
+          </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 bg-white rounded-xl border border-mist p-6 shadow-sm">
+            <div id="share-an-idea" className="scroll-mt-28 lg:col-span-2 bg-white rounded-xl border border-mist p-6 shadow-sm">
               <h2 className="text-2xl font-heading font-semibold text-zambia-green">Have a suggestion for the community?</h2>
               <p className="text-slate mt-2">
                 We want to hear from you. Share ideas for events, initiatives, or ways we can better serve our community.
@@ -215,23 +233,21 @@ export default function Community() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl border border-mist p-6 shadow-sm">
+            <aside className="self-start rounded-xl border border-dashed border-mist bg-cloud p-6">
               <h2 className="text-xl font-heading font-semibold text-zambia-green">Community Exchange</h2>
               <div className="mt-3 rounded-lg border border-mist bg-copper-glow/40 p-4">
                 <p className="font-heading font-semibold text-redwood">Coming Soon</p>
                 <p className="text-sm text-slate mt-1">
-                  Browse available listings (coming soon). A marketplace for members to list services, sell goods, and connect professionally.
+                  A planned marketplace for members to list services, sell goods, and connect professionally. Listings are not available yet.
                 </p>
                 <p className="text-sm text-slate mt-3 font-medium text-zambia-green">
                   Only active ZANC members will be able to list items and services.
                 </p>
                 <div className="mt-4">
-                  <Link to="/membership">
-                    <Button variant="outline">Join ZANC to unlock listing access</Button>
-                  </Link>
+                  <Link to="/membership" className="text-sm font-medium text-zambia-green underline underline-offset-4">Explore membership</Link>
                 </div>
               </div>
-            </div>
+            </aside>
           </div>
 
           <div className="mt-10">

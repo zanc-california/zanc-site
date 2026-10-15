@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import PageHeader from '../components/PageHeader';
 import BoardMember from '../components/BoardMember';
 import BoardInviteePlaceholder from '../components/BoardInviteePlaceholder';
 import { FOUNDED_YEAR, MEMBER_STATES_SENTENCE } from '../data/siteStats';
@@ -109,16 +108,15 @@ const About = () => {
 
   return (
     <div>
-      <PageHeader title="About" />
 
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="w-full h-full bg-gradient-to-r from-zambia-green via-zambia-green-light to-bay-blue" />
           <div className="absolute inset-0 bg-black/25" />
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] items-center">
           <div className="max-w-3xl">
-            <p className="text-white/90 text-sm uppercase tracking-[0.08em] font-heading">Our mission</p>
+            <p className="text-white/90 text-sm uppercase tracking-[0.08em] font-heading">About ZANC</p>
             <h1 className="mt-3 text-3xl md:text-5xl font-heading font-bold text-white tracking-[-0.02em] drop-shadow">
               Zambian heritage, Northern California community.
             </h1>
@@ -127,6 +125,10 @@ const About = () => {
               and supporting community initiatives in Northern California and beyond.
             </p>
           </div>
+          <figure className="overflow-hidden rounded-xl border border-white/20 bg-white/10">
+            <img src="/images/community/womens-tea-1280.webp" srcSet="/images/community/womens-tea-640.webp 640w, /images/community/womens-tea-1280.webp 1280w" sizes="(min-width: 1024px) 45vw, 100vw" alt="Women gathered for a community tea party outdoors" width={1280} height={960} className="aspect-[4/3] w-full object-cover" />
+            <figcaption className="px-4 py-3 text-sm text-white/90">Together in community · Women’s tea party, 2025</figcaption>
+          </figure>
         </div>
       </section>
       

@@ -1,4 +1,5 @@
 import { useId, useState } from 'react';
+import { MessageCircle, CalendarDays, HandHeart } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import Button from '../components/Button';
 import Reveal from '../components/Reveal';
@@ -172,14 +173,22 @@ const Membership = () => {
             </div>
           </div>
 
-          <Reveal className="mt-10 max-w-3xl rounded-xl border border-mist bg-cloud p-6 md:p-8 ui-card-motion motion-safe:hover:border-zambia-green/15 motion-safe:hover:shadow-md">
-            <h3 className="text-lg font-heading font-semibold text-zambia-green">What happens after you join?</h3>
-            <ul className="mt-4 space-y-2 text-slate text-sm leading-relaxed list-disc pl-5">
-              <li>You&apos;ll be added to our community communication channels</li>
-              <li>You&apos;ll receive updates on events and programs</li>
-              <li>You can participate in committees and activities</li>
-            </ul>
-          </Reveal>
+          <div className="mt-12 border-t border-mist pt-8">
+            <h3 className="text-xl font-heading font-semibold text-zambia-green">What happens after you join?</h3>
+            <ol className="mt-5 grid gap-5 md:grid-cols-3">
+              {[
+                { icon: MessageCircle, title: 'Get connected', text: 'You’ll be added to our community communication channels.' },
+                { icon: CalendarDays, title: 'Stay in the loop', text: 'Receive updates on events and community programs.' },
+                { icon: HandHeart, title: 'Take part', text: 'Participate in committees and activities that interest you.' },
+              ].map(({ icon: Icon, title, text }, index) => (
+                <li key={title} className="rounded-xl border border-mist bg-cloud p-5">
+                  <div className="flex items-center justify-between"><Icon size={25} className="text-zambia-green" aria-hidden="true" /><span className="text-sm font-heading text-redwood">0{index + 1}</span></div>
+                  <h4 className="mt-4 font-heading font-semibold text-zambia-green">{title}</h4>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{text}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
 
           <div className="mt-8 rounded-xl border border-mist bg-white p-4 shadow-sm md:p-6 ui-card-motion motion-safe:hover:shadow-md motion-safe:hover:border-zambia-green/10">
             <h3 className="font-heading font-semibold text-zambia-green mb-3">Pay by Zelle or Venmo</h3>
@@ -234,6 +243,21 @@ const Membership = () => {
                 Membership subscription is mandatory for all Group Insurance subscribers. We highly encourage all community members to
                 subscribe to help cover community needs and sponsor events.
               </p>
+            </div>
+          </div>
+          <div className="mt-12 max-w-3xl">
+            <h3 className="text-xl font-heading font-semibold text-zambia-green">A few useful answers</h3>
+            <div className="mt-4 divide-y divide-mist border-y border-mist">
+              {[
+                { question: 'Can I join if I live outside Northern California?', answer: 'Yes. The Nationwide option is available to out-of-town and out-of-state members at $40 per year.' },
+                { question: 'How do I return my membership form?', answer: 'Complete the downloadable intake form and email it to zancsac@gmail.com. The team can also help with questions about joining.' },
+                { question: 'Can I pay without a card?', answer: 'Yes. Use the Zelle or Venmo options listed above. Include your name and membership type in the payment note when possible.' },
+              ].map(({ question, answer }) => (
+                <details key={question} className="group py-4">
+                  <summary className="cursor-pointer font-medium text-zambia-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zambia-green">{question}</summary>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600">{answer}</p>
+                </details>
+              ))}
             </div>
           </div>
         </div>

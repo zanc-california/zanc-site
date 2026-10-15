@@ -1,30 +1,10 @@
+/** Responsive derivatives of existing gallery photos. Originals remain in /images/gallery. */
 export const heroImages = [
-  {
-    src: '/images/360_F_251323196_PCHazdC7OTij8unGC40IJ2CUTtt8PPWf.jpg',
-    alt: 'Zambian community event',
-  },
-  {
-    src: '/images/istockphoto-1081365424-612x612.jpg',
-    alt: 'Zambian culture',
-  },
-  {
-    src: '/images/vic-falls-mukuni-craft-village-lee-berger-590x390.jpg',
-    alt: 'Victoria Falls Mukuni Craft Village',
-  },
-  {
-    src: '/images/victoria_falls_1.jpg',
-    alt: 'Victoria Falls',
-  },
-  {
-    src: '/images/Zambia-Culture.jpg',
-    alt: 'Zambian Culture',
-  },
-  {
-    src: '/images/flag.jpg',
-    alt: 'Zambian Flag',
-  },
-  {
-    src: '/images/logo.jpg',
-    alt: 'ZANC Logo',
-  },
-];
+  { name: 'gathering', width: 1280, alt: 'Community friends gathered together in a living room', title: 'A place to belong', caption: 'Community friends gathering', position: '50% 50%' },
+  { name: 'roadshow-music', width: 1000, alt: 'A musician performing with a guitar for guests at the Zambia–US Roadshow', title: 'Culture brings us together', caption: 'Music at the Zambia–US Roadshow · 2025', position: '60% 50%' },
+  { name: 'roadshow-community', width: 1280, alt: 'Roadshow guests posing beneath balloons in Zambian flag colors', title: 'Connections that grow', caption: 'Community at the Zambia–US Roadshow · 2025', position: '50% 50%' },
+].map((photo) => ({
+  ...photo,
+  src: `/images/community/${photo.name}-1280.webp`,
+  srcSet: `/images/community/${photo.name}-640.webp 640w, /images/community/${photo.name}-1280.webp ${photo.width}w`,
+}));

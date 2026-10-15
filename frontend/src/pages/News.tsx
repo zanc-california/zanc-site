@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import CommunityPhotoStrip from '../components/CommunityPhotoStrip';
 import NewsFeedCard from '../components/NewsFeedCard';
 import NewsArticleModal, { type ModalArticleContent } from '../components/NewsArticleModal';
 import Button from '../components/Button';
@@ -642,12 +643,11 @@ const News = () => {
     <div>
       <section className="bg-zambia-green text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-14 pb-10 md:pb-12">
-          <h1 className="text-3xl md:text-4xl font-bold font-heading text-center">Events &amp; News</h1>
-          <div className="mt-10 md:mt-12 text-left">
-            <p className="text-xs font-heading uppercase tracking-[0.14em] text-white/75">2026 · ZANC calendar live</p>
-            <h2 className="text-2xl md:text-3xl font-heading font-bold mt-2">2026 ZANC Calendar Now Live</h2>
+          <p className="text-xs font-heading uppercase tracking-[0.14em] text-white/75">Gather, celebrate, stay connected</p>
+          <h1 className="mt-3 text-3xl md:text-4xl font-bold font-heading">Events &amp; News</h1>
+          <div className="text-left">
             <p className="text-white/90 mt-3 max-w-2xl text-sm md:text-base leading-relaxed">
-              {CALENDAR_2026_THEME} — a living organization with momentum, belonging, and things worth joining. Plan your year with us.
+              {CALENDAR_2026_THEME}. Find your next gathering and catch up on community news.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <Button variant="accent" type="button" onClick={focusUpcomingEvents}>
@@ -667,19 +667,7 @@ const News = () => {
       </section>
       <section className="py-12 md:py-16 bg-fog">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
-            <div className="min-w-0">
-              <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Events &amp; News</h2>
-              <p className="text-slate mt-2 max-w-2xl text-sm md:text-base leading-relaxed">
-                Upcoming gatherings first — then stories from the community. Save the dates that fit your year; dip into news when you
-                want the wider picture.
-              </p>
-            </div>
-            <Button variant="accent" className="shrink-0 self-start sm:self-center" onClick={openCalendar}>
-              Review this year’s calendar
-            </Button>
-          </div>
-
+          <h2 className="sr-only">Browse events and community news</h2>
           <div className="flex flex-wrap gap-2 mb-8">
             {[
               { id: 'all' as const, label: 'All' },
@@ -765,6 +753,8 @@ const News = () => {
           )}
         </div>
       </section>
+
+      <CommunityPhotoStrip />
 
       <NewsArticleModal open={articleModalOpen} onClose={closeArticleModal} article={modalArticle} />
 
