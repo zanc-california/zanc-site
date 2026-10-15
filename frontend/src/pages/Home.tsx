@@ -189,6 +189,9 @@ const Home = () => {
                 <div className="lg:col-span-2 border-t lg:border-t-0 lg:border-l border-copper/25 bg-white/70 p-6 md:p-8 flex flex-col justify-center gap-4">
                   <div>
                     <Link to="/independence#lineup"><img src="/images/postings/independence-2026-banner.png" alt="Zambia Independence celebration with family admission prices" width={1774} height={887} className="w-full h-auto rounded-lg mb-5" loading="lazy" /></Link>
+                    <p className="font-heading font-semibold text-zambia-green">Look who’s joining us!</p>
+                    <p className="mt-2 text-sm text-slate leading-relaxed">Rajen Ranchhod, Catherine Bonnefoy, Ognian Gavrilov, John Shea and Eduardo Madrid Moreno join our confirmed guests, alongside Joseph Prouse, Jean Nangwala and Dj LittyRocket.</p>
+                    <Link to="/independence#confirmed-guests" className="mt-3 mb-5 inline-flex text-sm font-medium text-bay-blue underline">Meet the guests and get the community flyer →</Link>
                     <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">Where to stay</p>
                     <p className="mt-1 text-sm text-slate leading-relaxed">
                       Special ZANC Independence group rate available through the host hotel

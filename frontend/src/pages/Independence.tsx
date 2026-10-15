@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import Reveal from '../components/Reveal';
 import SubscribeModal from '../components/SubscribeModal';
-import { getFlagRaisingEvent, getIndependenceEvent, INDEPENDENCE_FEATURES, INDEPENDENCE_RESERVATION_URL } from '../data/communityCalendar2026';
+import { getFlagRaisingEvent, getIndependenceEvent, INDEPENDENCE_COMMUNITY_FLYER, INDEPENDENCE_CONFIRMED_GUESTS, INDEPENDENCE_FEATURES, INDEPENDENCE_RESERVATION_URL } from '../data/communityCalendar2026';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { SITE_ORIGIN } from '../lib/siteMeta';
 
@@ -87,12 +87,15 @@ const Independence = () => {
             </p>
             <p className="mt-5 text-white/90 leading-relaxed max-w-2xl">
               Bring the whole family for Zambian food, music and community. Join Joseph Prouse, Jean Nangwala and
-              Dj LittyRocket as we celebrate 62 years of independence.
+              Dj LittyRocket, along with confirmed consular, civic and regional business guests, as we celebrate 62 years of independence.
             </p>
             <p className="mt-3 text-white/90 text-sm">Please reserve early and include everyone attending, including children. Hall capacity: 160.</p>
             <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-row sm:flex-wrap">
               <a href={INDEPENDENCE_RESERVATION_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center rounded-md bg-copper px-6 py-3 text-lg font-medium text-white hover:bg-copper-light focus-visible:ring-2 focus-visible:ring-white">
                 Reserve your place
+              </a>
+              <a href="#confirmed-guests" className="inline-flex items-center justify-center rounded-md border border-white/80 px-6 py-3 text-lg font-medium text-white hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-white">
+                See who’s joining us
               </a>
               {accommodation?.bookingUrl && (
                 <a href={accommodation.bookingUrl} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
@@ -120,21 +123,27 @@ const Independence = () => {
       {/* At a glance */}
       <section className="py-10 md:py-14 bg-white border-b border-mist">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Approved family flyer, also available to download and share. */}
-          {event.imageUrl && (
+          {/* Community update flyer, also available to download and share. */}
+          {INDEPENDENCE_COMMUNITY_FLYER && (
             <Reveal className="mb-8 md:mb-10">
+              <div className="mb-5 text-center">
+                <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Look who’s joining us!</h2>
+                <p className="mt-2 text-slate">Make sure you’re in the room. Bring the family and reserve everyone’s place in advance.</p>
+              </div>
               <figure className="mx-auto max-w-2xl overflow-hidden rounded-xl border border-mist bg-cloud shadow-sm">
                 <img
-                  src={event.imageUrl}
-                  width={1122}
-                  height={1402}
-                  alt="Zambia Independence Celebration family flyer: October 24 in Woodland, adults $55, ages 10–17 $25, under 10 free"
+                  src={INDEPENDENCE_COMMUNITY_FLYER}
+                  width={1086}
+                  height={1448}
+                  alt="Look who’s joining us: Jean Nangwala, Joseph Prouse, Rajen Ranchhod, Catherine Bonnefoy, John Shea and Eduardo Madrid Moreno at Zambia’s October 24 Independence celebration in Woodland"
                   className="w-full h-auto object-contain"
                   loading="eager"
                 />
                 <figcaption className="px-4 py-3 text-sm text-slate leading-relaxed border-t border-mist">
                   Presented by ZANC. Sponsored by American Hospitality Services. Doors 5:30 PM · celebration 6:00 PM ·
-                  adults $55 · ages 10–17 $25 · under 10 free. <a href={event.imageUrl} download className="font-semibold text-bay-blue underline">Download the family flyer</a>
+                  adults $55 · ages 10–17 $25 · under 10 free. <a href={INDEPENDENCE_COMMUNITY_FLYER} download className="font-semibold text-bay-blue underline">Download the community flyer</a>
+                  {event.imageUrl && <> · <a href={event.imageUrl} download className="font-semibold text-bay-blue underline">Family flyer</a></>}
+                  <span className="mt-2 block text-xs">AI-assisted flyer layout using supplied and public-source photos. See the latest confirmed guests below, including Ognian Gavrilov.</span>
                 </figcaption>
               </figure>
             </Reveal>
@@ -187,7 +196,7 @@ const Independence = () => {
 
       <section id="lineup" className="py-10 md:py-14 bg-fog border-b border-mist scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Meet the evening’s guests and artists</h2>
+          <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Music and a story from Zambia</h2>
           <p className="mt-2 text-slate">Confirmed for October 24. Share the flyers with family and friends; speaking and performance times will follow.</p>
           <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
             {INDEPENDENCE_FEATURES.map((guest) => (
@@ -204,6 +213,29 @@ const Independence = () => {
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section id="confirmed-guests" className="py-10 md:py-14 bg-white border-b border-mist scroll-mt-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-xs uppercase tracking-wide font-heading text-copper">Confirmed for October 24</p>
+          <h2 className="mt-2 text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Joining our community celebration</h2>
+          <p className="mt-3 max-w-3xl text-slate">We look forward to welcoming guests from the consular, civic and regional business communities for an evening of Zambian food, music and connection.</p>
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {INDEPENDENCE_CONFIRMED_GUESTS.map((guest) => (
+              <article key={guest.name} className="overflow-hidden rounded-xl border border-mist bg-cloud shadow-sm">
+                <img src={guest.imageUrl} alt={guest.name} width={600} height={600} className="w-full aspect-square object-cover object-top" loading="lazy" />
+                <div className="p-5">
+                  <h3 className="text-xl font-heading font-semibold text-zambia-green">{guest.name}</h3>
+                  <p className="mt-2 text-sm font-medium text-slate">{guest.title}</p>
+                  <p className="mt-1 text-sm text-slate">{guest.affiliation}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+          <a href={INDEPENDENCE_RESERVATION_URL} target="_blank" rel="noopener noreferrer" className="mt-8 inline-flex items-center justify-center rounded-md bg-zambia-green px-6 py-3 font-medium text-white hover:bg-zambia-green-light focus-visible:ring-2 focus-visible:ring-copper focus-visible:ring-offset-2">
+            Reserve your place for October 24
+          </a>
         </div>
       </section>
 

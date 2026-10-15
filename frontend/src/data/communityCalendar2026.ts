@@ -95,6 +95,16 @@ export type CommunityEvent = {
 export const INDEPENDENCE_RESERVATION_URL =
   'https://www.eventbrite.com/e/zambias-62nd-independence-celebration-registration-2002341560509';
 
+export const INDEPENDENCE_COMMUNITY_FLYER = '/images/independence-2026/community-update.png';
+
+export const INDEPENDENCE_CONFIRMED_GUESTS = [
+  { name: 'Rajen Ranchhod', title: 'Honorary Consul of the Republic of Zambia', affiliation: 'California', imageUrl: '/images/independence-2026/rajen-ranchhod.jpg' },
+  { name: 'Catherine Bonnefoy', title: 'Honorary Consul of France', affiliation: 'Sacramento', imageUrl: '/images/independence-2026/catherine-bonnefoy.jpg' },
+  { name: 'Ognian Gavrilov', title: 'Honorary Consul of Bulgaria', affiliation: 'Sacramento · Northern California', imageUrl: '/images/independence-2026/ognian-gavrilov.png' },
+  { name: 'John Shea', title: 'President & CEO', affiliation: 'World Trade Center Northern California', imageUrl: '/images/independence-2026/john-shea.jpg' },
+  { name: 'Eduardo Madrid Moreno', title: 'District Director', affiliation: 'Office of Sacramento Vice Mayor Karina Talamantes', imageUrl: '/images/independence-2026/eduardo-madrid-moreno.jpg' },
+];
+
 export const INDEPENDENCE_FEATURES = [
   { name: 'Joseph Prouse', role: 'Special guest', description: 'Hear his story of 21 days in Zambia’s Luangwa Valley on Naked and Afraid.', imageUrl: '/images/postings/joseph-prouse-2026.png' },
   { name: 'Jean Nangwala', role: 'Zambian Afro Pop artist', description: 'A contemporary Zambian musical voice joins our Independence celebration.', imageUrl: '/images/postings/jean-nangwala-2026.png' },
