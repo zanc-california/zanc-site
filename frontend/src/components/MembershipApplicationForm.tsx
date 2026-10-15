@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from './Button';
 
-interface MembershipFormData {
+export interface MembershipFormData {
   // Personal Information
   fullName: string;
   dateOfBirth: string;

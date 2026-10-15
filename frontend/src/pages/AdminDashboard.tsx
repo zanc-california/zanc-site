@@ -25,7 +25,7 @@ interface User {
   membership?: {
     id: string;
     type: string;
-    status: 'pending' | 'approved' | 'rejected';
+    status: 'pending' | 'approved' | 'rejected' | 'MANUAL_PAYMENT';
     createdAt: string;
     payment?: {
       id: string;

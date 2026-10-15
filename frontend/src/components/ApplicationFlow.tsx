@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import ServiceSelection from './ServiceSelection';
 import InsuranceForm from './InsuranceForm';
-import MembershipApplicationForm from './MembershipApplicationForm';
+import MembershipApplicationForm, { type MembershipFormData } from './MembershipApplicationForm';
 
 export interface ServiceSelectionData {
   membershipType: string;
@@ -75,40 +75,6 @@ export interface InsuranceFormData {
   
   // Member Signature and Date
   signatureDate: string;
-}
-
-export interface MembershipFormData {
-  firstName: string;
-  lastName: string;
-  middleName: string;
-  dateOfBirth: string;
-  email: string;
-  phone: string;
-  streetAddress: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  country: string;
-  occupation: string;
-  employer: string;
-  workAddress: string;
-  workPhone: string;
-  placeOfBirth: string;
-  zambianAddress: string;
-  familyInZambia: string;
-  visitFrequency: string;
-  howDidYouHear: string;
-  volunteerInterest: string;
-  skillsToOffer: string;
-  emergencyContactName: string;
-  emergencyContactPhone: string;
-  emergencyContactRelation: string;
-  reference1Name: string;
-  reference1Phone: string;
-  reference1Email: string;
-  reference2Name: string;
-  reference2Phone: string;
-  reference2Email: string;
 }
 
 type Step = 'service-selection' | 'insurance-form' | 'membership-form' | 'payment';
