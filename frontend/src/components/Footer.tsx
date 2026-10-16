@@ -8,9 +8,14 @@ const Footer = () => {
         <div className="py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-3">
-              <span className="inline-flex items-center justify-center h-10 w-10 rounded-md bg-copper-glow border border-copper/30">
-                <span className="font-heading font-bold text-copper">Z</span>
-              </span>
+              <img
+                src="/images/brand/zanc-mark-128.jpg"
+                alt=""
+                width={48}
+                height={48}
+                loading="lazy"
+                className="h-12 w-12 shrink-0 rounded-full object-contain"
+              />
               <div>
                 <div className="font-heading font-bold text-white">ZANC</div>
                 <div className="text-sm text-white/80">Zambian Association in Northern California</div>

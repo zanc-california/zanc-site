@@ -64,9 +64,13 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="flex justify-between items-center py-3.5 sm:py-4">
           <Link to="/" className="flex min-w-0 items-center gap-3">
-            <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-mist bg-copper-glow">
-              <span className="font-heading font-bold text-copper">Z</span>
-            </span>
+            <img
+              src="/images/brand/zanc-mark-128.jpg"
+              alt=""
+              width={44}
+              height={44}
+              className="h-11 w-11 shrink-0 rounded-full object-contain"
+            />
             <div className="min-w-0 leading-tight">
               <div className="font-heading font-bold text-zambia-green text-base sm:text-lg">ZANC</div>
               <div className="text-[11px] text-slate sm:hidden">Northern California</div>

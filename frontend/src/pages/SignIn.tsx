@@ -64,7 +64,7 @@ const SignIn: React.FC = () => {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
-          <img src="/images/logo.jpg" alt="ZANC Logo" className="h-16 w-16 rounded-full border-2 border-primary-800" />
+          <img src="/images/brand/zanc-mark-512.jpg" alt="ZANC Logo" className="h-16 w-16 rounded-full border-2 border-primary-800" />
         </div>
         <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
           Sign in to your account

@@ -92,7 +92,7 @@ const STATIC_NEWS_ARTICLES: StaticNewsArticle[] = [
     excerpt:
       'General elections brought fresh leadership for 2026–2028. Thank you to everyone who voted, volunteered, and helped the process run smoothly.',
     date: 'February 2026',
-    imageUrl: '/images/logo.jpg',
+    imageUrl: '/images/brand/zanc-mark-512.jpg',
     bodyParagraphs: [
       'ZANC recently completed general elections for the 2026–2028 term. Members stepped forward to shape programming, stewardship, and community life—and the association is grateful to everyone who participated, whether on the ballot, behind the scenes, or at the polls.',
       'A new committee is now in place to carry forward ZANC’s mission: preserving Zambian heritage, strengthening ties across Northern California, and welcoming partners near and far.',
