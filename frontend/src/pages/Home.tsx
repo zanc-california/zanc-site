@@ -94,7 +94,7 @@ const Home = () => {
                     {independence.venueAddress}
                   </p>
                   <p className="mt-4 text-slate leading-relaxed max-w-xl">
-                    Zambian food, music and community with Joseph Prouse, Jean Nangwala and Dj LittyRocket.
+                    Zambian food, cultural history and music with Jean Nangwala and Dj LittyRocket, plus a conversation about robotics and the future of food.
                     Reserve early for everyone in your party, including children. Hall capacity: 160.
                     Host-hotel rooms are $99/night; book by October 22.
                   </p>
@@ -130,7 +130,7 @@ const Home = () => {
                   <div>
                     <Link to="/independence#lineup"><img src="/images/postings/independence-2026-banner.png" alt="Zambia Independence celebration with family admission prices" width={1774} height={887} className="w-full h-auto rounded-lg mb-5" loading="lazy" /></Link>
                     <p className="font-heading font-semibold text-zambia-green">Look who’s joining us!</p>
-                    <p className="mt-2 text-sm text-slate leading-relaxed">Rajen Ranchhod, Catherine Bonnefoy, Ognian Gavrilov, John Shea and Eduardo Madrid Moreno join our confirmed guests, alongside Joseph Prouse, Jean Nangwala and Dj LittyRocket.</p>
+                    <p className="mt-2 text-sm text-slate leading-relaxed">Rajen Ranchhod, Catherine Bonnefoy, Ognian Gavrilov, John Shea and Eduardo Madrid Moreno join our confirmed guests, with music by Jean Nangwala and Dj LittyRocket.</p>
                     <Link to="/independence#confirmed-guests" className="mt-3 mb-5 inline-flex text-sm font-medium text-bay-blue underline">Meet the guests and get the community flyer →</Link>
                     <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">Where to stay</p>
                     <p className="mt-1 text-sm text-slate leading-relaxed">

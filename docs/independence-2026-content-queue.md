@@ -1,6 +1,6 @@
 # Independence 2026 — content queue
 
-Updated October 14, 2026 from organizer confirmations and approved flyers.
+Updated October 16, 2026 from organizer confirmations and revised publicity.
 
 ## Confirmed content in this release
 
@@ -8,9 +8,10 @@ Updated October 14, 2026 from organizer confirmations and approved flyers.
 - Fairfield by Marriott Inn & Suites Sacramento Airport Woodland, 2100 Freeway Drive, Woodland, CA 95776.
 - Adults 18+ $55; ages 10–17 $25; under 10 free. Reserve for every attendee; hall capacity is 160, not a live count of seats available.
 - Reservation URL: https://www.eventbrite.com/e/zambias-62nd-independence-celebration-registration-2002341560509
-- Joseph Prouse, Jean Nangwala and Dj LittyRocket confirmed. Full program times remain pending.
+- Jean Nangwala and Dj LittyRocket confirmed. Joseph Prouse's availability is uncertain; he is no longer advertised in current site copy or artwork. Full program times remain pending.
+- Organizer-confirmed highlights include a robotics conversation, a vegetarian dish prepared by a robotic kitchen as part of the buffet, and Zambian cultural history and fun facts. No on-site robot demonstration is announced.
 - Confirmed Woodland guests: Rajen Ranchhod, Honorary Consul of Zambia; Catherine Bonnefoy, Honorary Consul of France in Sacramento; Ognian Gavrilov, Honorary Consul of Bulgaria in Sacramento; John Shea, President and CEO of the World Trade Center Northern California; Eduardo Madrid Moreno, District Director in the Office of Sacramento Vice Mayor Karina Talamantes. Attendance does not establish a speaking slot or organizational sponsorship.
-- New community update flyer is downloadable on the Independence page. Ognian's subsequent confirmation appears in the current website guest list; the earlier flyer retains its six-person lineup.
+- The October 16 community flyer replaces Joseph's portrait with Ognian Gavrilov, Honorary Consul of Bulgaria. A new robotics and cultural heritage spotlight replaces Joseph's standalone flyer beside Jean and the DJ. Superseded public artwork is removed from the current build; originals are preserved locally and in Git history.
 - American Hospitality Services sponsor; additional area-business and volunteer inquiries welcomed through ZANC.
 - Family, guest and artist flyers available to view and download. The approved flyers include Zelle details; website copy directs visitors through the completed reservation link without requiring a separate payment step.
 - San Francisco City Hall flag raising: Friday, October 23, 2026, 11:30 AM. Updated countdown, calendar, event listing, page and flyer.

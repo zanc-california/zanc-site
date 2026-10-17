@@ -86,8 +86,8 @@ const Independence = () => {
               {event.venueAddress}
             </p>
             <p className="mt-5 text-white/90 leading-relaxed max-w-2xl">
-              Bring the whole family for Zambian food, music and community. Celebrate with Joseph Prouse,
-              Jean Nangwala, Dj LittyRocket and friends of Zambia from across Northern California.
+              Bring the whole family for Zambian food, music and community. Celebrate with Jean Nangwala,
+              Dj LittyRocket and friends of Zambia, with cultural history, fun facts and a taste of the future of food.
             </p>
             <p className="mt-5 font-semibold text-white">Adults $55 · Ages 10–17 $25 · Under 10 free</p>
             <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-row sm:flex-wrap">
@@ -104,12 +104,12 @@ const Independence = () => {
           {INDEPENDENCE_COMMUNITY_FLYER && (
             <figure className="w-full max-w-sm mx-auto lg:ml-auto lg:mr-0">
               <a href={INDEPENDENCE_COMMUNITY_FLYER} target="_blank" rel="noopener noreferrer" className="block overflow-hidden rounded-xl border border-white/30 shadow-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white" aria-label="Open the community flyer in full size">
-                <img src={INDEPENDENCE_COMMUNITY_FLYER} width={1086} height={1448} alt="Community flyer featuring Jean Nangwala, Joseph Prouse, Rajen Ranchhod, Catherine Bonnefoy, John Shea and Eduardo Madrid Moreno" className="w-full h-auto" loading="eager" />
+                <img src={INDEPENDENCE_COMMUNITY_FLYER} width={1086} height={1448} alt="Community flyer featuring Jean Nangwala, Ognian Gavrilov, Rajen Ranchhod, Catherine Bonnefoy, John Shea and Eduardo Madrid Moreno" className="w-full h-auto" loading="eager" />
               </a>
               <figcaption className="mt-4 text-sm text-white/90 leading-relaxed">
                 <a href={INDEPENDENCE_COMMUNITY_FLYER} download className="font-medium text-white underline underline-offset-4">Download community flyer</a>
                 {event.imageUrl && <> · <a href={event.imageUrl} download className="text-white underline underline-offset-4">Family flyer</a></>}
-                <span className="mt-2 block text-xs text-white/80">AI-assisted layout using supplied and public-source photos. The full guest list below also includes Ognian Gavrilov.</span>
+                <span className="mt-2 block text-xs text-white/80">Updated October 16. AI-assisted layout using supplied and public-source photos.</span>
               </figcaption>
             </figure>
           )}
@@ -119,7 +119,7 @@ const Independence = () => {
       <nav aria-label="On this page" className="border-b border-mist bg-white">
         <div className="max-w-7xl mx-auto flex flex-wrap gap-x-6 gap-y-1 px-4 sm:px-6 lg:px-8 py-3 text-sm font-medium">
           <a href="#event-details" className="py-2 text-zambia-green hover:underline">Event details</a>
-          <a href="#lineup" className="py-2 text-zambia-green hover:underline">Music & special guest</a>
+          <a href="#lineup" className="py-2 text-zambia-green hover:underline">Music & evening highlights</a>
           <a href="#confirmed-guests" className="py-2 text-zambia-green hover:underline">Community guests</a>
           {flagRaising && <a href="#flag-raising" className="py-2 text-zambia-green hover:underline">Flag raising · Oct 23</a>}
           {accommodation && <a href="#hotel" className="py-2 text-zambia-green hover:underline">Hotel & travel</a>}
@@ -180,8 +180,8 @@ const Independence = () => {
 
       <section id="lineup" className="py-10 md:py-14 bg-fog border-b border-mist scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Music and a story from Zambia</h2>
-          <p className="mt-2 text-slate">Confirmed for October 24. Share the flyers with family and friends; speaking and performance times will follow.</p>
+          <h2 className="text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Music, culture and a taste of tomorrow</h2>
+          <p className="mt-2 text-slate">Expected highlights for October 24. Share the updated flyers with family and friends; the final running order will follow.</p>
           <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
             {INDEPENDENCE_FEATURES.map((guest) => (
               <article key={guest.name} className="flex flex-row md:flex-col overflow-hidden rounded-xl border border-mist bg-white shadow-sm">

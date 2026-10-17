@@ -95,7 +95,7 @@ export type CommunityEvent = {
 export const INDEPENDENCE_RESERVATION_URL =
   'https://www.eventbrite.com/e/zambias-62nd-independence-celebration-registration-2002341560509';
 
-export const INDEPENDENCE_COMMUNITY_FLYER = '/images/independence-2026/community-update.png';
+export const INDEPENDENCE_COMMUNITY_FLYER = '/images/independence-2026/community-update-oct16.png';
 
 export const INDEPENDENCE_CONFIRMED_GUESTS = [
   { name: 'Rajen Ranchhod', title: 'Honorary Consul of the Republic of Zambia', affiliation: 'California', imageUrl: '/images/independence-2026/rajen-ranchhod.jpg' },
@@ -106,7 +106,7 @@ export const INDEPENDENCE_CONFIRMED_GUESTS = [
 ];
 
 export const INDEPENDENCE_FEATURES = [
-  { name: 'Joseph Prouse', role: 'Special guest', description: 'Hear his story of 21 days in Zambia’s Luangwa Valley on Naked and Afraid.', imageUrl: '/images/postings/joseph-prouse-2026.png' },
+  { name: 'Robotics, food & heritage', role: 'Evening highlights', description: 'Explore robotics and the future of food, enjoy a vegetarian dish prepared by a robotic kitchen as part of the buffet, and join a moment of Zambian cultural history and fun facts.', imageUrl: '/images/postings/robotics-culture-2026.png' },
   { name: 'Jean Nangwala', role: 'Zambian Afro Pop artist', description: 'A contemporary Zambian musical voice joins our Independence celebration.', imageUrl: '/images/postings/jean-nangwala-2026.png' },
   { name: 'Dj LittyRocket', role: 'On the decks', description: 'Our community member brings the music for an evening together.', imageUrl: '/images/postings/dj-littyrocket-2026.png' },
 ];
@@ -373,7 +373,7 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     description:
       'One flagship Saturday celebration in Woodland — an evening of heritage, dignity, and celebration marking 62 years of Zambian Independence.\n\n' +
       'Saturday, October 24, 2026. Doors open at 5:30 PM; the celebration begins at 6:00 PM. Adults 18+ $55; ages 10–17 $25; children under 10 free. Reserve in advance, including all children; the hall has a capacity of 160. Fairfield by Marriott Inn & Suites Sacramento Airport Woodland, 2100 Freeway Drive, Woodland, CA.\n\n' +
-      'Confirmed for the evening: special guest Joseph Prouse, Zambian Afro Pop artist Jean Nangwala, and Dj LittyRocket. Members and friends of Zambia are warmly welcome. The celebration is at the host hotel, where a ZANC group rate of $99/night is open through October 22.',
+      'The evening features Zambian Afro Pop artist Jean Nangwala, music by Dj LittyRocket, Zambian cultural history and fun facts, and a conversation about robotics and the future of food. A vegetarian dish prepared by a robotic kitchen will be part of the buffet. Members and friends of Zambia are warmly welcome. The celebration is at the host hotel, where a ZANC group rate of $99/night is open through October 22.',
     dateLabel: 'Sat, Oct 24 · 6:00 PM',
     location: 'Woodland, CA',
     type: 'upcoming',
