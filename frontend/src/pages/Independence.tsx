@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import Reveal from '../components/Reveal';
 import SubscribeModal from '../components/SubscribeModal';
-import { getFlagRaisingEvent, getIndependenceEvent, INDEPENDENCE_COMMUNITY_FLYER, INDEPENDENCE_CONFIRMED_GUESTS, INDEPENDENCE_FEATURES, INDEPENDENCE_RESERVATION_URL } from '../data/communityCalendar2026';
+import { FLAG_RAISING_CONFIRMED_GUESTS, getFlagRaisingEvent, getIndependenceEvent, INDEPENDENCE_COMMUNITY_FLYER, INDEPENDENCE_CONFIRMED_GUESTS, INDEPENDENCE_FEATURES, INDEPENDENCE_RESERVATION_URL } from '../data/communityCalendar2026';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { SITE_ORIGIN } from '../lib/siteMeta';
 
@@ -104,12 +104,12 @@ const Independence = () => {
           {INDEPENDENCE_COMMUNITY_FLYER && (
             <figure className="w-full max-w-sm mx-auto lg:ml-auto lg:mr-0">
               <a href={INDEPENDENCE_COMMUNITY_FLYER} target="_blank" rel="noopener noreferrer" className="block overflow-hidden rounded-xl border border-white/30 shadow-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white" aria-label="Open the community flyer in full size">
-                <img src={INDEPENDENCE_COMMUNITY_FLYER} width={1086} height={1448} alt="Community flyer featuring Jean Nangwala, Ognian Gavrilov, Rajen Ranchhod, Catherine Bonnefoy, John Shea and Eduardo Madrid Moreno" className="w-full h-auto" loading="eager" />
+                <img src={INDEPENDENCE_COMMUNITY_FLYER} width={1086} height={1448} alt="Saturday Independence celebration flyer featuring confirmed guests Brigadier General Oliver Musonda and Moses Jere, with music, culture and food highlights" className="w-full h-auto" loading="eager" />
               </a>
               <figcaption className="mt-4 text-sm text-white/90 leading-relaxed">
                 <a href={INDEPENDENCE_COMMUNITY_FLYER} download className="font-medium text-white underline underline-offset-4">Download community flyer</a>
                 {event.imageUrl && <> · <a href={event.imageUrl} download className="text-white underline underline-offset-4">Family flyer</a></>}
-                <span className="mt-2 block text-xs text-white/80">Updated October 16. AI-assisted layout using supplied and public-source photos.</span>
+                <span className="mt-2 block text-xs text-white/80">Updated October 20. AI-assisted layout using official mission portraits. See all confirmed guest profiles below.</span>
               </figcaption>
             </figure>
           )}
@@ -204,8 +204,8 @@ const Independence = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs uppercase tracking-wide font-heading text-redwood">Confirmed for October 24</p>
           <h2 className="mt-2 text-2xl md:text-3xl font-heading font-semibold text-zambia-green">Joining our community celebration</h2>
-          <p className="mt-3 max-w-3xl text-slate">We look forward to welcoming guests from the consular, civic and regional business communities for an evening of Zambian food, music and connection.</p>
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+          <p className="mt-3 max-w-3xl text-slate">We look forward to welcoming guests from Zambia’s Permanent Mission to the United Nations and the consular, civic and regional business communities for an evening of Zambian food, music and connection.</p>
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {INDEPENDENCE_CONFIRMED_GUESTS.map((guest) => (
               <article key={guest.name} className="flex items-start gap-4 rounded-xl border border-mist bg-cloud p-4 lg:flex-col lg:p-0 lg:overflow-hidden">
                 <img src={guest.imageUrl} alt={guest.name} width={600} height={600} className="h-24 w-24 shrink-0 rounded-lg object-cover object-top lg:h-auto lg:w-full lg:aspect-[4/5] lg:rounded-none" loading="lazy" />
@@ -240,35 +240,47 @@ const Independence = () => {
                   <figure className="overflow-hidden rounded-xl border border-mist bg-cloud shadow-sm">
                     <img
                       src={flagRaising.imageUrl}
-                      width={1254}
-                      height={1254}
-                      alt="Zambia in San Francisco — civic flag raising at San Francisco City Hall"
+                      width={1086}
+                      height={1448}
+                      alt="Zambia flag raising, October 23 at 11:30 AM — confirmed guests Brigadier General Oliver Musonda and Moses Jere"
                       loading="lazy"
                       className="w-full h-auto object-contain"
                     />
                     <figcaption className="px-4 py-3 text-sm text-slate leading-relaxed border-t border-mist">
-                      Date confirmed: Friday, October 23, 2026 at 11:30 AM, San Francisco City Hall.
+                      <a href={flagRaising.imageUrl} download className="font-semibold text-zambia-green underline underline-offset-4">Download the flag-raising flyer</a>
+                      <span className="block mt-2">AI-assisted layout using official mission portraits.</span>
                     </figcaption>
                   </figure>
                 </Reveal>
               )}
               <Reveal className="rounded-xl border border-mist bg-cloud p-6">
-                <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-redwood">Honorary Consul</p>
+                <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-redwood">Confirmed for Friday</p>
+                <h3 className="mt-2 text-xl font-heading font-semibold text-zambia-green">Joining us from Zambia’s Permanent Mission to the United Nations</h3>
+                <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  {FLAG_RAISING_CONFIRMED_GUESTS.map((guest) => (
+                    <div key={guest.name}>
+                      <img src={guest.imageUrl} width={600} height={600} alt={guest.name} loading="lazy" className="w-28 h-28 rounded-lg object-cover border border-mist" />
+                      <p className="mt-2 font-heading font-semibold text-zambia-green">{guest.name}</p>
+                      <p className="text-sm text-slate">{guest.title}</p>
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-3 text-xs text-slate">
+                  Portraits and titles: <a href="https://www.zambiaun.org/permanent-mission/staff/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">Permanent Mission of the Republic of Zambia to the United Nations</a>.
+                </p>
                 <p className="mt-3 text-slate leading-relaxed">
-                  Zambians across the Bay Area and Northern California, together with friends of Zambia, are invited to come out
-                  and support this occasion. Seeing the Zambian flag raised at San Francisco City Hall is a proud moment for the
-                  community — a chance to celebrate our heritage and represent Zambia in the United States.
+                  Chief of Protocol Penny Coulter will lead the flag raising with Honorary Consul Rajen Ranchhod,
+                  followed by a group photograph, remarks, a proclamation presentation and reception.
                 </p>
                 <p className="mt-3 text-slate leading-relaxed">
                   Our appreciation to the City of San Francisco and its Protocol Office for working with us to make this possible.
                   Let us show up and celebrate in the spirit of One Zambia, One Nation.
                 </p>
-                <p className="mt-4 text-sm font-heading font-semibold text-zambia-green">
-                  Rajen Ranchhod
-                  <span className="block font-normal text-slate">
-                    Honorary Consul of the Republic of Zambia · California
-                  </span>
-                </p>
+                <div className="mt-5 border-t border-mist pt-4 text-sm text-slate space-y-2">
+                  <p><strong>Arrive at 11:15 AM</strong> for security. Ceremony begins at 11:30 AM.</p>
+                  <p>Use the Polk Street entrance, then take the elevator to Room 200 on the second floor.</p>
+                  <p>RSVP: <a href="mailto:meron.foster@sfgov.org" className="text-zambia-green underline underline-offset-4">meron.foster@sfgov.org</a></p>
+                </div>
                 <p className="mt-4 text-sm text-slate">
                   {flagRaising.venueName}
                   <br />

@@ -15,6 +15,20 @@ import {
 
 export type CalendarLane = 'family' | 'business' | 'culture' | 'sports' | 'signature';
 
+/** Confirmed for Friday, and separately confirmed for Saturday by the organizer October 20. */
+export const FLAG_RAISING_CONFIRMED_GUESTS = [
+  {
+    name: 'Brigadier General Oliver Musonda',
+    title: 'Military Advisor',
+    imageUrl: '/images/guests/oliver-musonda.jpg',
+  },
+  {
+    name: 'Moses Jere',
+    title: 'Cyber/Digital Expert',
+    imageUrl: '/images/guests/moses-jere.jpg',
+  },
+];
+
 /** Host-hotel / travel block shown on event pages. Only fill fields the hotel actually confirms. */
 export type EventAccommodation = {
   hotelName: string;
@@ -95,10 +109,11 @@ export type CommunityEvent = {
 export const INDEPENDENCE_RESERVATION_URL =
   'https://www.eventbrite.com/e/zambias-62nd-independence-celebration-registration-2002341560509';
 
-export const INDEPENDENCE_COMMUNITY_FLYER = '/images/independence-2026/community-update-oct16.png';
+export const INDEPENDENCE_COMMUNITY_FLYER = '/images/independence-2026/community-update-oct20.png';
 
 export const INDEPENDENCE_CONFIRMED_GUESTS = [
   { name: 'Rajen Ranchhod', title: 'Honorary Consul of the Republic of Zambia', affiliation: 'California', imageUrl: '/images/independence-2026/rajen-ranchhod.jpg' },
+  ...FLAG_RAISING_CONFIRMED_GUESTS.map((guest) => ({ ...guest, affiliation: 'Permanent Mission of the Republic of Zambia to the United Nations' })),
   { name: 'Catherine Bonnefoy', title: 'Honorary Consul of France', affiliation: 'Sacramento', imageUrl: '/images/independence-2026/catherine-bonnefoy.jpg' },
   { name: 'Ognian Gavrilov', title: 'Honorary Consul of Bulgaria', affiliation: 'Sacramento · Northern California', imageUrl: '/images/independence-2026/ognian-gavrilov.png' },
   { name: 'John Shea', title: 'President & CEO', affiliation: 'World Trade Center Northern California', imageUrl: '/images/independence-2026/john-shea.jpg' },
@@ -106,7 +121,7 @@ export const INDEPENDENCE_CONFIRMED_GUESTS = [
 ];
 
 export const INDEPENDENCE_FEATURES = [
-  { name: 'Robotics, food & heritage', role: 'Evening highlights', description: 'Explore robotics and the future of food, enjoy a vegetarian dish prepared by a robotic kitchen as part of the buffet, and join a moment of Zambian cultural history and fun facts.', imageUrl: '/images/postings/robotics-culture-2026.png' },
+  { name: 'Robotics, food & heritage', role: 'Evening highlights', description: 'Explore robotics and the future of food, enjoy a vegetarian dish prepared with the help of kitchen automation as part of the buffet, and join a moment of Zambian cultural history and fun facts.', imageUrl: '/images/postings/robotics-culture-2026.png' },
   { name: 'Jean Nangwala', role: 'Zambian Afro Pop artist', description: 'A contemporary Zambian musical voice joins our Independence celebration.', imageUrl: '/images/postings/jean-nangwala-2026.png' },
   { name: 'Dj LittyRocket', role: 'On the decks', description: 'Our community member brings the music for an evening together.', imageUrl: '/images/postings/dj-littyrocket-2026.png' },
 ];
@@ -352,15 +367,15 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     title: 'Zambia Flag Raising — San Francisco City Hall',
     description:
       'A civic flag-raising for Zambia’s 62nd Independence. Honorary Consul of the Republic of Zambia for California, Rajen Ranchhod, invites Zambians across the Bay Area and Northern California — and friends of Zambia — to come out and support this occasion.\n\n' +
-      'Seeing the Zambian flag raised at San Francisco City Hall is a proud moment for the community and for Zambia in the United States. Our appreciation to the City of San Francisco and its Protocol Office for working with us to make it possible.\n\n' +
-      'Friday, October 23, 2026 · 11:30 AM · San Francisco City Hall. One Zambia, One Nation.',
+      'Confirmed guests include Brigadier General Oliver Musonda, Military Advisor, and Moses Jere, Cyber/Digital Expert, from the Permanent Mission of the Republic of Zambia to the United Nations. Chief of Protocol Penny Coulter will lead the ceremony with Honorary Consul Rajen Ranchhod.\n\n' +
+      'Friday, October 23, 2026 · 11:30 AM. Arrive at 11:15 AM for security through the Polk Street entrance, then proceed to Room 200 on the second floor. RSVP to meron.foster@sfgov.org. One Zambia, One Nation.',
     dateLabel: 'Fri, Oct 23 · 11:30 AM',
     location: 'San Francisco City Hall',
     type: 'upcoming',
     category: 'Civic ceremony',
-    feeNote: 'Open gathering',
+    feeNote: 'RSVP requested · arrive 11:15 AM',
     anchorId: 'sf-flag-raising-2026',
-    imageUrl: '/images/postings/sf-flag-raising-2026-confirmed.png',
+    imageUrl: '/images/postings/sf-flag-raising-2026-final-oct20.png',
     heroImageTall: true,
     lanes: ['family', 'culture', 'signature'],
     countdownAt: '2026-10-23T11:30:00-07:00',
@@ -373,7 +388,7 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
     description:
       'One flagship Saturday celebration in Woodland — an evening of heritage, dignity, and celebration marking 62 years of Zambian Independence.\n\n' +
       'Saturday, October 24, 2026. Doors open at 5:30 PM; the celebration begins at 6:00 PM. Adults 18+ $55; ages 10–17 $25; children under 10 free. Reserve in advance, including all children; the hall has a capacity of 160. Fairfield by Marriott Inn & Suites Sacramento Airport Woodland, 2100 Freeway Drive, Woodland, CA.\n\n' +
-      'The evening features Zambian Afro Pop artist Jean Nangwala, music by Dj LittyRocket, Zambian cultural history and fun facts, and a conversation about robotics and the future of food. A vegetarian dish prepared by a robotic kitchen will be part of the buffet. Members and friends of Zambia are warmly welcome. The celebration is at the host hotel, where a ZANC group rate of $99/night is open through October 22.',
+      'The evening features Zambian Afro Pop artist Jean Nangwala, music by Dj LittyRocket, Zambian cultural history and fun facts, and a conversation about robotics and the future of food. A vegetarian dish prepared with the help of kitchen automation will be part of the buffet. Confirmed guests include Brigadier General Oliver Musonda and Moses Jere from Zambia’s Permanent Mission to the United Nations. Members and friends of Zambia are warmly welcome. The celebration is at the host hotel, where a ZANC group rate of $99/night is open through October 22.',
     dateLabel: 'Sat, Oct 24 · 6:00 PM',
     location: 'Woodland, CA',
     type: 'upcoming',
