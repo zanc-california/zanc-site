@@ -6,6 +6,7 @@ import SubscribeModal from '../components/SubscribeModal';
 import { FLAG_RAISING_CONFIRMED_GUESTS, getFlagRaisingEvent, getIndependenceEvent, INDEPENDENCE_COMMUNITY_FLYER, INDEPENDENCE_CONFIRMED_GUESTS, INDEPENDENCE_FEATURES, INDEPENDENCE_RESERVATION_URL } from '../data/communityCalendar2026';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { SITE_ORIGIN } from '../lib/siteMeta';
+import { WOODLAND_PRESS_RELEASE } from '../data/woodlandPressRelease2026';
 
 const META_DESCRIPTION =
   'ZANC’s Independence Celebration is Saturday, October 24, 2026 in Woodland — doors 5:30 PM, celebration at 6:00 PM, ' +
@@ -100,6 +101,7 @@ const Independence = () => {
             </div>
             <p className="mt-4 text-white/90 text-sm leading-relaxed">Reserve for everyone attending, including children. Hall capacity: 160.</p>
             <p className="mt-6 border-t border-white/20 pt-5 text-sm text-white/90">Presented by ZANC · Sponsored by American Hospitality Services</p>
+            <Link to={WOODLAND_PRESS_RELEASE.path} className="mt-3 inline-block text-sm text-white underline underline-offset-4">Read the press release</Link>
           </div>
           {INDEPENDENCE_COMMUNITY_FLYER && (
             <figure className="w-full max-w-sm mx-auto lg:ml-auto lg:mr-0">

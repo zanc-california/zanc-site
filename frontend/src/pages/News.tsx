@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import CommunityPhotoStrip from '../components/CommunityPhotoStrip';
 import NewsFeedCard from '../components/NewsFeedCard';
 import CommunityCalendarModal from '../components/CommunityCalendarModal';
@@ -20,6 +20,7 @@ import {
 } from '../data/communityCalendar2026';
 import { ENROLLMENT_WINDOW_LABEL, getEnrollmentStatus } from '../data/insuranceProgram';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { WOODLAND_PRESS_RELEASE } from '../data/woodlandPressRelease2026';
 
 type StaticNewsArticle = {
   id: string;
@@ -28,10 +29,20 @@ type StaticNewsArticle = {
   date: string;
   imageUrl?: string;
   bodyParagraphs: string[];
+  articlePath?: string;
 };
 
 /** Site-authored micro-articles (News + All tabs): latest recap, related updates, then the archive. */
 const STATIC_NEWS_ARTICLES: StaticNewsArticle[] = [
+  {
+    id: WOODLAND_PRESS_RELEASE.slug,
+    title: WOODLAND_PRESS_RELEASE.title,
+    excerpt: WOODLAND_PRESS_RELEASE.subtitle,
+    date: `Press release · ${WOODLAND_PRESS_RELEASE.publishedDate}`,
+    imageUrl: '/images/brand/zanc-mark-512.jpg',
+    bodyParagraphs: [],
+    articlePath: WOODLAND_PRESS_RELEASE.path,
+  },
   {
     id: 'sacramento-lusaka-visit-2026',
     title: 'Opening a conversation between Sacramento and Lusaka',
@@ -316,6 +327,7 @@ function FeaturedSignatureCard({ ev }: { ev: CommunityEvent }) {
 }
 
 const News = () => {
+  const navigate = useNavigate();
   useDocumentMeta({
     title: 'Events & News',
     description:
@@ -497,8 +509,8 @@ const News = () => {
             excerpt={article.excerpt}
             date={article.date}
             imageUrl={article.imageUrl}
-            imageFit={['sf-flag-raising-community-2026', 'local-elections-2026', 'local-open-enrollment-insurance-2026'].includes(article.id) ? 'contain' : 'cover'}
-            onOpen={() => openStaticArticle(article)}
+            imageFit={[WOODLAND_PRESS_RELEASE.slug, 'sf-flag-raising-community-2026', 'local-elections-2026', 'local-open-enrollment-insurance-2026'].includes(article.id) ? 'contain' : 'cover'}
+            onOpen={() => article.articlePath ? navigate(article.articlePath) : openStaticArticle(article)}
           />
         ))}
         {!loading &&

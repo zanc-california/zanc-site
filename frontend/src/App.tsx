@@ -4,6 +4,8 @@ import Home from './pages/Home';
 import About from './pages/About';
 import News from './pages/News';
 import NewsArticle from './pages/NewsArticle';
+import IndependencePressRelease from './pages/IndependencePressRelease';
+import { WOODLAND_PRESS_RELEASE } from './data/woodlandPressRelease2026';
 import Gallery from './pages/Gallery';
 import Membership from './pages/Membership';
 import Insurance from './pages/Insurance';
@@ -36,6 +38,7 @@ function App() {
         <Route path="/" element={<Layout><Home /></Layout>} />
         <Route path="/about" element={<Layout><About /></Layout>} />
         <Route path="/news" element={<Layout><News /></Layout>} />
+        <Route path={WOODLAND_PRESS_RELEASE.path} element={<Layout><IndependencePressRelease /></Layout>} />
         <Route path="/news/article/:slug" element={<Layout><NewsArticle /></Layout>} />
         <Route path="/gallery" element={<Layout><Gallery /></Layout>} />
         <Route path="/membership" element={<Layout><Membership /></Layout>} />
