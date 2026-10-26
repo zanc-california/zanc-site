@@ -24,9 +24,7 @@ const NewsFeedCard = ({ title, excerpt, date, imageUrl, imageFit = 'cover', onOp
             loading="lazy"
           />
         </div>
-      ) : (
-        <div className="aspect-[16/10] w-full shrink-0 bg-copper-glow/40 flex items-center justify-center border-b border-mist"><span className="font-heading text-zambia-green text-xl">From the ZANC community</span></div>
-      )}
+      ) : null}
       <div className="p-5 flex flex-col flex-1">
         <h3 className="text-lg font-heading font-semibold text-zambia-green group-hover:text-copper transition-colors leading-snug">
           {title}

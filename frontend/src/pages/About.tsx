@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import BoardMember from '../components/BoardMember';
-import BoardInviteePlaceholder from '../components/BoardInviteePlaceholder';
 import { FOUNDED_YEAR, MEMBER_STATES_SENTENCE } from '../data/siteStats';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
@@ -104,8 +103,6 @@ const About = () => {
     },
   ];
 
-  const remainingInviteePlaceholders = [] as const;
-
   return (
     <div>
 
@@ -138,16 +135,16 @@ const About = () => {
             <p className="text-sm uppercase tracking-[0.08em] font-heading text-copper">Committee members</p>
             <h2 className="mt-2 text-2xl md:text-3xl font-bold text-primary-800 font-heading">The ZANC Board</h2>
             <p className="mt-4 text-gray-600">
-              General elections were recently held and a new committee was elected. The board includes elected committee members and
+              Elected in February 2026, the committee serves the 2026–2028 term. The board includes elected committee members and
               appointed invitees as outlined below.
             </p>
           </div>
 
           <div className="max-w-3xl mx-auto mb-12 rounded-xl border border-mist bg-white shadow-sm px-6 py-8 md:px-10 md:py-9">
-            <p className="text-xs uppercase tracking-[0.08em] font-heading text-copper text-center">Vision — newly elected committee</p>
+            <p className="text-xs uppercase tracking-[0.08em] font-heading text-copper text-center">Committee vision</p>
             <div className="mt-4 space-y-4 text-slate text-center leading-relaxed">
               <p>
-                The newly elected committee seeks to strengthen a spirit of community partnership and participation—lifting collective
+                The committee seeks to strengthen a spirit of community partnership and participation—lifting collective
                 aspirations and deepening connectedness across the broader Northern California community.
               </p>
               <p>
@@ -178,11 +175,8 @@ const About = () => {
             <h3 className="text-xl md:text-2xl font-heading font-semibold text-zambia-green text-center mb-3">
               Appointed invitees to the board
             </h3>
-            <p className="text-center text-sm font-medium text-primary-800 mb-2 max-w-2xl mx-auto">
+            <p className="text-center text-sm font-medium text-primary-800 mb-10 max-w-2xl mx-auto">
               Six appointed invitee positions are named below.
-            </p>
-            <p className="text-center text-sm text-gray-600 mb-10 max-w-2xl mx-auto">
-              Profiles continue to be refreshed as updated materials come in.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 justify-items-center">
               {appointedInvitees.map((member) => (
@@ -193,9 +187,6 @@ const About = () => {
                   imageUrl={member.imageUrl}
                   shortBio={member.shortBio}
                 />
-              ))}
-              {remainingInviteePlaceholders.map((label) => (
-                <BoardInviteePlaceholder key={label} slotLabel={label} />
               ))}
             </div>
           </div>

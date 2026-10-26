@@ -134,13 +134,10 @@ const DonatePage = () => {
             <Reveal delayMs={90} className="rounded-xl border border-mist bg-white p-6 shadow-sm">
               <h3 className="text-lg font-heading font-semibold text-zambia-green">Give your time</h3>
               <p className="mt-3 text-sm text-slate leading-relaxed">
-                Volunteers make every ZANC event possible — setup, welcome tables, cooking, décor, and program support. There are
-                open roles for the Independence celebration right now.
+                Volunteers make every ZANC event possible — setup, welcome tables, cooking, décor, and program support. Contact us to find out
+                how you can help at a future gathering.
               </p>
               <div className="mt-5 flex flex-wrap gap-3">
-                <Link to="/independence#take-part" className="inline-block">
-                  <Button variant="outline">Independence volunteering</Button>
-                </Link>
                 <Link to="/get-involved" className="inline-block">
                   <Button variant="outline">All ways to get involved</Button>
                 </Link>

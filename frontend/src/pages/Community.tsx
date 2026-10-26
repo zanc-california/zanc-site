@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
 import Button from '../components/Button';
 import CommunityVoiceQuotes from '../components/CommunityVoiceQuotes';
@@ -55,28 +54,40 @@ export default function Community() {
 
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [loadingOpps, setLoadingOpps] = useState(true);
+  const [opportunitiesUnavailable, setOpportunitiesUnavailable] = useState(false);
 
   useEffect(() => {
+    let active = true;
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 8000);
     const load = async () => {
       try {
         const { data, error } = await supabase
           .from('opportunities')
           .select('id, title, category, description, location, link, posted_by, created_at')
           .eq('active', true)
-          .order('created_at', { ascending: false });
+          .order('created_at', { ascending: false })
+          .abortSignal(controller.signal);
 
-        if (error) {
-          setOpportunities([]);
-        } else {
-          setOpportunities((data as Opportunity[]) ?? []);
-        }
+        if (!active) return;
+        setOpportunitiesUnavailable(Boolean(error));
+        setOpportunities(error ? [] : ((data as Opportunity[]) ?? []).filter((item) => item.title?.trim() && item.description?.trim()));
       } catch {
-        setOpportunities([]);
+        if (active) {
+          setOpportunities([]);
+          setOpportunitiesUnavailable(true);
+        }
       } finally {
-        setLoadingOpps(false);
+        window.clearTimeout(timeout);
+        if (active) setLoadingOpps(false);
       }
     };
     load();
+    return () => {
+      active = false;
+      window.clearTimeout(timeout);
+      controller.abort();
+    };
   }, []);
 
   const submitSuggestion = async () => {
@@ -148,8 +159,8 @@ export default function Community() {
               <figcaption className="px-4 py-3 text-sm text-slate-600">Familiar faces, shared stories, new connections.</figcaption>
             </figure>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div id="share-an-idea" className="scroll-mt-28 lg:col-span-2 bg-white rounded-xl border border-mist p-6 shadow-sm">
+          <div className="mx-auto max-w-4xl">
+            <div id="share-an-idea" className="scroll-mt-28 bg-white rounded-xl border border-mist p-6 shadow-sm">
               <h2 className="text-2xl font-heading font-semibold text-zambia-green">Have a suggestion for the community?</h2>
               <p className="text-slate mt-2">
                 We want to hear from you. Share ideas for events, initiatives, or ways we can better serve our community.
@@ -232,22 +243,6 @@ export default function Community() {
                 )}
               </div>
             </div>
-
-            <aside className="self-start rounded-xl border border-dashed border-mist bg-cloud p-6">
-              <h2 className="text-xl font-heading font-semibold text-zambia-green">Community Exchange</h2>
-              <div className="mt-3 rounded-lg border border-mist bg-copper-glow/40 p-4">
-                <p className="font-heading font-semibold text-redwood">Coming Soon</p>
-                <p className="text-sm text-slate mt-1">
-                  A planned marketplace for members to list services, sell goods, and connect professionally. Listings are not available yet.
-                </p>
-                <p className="text-sm text-slate mt-3 font-medium text-zambia-green">
-                  Only active ZANC members will be able to list items and services.
-                </p>
-                <div className="mt-4">
-                  <Link to="/membership" className="text-sm font-medium text-zambia-green underline underline-offset-4">Explore membership</Link>
-                </div>
-              </div>
-            </aside>
           </div>
 
           <div className="mt-10">
@@ -313,15 +308,9 @@ export default function Community() {
             </div>
 
             {loadingOpps ? (
-              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="h-28 rounded-xl border border-mist bg-cloud animate-pulse" />
-                ))}
-              </div>
+              <p className="mt-4 text-sm text-slate" role="status">Loading shared opportunities…</p>
             ) : opportunities.length === 0 ? (
-              <div className="mt-4 rounded-xl border border-mist bg-white p-6 text-slate">
-                No opportunities posted yet. Check back soon — or submit one for the team to review.
-              </div>
+              <p className="mt-4 text-sm text-slate" role="status">{opportunitiesUnavailable ? 'Shared listings are temporarily unavailable. You can still send an opportunity to the team by email.' : 'Have a job, scholarship or other opportunity to share? Send it to the team for review.'}</p>
             ) : (
               <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
                 {opportunities.map((o) => (

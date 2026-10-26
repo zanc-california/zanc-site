@@ -1,8 +1,8 @@
-# ZANC — Association of Zambians in California
+# ZANC — Zambian Association in Northern California
 
-Content site with payments for the **Association of Zambians in California**.
+Community website for the **Zambian Association in Northern California**.
 
-**Repo:** [github.com/zanc-california/zanc-site](https://github.com/zanc-california/zanc-site) · **Live site:** [zanc-site.vercel.app](https://zanc-site.vercel.app)
+**Repo:** [github.com/zanc-california/zanc-site](https://github.com/zanc-california/zanc-site) · **Live site:** [www.zancsac.com](https://www.zancsac.com)
 
 ## Architecture
 

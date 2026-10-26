@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
-import FeaturedCommunitySpotlight from '../components/FeaturedCommunitySpotlight';
 import LandingEventSpotlightModal from '../components/LandingEventSpotlightModal';
 import SubscribeModal from '../components/SubscribeModal';
-import { getIndependenceEvent, getNextUpcomingEvent, INDEPENDENCE_RESERVATION_URL } from '../data/communityCalendar2026';
+import { getNextUpcomingEvent } from '../data/communityCalendar2026';
+import { INDEPENDENCE_RECAP, INDEPENDENCE_RECAP_HERO, INDEPENDENCE_PHOTOGRAPHER } from '../data/independence2026Recap';
+import PhotoCredit from '../components/PhotoCredit';
+import NearbyEventCard from '../components/NearbyEventCard';
+import { getUpcomingNearbyEvents } from '../data/nearbyEvents2026';
 import { isJulyFourthWeek, JULY_FOURTH_2026_HERO } from '../data/julyFourth2026';
 import { HOME_STATS } from '../data/siteStats';
 import HomeHero from '../components/HomeHero';
@@ -35,9 +38,9 @@ function RegionMiniCard({ label, icon }: { label: string; icon: string }) {
 const Home = () => {
   const [subscribeOpen, setSubscribeOpen] = useState(false);
   const [spotlightModalOpen, setSpotlightModalOpen] = useState(false);
-  const independence = getIndependenceEvent();
 
   const landingSpotlightEvent = getNextUpcomingEvent();
+  const nearbyOuting = getUpcomingNearbyEvents()[0];
 
   const julyFourthActive = isJulyFourthWeek();
   const hero = JULY_FOURTH_2026_HERO;
@@ -70,96 +73,30 @@ const Home = () => {
         event={landingSpotlightEvent}
       />
 
-      {/* Independence — the flagship event, given first position after the hero. */}
-      {independence && (
-        <section className="py-10 md:py-14 bg-gray-50 border-b border-mist">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Reveal className="overflow-hidden rounded-2xl border-2 border-copper/40 bg-gradient-to-br from-copper-glow via-white to-cloud shadow-md">
-              <div className="grid grid-cols-1 lg:grid-cols-5">
-                <div className="lg:col-span-3 p-6 md:p-8 lg:p-10">
-                  <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">
-                    ZANC flagship event · reservations open
-                  </p>
-                  <h2 className="mt-2 text-2xl md:text-4xl font-heading font-bold text-zambia-green tracking-[-0.01em]">
-                    Zambian Independence Celebration 2026
-                  </h2>
-                  <p className="mt-3 text-lg font-heading font-semibold text-redwood">
-                    Saturday, October 24, 2026 · 6:00 PM
-                  </p>
-                  <p className="mt-1 text-sm text-slate leading-relaxed">
-                    Doors open at 5:30 PM · Adults $55 · Ages 10–17 $25 · Under 10 free
-                    <br />
-                    {independence.venueName}
-                    <br />
-                    {independence.venueAddress}
-                  </p>
-                  <p className="mt-4 text-slate leading-relaxed max-w-xl">
-                    Zambian food, cultural history and music with Jean Nangwala and Dj LittyRocket, plus a conversation about robotics and the future of food.
-                    Reserve early for everyone in your party, including children. Hall capacity: 160.
-                    Host-hotel rooms are $99/night; book by October 22.
-                  </p>
-                  <p className="mt-3 text-sm text-slate leading-relaxed max-w-xl">
-                    Also that week:{' '}
-                    <Link to="/independence#flag-raising" className="font-medium text-bay-blue hover:underline">
-                      Zambia flag raising at San Francisco City Hall
-                    </Link>{' '}
-                    — Friday, October 23, 11:30 AM.
-                  </p>
-                  <div className="mt-6 grid grid-cols-1 gap-3 sm:flex sm:flex-row sm:flex-wrap">
-                    <a href={INDEPENDENCE_RESERVATION_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center rounded-md bg-copper px-6 py-3 text-lg font-medium text-white hover:bg-copper-light focus-visible:ring-2 focus-visible:ring-zambia-green">Reserve your place</a>
-                    <Link to="/independence" className="w-full sm:w-auto">
-                      <Button variant="accent" size="lg" className="w-full sm:w-auto">
-                        Event details
-                      </Button>
-                    </Link>
-                    {independence.accommodation?.bookingUrl && (
-                      <a
-                        href={independence.accommodation.bookingUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full sm:w-auto"
-                      >
-                        <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                          Book the host hotel
-                        </Button>
-                      </a>
-                    )}
-                  </div>
-                </div>
-                <div className="lg:col-span-2 border-t lg:border-t-0 lg:border-l border-copper/25 bg-white/70 p-6 md:p-8 flex flex-col justify-center gap-4">
-                  <div>
-                    <Link to="/independence#lineup"><img src="/images/postings/independence-2026-banner.png" alt="Zambia Independence celebration with family admission prices" width={1774} height={887} className="w-full h-auto rounded-lg mb-5" loading="lazy" /></Link>
-                    <p className="font-heading font-semibold text-zambia-green">Look who’s joining us!</p>
-                    <p className="mt-2 text-sm text-slate leading-relaxed">Rajen Ranchhod, Catherine Bonnefoy, Ognian Gavrilov, John Shea and Eduardo Madrid Moreno join our confirmed guests, with music by Jean Nangwala and Dj LittyRocket.</p>
-                    <Link to="/independence#confirmed-guests" className="mt-3 mb-5 inline-flex text-sm font-medium text-bay-blue underline">Meet the guests and get the community flyer →</Link>
-                    <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">Where to stay</p>
-                    <p className="mt-1 text-sm text-slate leading-relaxed">
-                      Special ZANC Independence group rate available through the host hotel
-                      {independence.accommodation?.groupRate ? ` — ${independence.accommodation.groupRate}` : ''}.
-                    </p>
-                    {independence.accommodation?.bookingDeadline && (
-                      <p className="mt-1 text-sm text-slate">Book by {independence.accommodation.bookingDeadline}.</p>
-                    )}
-                  </div>
-                  <div className="border-t border-mist pt-4">
-                    <p className="text-[11px] font-heading uppercase tracking-[0.12em] text-copper">Help make it happen</p>
-                    <p className="mt-1 text-sm text-slate leading-relaxed">
-                      We are inviting community members to join the cooking and décor teams — defined responsibilities may be
-                      compensated.
-                    </p>
-                    <Link
-                      to="/independence#take-part"
-                      className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-bay-blue hover:underline"
-                    >
-                      See how to take part →
-                    </Link>
-                  </div>
-                </div>
+      <section className="border-b border-mist bg-cloud py-10 md:py-14" aria-labelledby="home-recap-title">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid overflow-hidden rounded-2xl border border-copper/30 bg-white shadow-sm lg:grid-cols-2">
+            <figure className="flex flex-col justify-center bg-cloud">
+              <Link to="/independence" className="block focus-visible:outline focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-zambia-green">
+                <img src={INDEPENDENCE_RECAP_HERO.image_url} srcSet={`${INDEPENDENCE_RECAP_HERO.thumbnail_url} 640w, ${INDEPENDENCE_RECAP_HERO.image_url} 1600w`}
+                  sizes="(min-width: 1024px) 600px, 100vw" alt={INDEPENDENCE_RECAP_HERO.alt} width={1600} height={1143} loading="lazy" className="w-full" />
+              </Link>
+              <figcaption className="px-5 py-3"><PhotoCredit credit={INDEPENDENCE_PHOTOGRAPHER} className="text-slate" /></figcaption>
+            </figure>
+            <div className="flex flex-col justify-center p-6 md:p-10">
+              <p className="text-xs font-heading uppercase tracking-[0.12em] text-redwood">Celebration recap · October 24, 2026</p>
+              <h2 id="home-recap-title" className="mt-3 text-3xl font-heading font-semibold leading-tight text-zambia-green">Zambia at 62: together in Woodland</h2>
+              <p className="mt-4 leading-relaxed text-slate">A shared meal, cultural performances, music and friendships across communities. Thank you to everyone who helped make our Independence celebration such a memorable gathering.</p>
+              <p className="mt-4 text-sm leading-relaxed text-slate">Revisit the evening through photographs by Nirav Solanki, who traveled from Los Angeles to celebrate with us and capture these memories.</p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link to="/independence" className="inline-flex min-h-12 items-center rounded-md bg-zambia-green px-5 py-3 font-semibold text-white hover:bg-redwood">Read the recap →</Link>
+                <Link to={INDEPENDENCE_RECAP.galleryPath} className="inline-flex min-h-12 items-center rounded-md border border-mist px-5 py-3 font-semibold text-zambia-green hover:bg-cloud">View the photo album →</Link>
               </div>
-            </Reveal>
+              <Link to="/independence#flag-raising" className="mt-4 inline-flex min-h-11 items-center text-sm font-medium text-bay-blue underline underline-offset-4">October 23: Zambia’s flag at San Francisco City Hall →</Link>
+            </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       <section className="py-8 bg-cloud border-b border-mist">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-6 sm:grid-cols-[180px_1fr] items-center">
@@ -235,28 +172,7 @@ const Home = () => {
                   </Link>
                 </div>
               </Reveal>
-            ) : (
-              <Reveal
-                key="events-fallback"
-                delayMs={0}
-                className="group h-full flex flex-col bg-cloud rounded-lg border border-mist p-6 shadow-sm ui-card-motion ui-card-motion-hover ui-card-motion-active"
-              >
-                <h3 className="text-lg font-heading font-semibold text-zambia-green motion-safe:transition-colors motion-safe:duration-300 group-hover:text-zambia-green-light">
-                  Events &amp; News
-                </h3>
-                <p className="text-slate mt-3 leading-relaxed text-sm flex-1">
-                  See the full calendar, RSVPs, and what&apos;s coming next for ZANC in Northern California.
-                </p>
-                <div className="mt-4">
-                  <Link
-                    to="/news"
-                    className="text-bay-blue font-medium text-sm hover:underline inline-flex items-center gap-1 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:translate-x-1"
-                  >
-                    Explore events →
-                  </Link>
-                </div>
-              </Reveal>
-            )}
+            ) : nearbyOuting ? <NearbyEventCard event={nearbyOuting} headingLevel="h3" /> : null}
             {[
               {
                 title: 'Naija Fest — Palo Alto',
@@ -284,7 +200,7 @@ const Home = () => {
                 title: 'MoAD fall exhibitions',
                 excerpt:
                   'Explore contemporary art and stories of the African diaspora at the Museum of the African Diaspora in San Francisco.',
-                schedule: 'Fall season opens September 30',
+                schedule: 'Fall exhibitions now on view',
                 details: [
                   { label: 'On view', text: 'Dewey Crumpler: Sonic Lineages; After the Island, exploring Jamaican diaspora ceramics; and Dorian Reid’s Calling All Cats!' },
                   { label: 'Where', text: '685 Mission Street at Third. Allow around an hour for the galleries; check museum hours before heading out.' },
@@ -356,7 +272,7 @@ const Home = () => {
               },
               {
                 title: 'Join a Committee',
-                excerpt: 'Committees are forming; share your skills and interests — we’ll match you when roles open.',
+                excerpt: 'Share your skills and interests with the committee and ask where you can help.',
                 to: '/get-involved',
                 linkLabel: 'Learn more →',
               },
@@ -405,18 +321,6 @@ const Home = () => {
         </div>
       </section>
 
-      <FeaturedCommunitySpotlight
-        title="Featured community business / entity"
-        entries={[
-          {
-            description:
-              'Be the first to be featured here. We highlight businesses and organizations that strengthen our diaspora and local ties. Reach out for details on how to participate.',
-            ctaLabel: 'Contact us about featuring your business',
-            ctaLink: '/contact',
-          },
-        ]}
-      />
-
       <section className="py-10 md:py-14 bg-copper-glow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/*
@@ -453,8 +357,7 @@ const Home = () => {
             <p className="mt-3 lg:mt-0 text-slate leading-relaxed lg:col-start-2 lg:row-start-3 lg:pl-10">
               There are active Zambian networks across Greater LA, Orange County, the Inland Empire, and San Diego. ZANC is a Northern
               California association, and we are intentionally building warmer ties with those communities — starting with
-              introductions, shared updates, and open invitations. SoCal members and friends are especially encouraged to join us for
-              Independence in October.
+              introductions, shared updates, and open invitations. We welcome SoCal members and friends at our gatherings and value the connections strengthened during Independence 2026.
             </p>
             <div className="mt-6 lg:mt-0 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-3 xl:gap-4 lg:col-start-2 lg:row-start-4 lg:pl-10 lg:self-stretch lg:items-stretch">
               {[
@@ -468,30 +371,10 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Full-width row so the hub isn’t trapped in the right column */}
-          <Reveal className="mt-10 lg:mt-12 w-full rounded-xl border border-mist bg-white/80 p-4 sm:p-6 shadow-sm ui-card-motion motion-safe:hover:shadow-md motion-safe:hover:border-zambia-green/15">
-            <p className="text-sm font-heading font-semibold text-zambia-green">LA area community hub</p>
-            <p className="text-sm text-slate mt-2 leading-relaxed max-w-3xl">
-              A dedicated page for Los Angeles and Southern California updates—events, contacts, and ways to plug in—is being put
-              together. In the meantime, Rev. Stephen Mubanga is ZANC&apos;s Los Angeles area representative, and you can reach the
-              team at{' '}
-              <a href="mailto:zancsac@gmail.com" className="text-bay-blue font-medium hover:underline">
-                zancsac@gmail.com
-              </a>
-              .
-            </p>
-            <div className="mt-4 flex flex-wrap items-center gap-3">
-              <span
-                className="inline-flex items-center gap-2 rounded-md border border-dashed border-mist bg-cloud px-3 py-2 text-sm text-slate"
-                aria-disabled="true"
-              >
-                <span className="font-medium text-zambia-green">LA area community page</span>
-                <span className="text-[10px] font-heading uppercase tracking-[0.12em] text-copper bg-copper-glow px-2 py-1 rounded border border-mist">
-                  Coming soon
-                </span>
-              </span>
-            </div>
-          </Reveal>
+          <p className="mt-8 border-t border-mist pt-6 text-sm leading-relaxed text-slate">
+            For Los Angeles and Southern California connections, contact ZANC’s LA area representative, Rev. Stephen Mubanga,
+            through <a href="mailto:zancsac@gmail.com" className="font-medium text-bay-blue underline underline-offset-4">zancsac@gmail.com</a>.
+          </p>
         </div>
       </section>
 

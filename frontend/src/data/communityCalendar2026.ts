@@ -7,6 +7,8 @@
  * surface follows.
  */
 
+import { INDEPENDENCE_RECAP, INDEPENDENCE_RECAP_HERO } from './independence2026Recap';
+
 import {
   ENROLLMENT_WINDOW_LABEL,
   PREMIUM_DUE_DATES_LABEL,
@@ -173,15 +175,13 @@ export function hasConcluded(ev: CommunityEvent, now: Date = new Date()): boolea
 }
 
 /**
- * Past events, most recently concluded first: events that just aged out lead, then the authored
- * archive in its curated order. Nothing is ever silently dropped from the site.
+ * Past events, most recent dated entries first, followed by the undated historical archive.
+ * Explicitly held recaps and elapsed scheduled dates retain their distinct authored status.
  */
 export function getPastEvents(now: Date = new Date()): CommunityEvent[] {
-  const justEnded = ZANC_COMMUNITY_EVENTS.filter((e) => hasConcluded(e, now)).sort(
+  return ZANC_COMMUNITY_EVENTS.filter((event) => getEventStatus(event, now) === 'past').sort(
     (a, b) => +new Date(b.endsAt ?? b.countdownAt ?? 0) - +new Date(a.endsAt ?? a.countdownAt ?? 0)
   );
-  const archive = ZANC_COMMUNITY_EVENTS.filter((e) => e.type === 'past');
-  return [...justEnded, ...archive];
 }
 
 /**
@@ -229,17 +229,15 @@ export const CALENDAR_MODAL_SECTIONS: { title: string; lines: string[] }[] = [
     ],
   },
   {
-    title: 'September',
-    lines: ['ZANC Matchday — Bay FC vs Orlando Pride — Sun, Sep 27'],
+    title: 'Earlier calendar listing',
+    lines: ['ZANC Matchday — Bay FC vs Orlando Pride — September 27 (past date)'],
   },
   {
-    title: 'October (flagship)',
+    title: 'October celebrations (held)',
     lines: [
       'Zambia flag raising — San Francisco City Hall — Fri, Oct 23, 11:30 AM',
-      'Zambian Independence Celebration — Sat, Oct 24 · doors 5:30 PM · 6:00 PM',
-      'Adults 18+ $55 · ages 10–17 $25 · under 10 free — advance reservations requested for everyone',
-      'Fairfield by Marriott Inn & Suites Sacramento Airport Woodland',
-      'Host-hotel group rate $99/night — book by October 22',
+      'Zambian Independence Celebration — Sat, Oct 24 · Woodland',
+      'Celebration recap and photographs: zancsac.com/independence',
     ],
   },
   {
@@ -295,8 +293,7 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
   {
     title: 'Denim and White Day Party',
     description:
-      'Good vibes, good music, good people — a community day party with Amapiano and Afrobeats (DJ Leone). Denim and white dress code; 21+.\n\n' +
-      'Saturday, July 4, 2026 · 4:00 PM – 9:00 PM · 2614 Marigold Lane. Tickets on Eventbrite; VIP tables available — contact organizers for bottle service.',
+      'A community-organized July 4 day party was listed with Amapiano and Afrobeats by DJ Leone, a denim-and-white dress code and 21+ admission. This is an earlier calendar listing; current tickets and reservations are no longer offered here.',
     dateLabel: 'Jul 4, 2026',
     location: '2614 Marigold Lane',
     type: 'upcoming',
@@ -349,34 +346,26 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
   {
     title: 'ZANC Matchday: Bay FC vs Orlando Pride',
     description:
-      'Sunday, September 27, 2026 — Zambian talent on both sides, so Zambia wins regardless of score. Rally with ZANC: meet at the stadium or join a premium Sprinter van experience from Sacramento (flags, group photos, coordinated seating).\n\n' +
-      'Individual ticket link will be posted here; email zancsac@gmail.com to reserve interest for the van.',
-    dateLabel: 'Sep 27, 2026',
-    location: 'Bay Area stadium · details TBA',
+      'The September 27 calendar listing proposed a Bay FC matchday and shared travel from Sacramento. The scheduled date has passed; no current ticket or van reservations are offered here.',
+    dateLabel: 'September 27, 2026',
+    location: 'Bay Area',
     type: 'upcoming',
     category: 'Sports & Community',
-    feeNote: 'TBA',
     anchorId: 'bay-fc-matchday-2026',
     lanes: ['sports', 'family'],
-    externalUrl: 'mailto:zancsac@gmail.com?subject=Bay%20FC%20Matchday%202026%20-%20tickets%20%2F%20van',
-    externalLinkLabel: 'Email ZANC — tickets / van interest',
     countdownAt: '2026-09-27T15:00:00-07:00',
     endsAt: '2026-09-28T00:00:00-07:00',
   },
   {
     title: 'Zambia Flag Raising — San Francisco City Hall',
     description:
-      'A civic flag-raising for Zambia’s 62nd Independence. Honorary Consul of the Republic of Zambia for California, Rajen Ranchhod, invites Zambians across the Bay Area and Northern California — and friends of Zambia — to come out and support this occasion.\n\n' +
-      'Confirmed guests include Brigadier General Oliver Musonda, Military Advisor, and Moses Jere, Cyber/Digital Expert, from the Permanent Mission of the Republic of Zambia to the United Nations. Chief of Protocol Penny Coulter will lead the ceremony with Honorary Consul Rajen Ranchhod.\n\n' +
-      'Friday, October 23, 2026 · 11:30 AM. Arrive at 11:15 AM for security through the Polk Street entrance, then proceed to Room 200 on the second floor. RSVP to meron.foster@sfgov.org. One Zambia, One Nation.',
-    dateLabel: 'Fri, Oct 23 · 11:30 AM',
+      'Zambians and friends of Zambia gathered at San Francisco City Hall on Friday, October 23 to mark Zambia’s 62nd independence anniversary. A City proclamation designated October 24, 2026 as “Zambian-American Friendship and Heritage Day” in San Francisco. Thank you to Honorary Consul Rajen Ranchhod, the City’s Protocol Office and everyone who joined us.',
+    dateLabel: 'October 23, 2026',
     location: 'San Francisco City Hall',
-    type: 'upcoming',
+    type: 'past',
     category: 'Civic ceremony',
-    feeNote: 'RSVP requested · arrive 11:15 AM',
     anchorId: 'sf-flag-raising-2026',
-    imageUrl: '/images/postings/sf-flag-raising-2026-final-oct20.png',
-    heroImageTall: true,
+    detailPath: '/independence#flag-raising',
     lanes: ['family', 'culture', 'signature'],
     countdownAt: '2026-10-23T11:30:00-07:00',
     endsAt: '2026-10-24T00:00:00-07:00',
@@ -385,70 +374,19 @@ export const ZANC_COMMUNITY_EVENTS: CommunityEvent[] = [
   },
   {
     title: 'Zambian Independence Celebration 2026',
-    description:
-      'One flagship Saturday celebration in Woodland — an evening of heritage, dignity, and celebration marking 62 years of Zambian Independence.\n\n' +
-      'Saturday, October 24, 2026. Doors open at 5:30 PM; the celebration begins at 6:00 PM. Adults 18+ $55; ages 10–17 $25; children under 10 free. Reserve in advance, including all children; the hall has a capacity of 160. Fairfield by Marriott Inn & Suites Sacramento Airport Woodland, 2100 Freeway Drive, Woodland, CA.\n\n' +
-      'The evening features Zambian Afro Pop artist Jean Nangwala, music by Dj LittyRocket, Zambian cultural history and fun facts, and a conversation about robotics and the future of food. A vegetarian dish prepared with the help of kitchen automation will be part of the buffet. Confirmed guests include Brigadier General Oliver Musonda and Moses Jere from Zambia’s Permanent Mission to the United Nations. Members and friends of Zambia are warmly welcome. The celebration is at the host hotel, where a ZANC group rate of $99/night is open through October 22.',
-    dateLabel: 'Sat, Oct 24 · 6:00 PM',
+    description: INDEPENDENCE_RECAP.excerpt + '\n\nThank you to the community, volunteers, performers, American Hospitality Services, the Ranchhod family and the hotel team for making the celebration possible. Photography by Nirav Solanki.',
+    dateLabel: 'October 24, 2026',
     location: 'Woodland, CA',
-    type: 'upcoming',
+    type: 'past',
     category: 'Flagship Event',
-    feeNote: 'Adults $55 · ages 10–17 $25 · under 10 free',
-    externalUrl: INDEPENDENCE_RESERVATION_URL,
-    externalLinkLabel: 'Reserve your place',
     anchorId: 'independence-2026',
     detailPath: '/independence',
-    imageUrl: '/images/postings/independence-2026-family.png',
+    imageUrl: INDEPENDENCE_RECAP_HERO.image_url,
     lanes: ['family', 'culture', 'signature'],
-    featured: true,
     countdownAt: '2026-10-24T18:00:00-07:00',
     endsAt: '2026-10-25T00:00:00-07:00',
     venueName: 'Fairfield by Marriott Inn & Suites Sacramento Airport Woodland',
     venueAddress: '2100 Freeway Drive, Woodland, CA 95776',
-    accommodation: {
-      hotelName: 'Fairfield by Marriott Inn & Suites Sacramento Airport Woodland',
-      address: '2100 Freeway Drive, Woodland, CA 95776',
-      groupRate: '$99/night',
-      bookingDeadline: 'October 22, 2026',
-      bookingUrl:
-        'https://www.marriott.com/event-reservations/reservation-link.mi?id=1787180376578&key=GRP&app=resvlink&_p=c11335dc9d047af1e7038cfdee&__branch_flow_type=chrome_deepview&__branch_flow_id=1618974438233809510',
-      note: 'Hotel booking is now open for guests traveling in for October 24, or staying that weekend. The hotel is also the celebration venue. Thank you to the Ranchhod family and the hotel team for making these arrangements possible. Rates and available nights are confirmed by Marriott at booking.',
-    },
-    workstreams: [
-      {
-        title: 'Cooking team',
-        status: 'Now forming',
-        body:
-          'ZANC is organizing community cooking with supplemental dishes and welcomes members who would like to help. Members who take on defined major cooking responsibilities may be compensated for that work.',
-        ctaLabel: 'Email ZANC about cooking',
-        ctaHref:
-          'mailto:zancsac@gmail.com?subject=Independence%202026%20-%20cooking%20team&body=I%27d%20like%20to%20help%20with%20cooking%20for%20Independence%202026.%0A%0AName%3A%0APhone%3A%0ADishes%20or%20area%20I%27d%20like%20to%20take%20on%3A%0A',
-      },
-      {
-        title: 'Décor team',
-        status: 'Now forming',
-        body:
-          'We are looking for community members interested in helping shape the look and feel of the celebration. Members who take on defined décor responsibilities may be compensated for that work.',
-        ctaLabel: 'Email ZANC about décor',
-        ctaHref:
-          'mailto:zancsac@gmail.com?subject=Independence%202026%20-%20d%C3%A9cor%20team&body=I%27d%20like%20to%20help%20with%20d%C3%A9cor%20for%20Independence%202026.%0A%0AName%3A%0APhone%3A%0AWhat%20I%27d%20like%20to%20take%20on%3A%0A',
-      },
-      {
-        title: 'Music with Dj LittyRocket',
-        status: 'Details coming soon',
-        body:
-          'Dj LittyRocket is confirmed for the evening. Details about music requests and the running order will follow.',
-        pending: true,
-      },
-      {
-        title: 'Volunteering and sponsorship',
-        status: 'Get involved',
-        body:
-          'Thank you to American Hospitality Services for sponsoring the celebration. Area businesses interested in sponsorship or in-kind contributions, and community members who would like to volunteer, are welcome to contact ZANC.',
-        ctaLabel: 'Contact ZANC',
-        ctaHref: 'mailto:zancsac@gmail.com?subject=Independence%202026%20-%20volunteering%20or%20sponsorship',
-      },
-    ],
   },
   {
     title: 'Community Hangout / Thanksgiving Mixer',

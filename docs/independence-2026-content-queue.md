@@ -1,6 +1,38 @@
 # Independence 2026 — content queue
 
-Updated October 16, 2026 from organizer confirmations and revised publicity.
+## October 26 — local post-event candidate
+
+The Independence page now serves as a celebration recap, with a six-photo introduction
+and a 14-photo album at `/gallery?album=independence-2026`. Home, News and the calendar
+point to the recap. Expired reservation, hotel-rate and volunteer-recruitment prompts
+are removed from these current surfaces; the original press release is preserved.
+
+Preliminary attribution: **Photography by Nirav Solanki**, linked to
+https://niravsolanki.com/. Credit appears on the recap, homepage and each selected
+gallery image. The photographer's full shareable gallery link is still awaited;
+no token-based gallery URL is included in the public application.
+
+Selected source image numbers: 178, 006, 002, 046, 062, 068, 123, 137, 155, 166,
+173, 184, 202 and 244. WebP derivatives use 640px and 1600px widths; original
+downloads are preserved outside the public build. Captions describe the scenes
+without assigning unconfirmed identities to people in the photographs.
+
+October 26 cleanup removes empty business and marketplace features, unfinished LA
+page promotion, blank news-image fillers and empty opportunity-loading cards.
+Earlier calendar listings are compact and no longer solicit reservations. Current
+museum wording and the original press release's link to the recap are refreshed.
+The community board stops waiting after eight seconds and offers email when its
+listing request is unavailable; empty title/description entries do not become cards.
+
+The owner authorized publication on October 26. Build, TypeScript, affected-file
+lint and calendar checks pass. The local browser sweep checks 14 public pages,
+six downloadable assets, desktop/mobile layouts and gallery interactions. Production
+release status is verified separately after publishing. No final attendance count,
+financial outcome or future municipal agreement is reported in the public recap.
+
+## Historical pre-event release — October 16
+
+The following records the organizer confirmations and revised publicity used then.
 
 ## Confirmed content in this release
 

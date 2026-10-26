@@ -126,10 +126,6 @@ const GetInvolved = () => {
                     </a>
                   </p>
                 </div>
-                <div>
-                  <h3 className="text-lg font-medium text-primary-800">Phone</h3>
-                  <p className="text-gray-700">Available by request via email</p>
-                </div>
               </div>
             </div>
 

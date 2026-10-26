@@ -12,7 +12,7 @@ const ContactForm: React.FC = () => {
   return (
     <div className="space-y-4">
       <p className="text-sm text-slate leading-relaxed">
-        We&apos;re not routing messages through this website yet. To reach the team, please send an email — we read every message.
+        Questions about membership, events or ways to help? Email the ZANC team.
       </p>
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-1">
         <a href={mailtoHref} className="inline-block">

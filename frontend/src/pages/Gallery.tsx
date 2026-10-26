@@ -1,22 +1,13 @@
 import { useMemo, useState, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import PhotoGallery, { type GalleryPhoto } from '../components/PhotoGallery';
+import PhotoCredit from '../components/PhotoCredit';
+import { INDEPENDENCE_2026_PHOTOS, INDEPENDENCE_PHOTOGRAPHER } from '../data/independence2026Recap';
 import PageHeader from '../components/PageHeader';
 import { supabase } from '../lib/supabase';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
-type GalleryItem = {
-  id: string;
-  image_url: string;
-  caption: string | null;
-  category: string | null;
-  /** Optional extra labels for storytelling (local items; remote rows may add when DB supports it) */
-  tags?: string[] | null;
-};
-
-function galleryDisplayTags(item: GalleryItem): string[] {
-  if (item.tags?.length) return item.tags;
-  if (item.category) return [item.category];
-  return [];
-}
+type GalleryItem = GalleryPhoto;
 
 /** `Zambia-US Roadshow 2025 - N.jpg` sources, copied as URL-safe `zambia-us-roadshow-2025-N.jpg`. */
 const ZAMBIA_US_ROADSHOW_2025_IDS = [118, 119, 124, 133, 137, 139, 180, 181, 364, 373, 402] as const;
@@ -34,6 +25,7 @@ const LOCAL_ROADSHOW_2025_NUMBERED: GalleryItem[] = ZAMBIA_US_ROADSHOW_2025_IDS.
  * Files live in `frontend/public/images/gallery/` for Vite. Shown first, then Supabase rows.
  */
 const LOCAL_GALLERY_ITEMS: GalleryItem[] = [
+  ...INDEPENDENCE_2026_PHOTOS,
   {
     id: 'local-community-friends-gathering',
     image_url: '/images/gallery/community-friends-gathering.JPG',
@@ -102,9 +94,17 @@ const Gallery = () => {
   });
 
   const [remoteItems, setRemoteItems] = useState<GalleryItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState<string>('All');
-  const [lightbox, setLightbox] = useState<GalleryItem | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const requestedAlbum = searchParams.get('album');
+  const activeCategory = requestedAlbum === 'independence-2026' ? 'Independence 2026' : searchParams.get('category') || 'All';
+  const selectCategory = (category: string) => {
+    const next = new URLSearchParams(searchParams);
+    next.delete('album');
+    next.delete('category');
+    if (category === 'Independence 2026') next.set('album', 'independence-2026');
+    else if (category !== 'All') next.set('category', category);
+    setSearchParams(next);
+  };
 
   const items = useMemo(() => [...LOCAL_GALLERY_ITEMS, ...remoteItems], [remoteItems]);
 
@@ -123,8 +123,6 @@ const Gallery = () => {
         }
       } catch {
         setRemoteItems([]);
-      } finally {
-        setLoading(false);
       }
     };
     fetchGallery();
@@ -148,29 +146,21 @@ const Gallery = () => {
       <PageHeader title="Gallery" />
       <section className="py-12 md:py-16 bg-fog">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {loading && items.length === 0 ? (
-            <div className="text-center py-12 text-gray-500">Loading gallery…</div>
-          ) : items.length === 0 ? (
-            <div>
-              <div className="text-center py-8">
-                <h2 className="text-2xl font-heading font-semibold text-zambia-green">Photos coming soon</h2>
-                <p className="text-slate mt-2">We’re building the gallery. Check back soon, or share your photos with the community.</p>
-                <p className="text-slate mt-3 text-sm">Share your photos — email <span className="font-medium">gallery@zanc.org</span></p>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {Array.from({ length: 8 }).map((_, idx) => (
-                  <div key={idx} className="rounded-xl border border-mist bg-copper-glow/60 h-56 animate-pulse" />
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div>
+          <div className="mb-8 rounded-xl border border-copper/30 bg-white p-6 md:p-8">
+            <p className="text-xs font-heading uppercase tracking-[0.12em] text-redwood">Latest album · October 24, 2026</p>
+            <h2 className="mt-2 text-2xl font-heading font-semibold text-zambia-green">Zambia at 62, together in Woodland</h2>
+            <p className="mt-3 max-w-2xl leading-relaxed text-slate">Fourteen moments from our Independence celebration: the people, the shared meal, the performances and the friendships.</p>
+            <PhotoCredit credit={INDEPENDENCE_PHOTOGRAPHER} className="mt-3 text-slate" />
+            <Link to="/independence" className="mt-3 inline-flex min-h-11 items-center font-medium text-bay-blue underline underline-offset-4">Read the celebration recap →</Link>
+          </div>
+          <div>
               <div className="flex flex-wrap gap-2 mb-6">
                 {categories.map((c) => (
                   <button
                     key={c}
                     type="button"
-                    onClick={() => setActiveCategory(c)}
+                    onClick={() => selectCategory(c)}
+                    aria-pressed={activeCategory === c}
                     className={`px-4 py-2 rounded-full border text-sm font-medium motion-safe:transition-all motion-safe:duration-200 motion-safe:hover:scale-[1.03] motion-safe:active:scale-[0.98] ${
                       activeCategory === c ? 'bg-zambia-green text-white border-zambia-green shadow-sm' : 'bg-white text-slate border-mist hover:bg-cloud'
                     }`}
@@ -180,85 +170,16 @@ const Gallery = () => {
                 ))}
               </div>
 
-              {/* Masonry-style columns (no extra libs) */}
-              <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 [column-fill:_balance]">
-                {filtered.map((item) => (
-                  <figure
-                    key={item.id}
-                    className="mb-6 break-inside-avoid rounded-xl overflow-hidden border border-mist bg-white shadow-sm hover:shadow-md transition-shadow cursor-zoom-in"
-                    onClick={() => setLightbox(item)}
-                  >
-                    <div className="relative aspect-[4/3] w-full bg-copper-glow/40 overflow-hidden">
-                      {galleryDisplayTags(item).length > 0 && (
-                        <div className="absolute top-2 left-2 z-10 flex flex-wrap gap-1 max-w-[calc(100%-1rem)]">
-                          {galleryDisplayTags(item).map((tag) => (
-                            <span
-                              key={`${item.id}-${tag}`}
-                              className="rounded-full bg-black/55 text-white text-[10px] font-medium px-2 py-0.5 backdrop-blur-[2px] shadow-sm"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      <img
-                        src={item.image_url}
-                        alt={item.caption || 'Gallery image'}
-                        className="h-full w-full object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out motion-safe:group-hover:scale-105 motion-reduce:group-hover:scale-100"
-                      />
-                    </div>
-                    {item.caption && (
-                      <figcaption className="p-3 text-sm text-slate">{item.caption}</figcaption>
-                    )}
-                  </figure>
-                ))}
-              </div>
+              <PhotoGallery key={activeCategory} photos={filtered} />
+              {filtered.length === 0 && <p className="py-8 text-center text-slate">No photos in this category. Choose another album above.</p>}
 
               <p className="mt-8 text-center text-sm text-slate">
-                Share your photos — email <span className="font-medium">gallery@zanc.org</span>
+                Share your photos — email <span className="font-medium">zancsac@gmail.com</span>
               </p>
-            </div>
-          )}
+          </div>
         </div>
       </section>
 
-      {lightbox && (
-        <div className="fixed inset-0 z-50">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setLightbox(null)} />
-          <div className="absolute inset-0 flex items-center justify-center p-4">
-            <div className="ui-modal-pop w-full max-w-4xl bg-white rounded-xl overflow-hidden shadow-xl border border-mist">
-              <div className="flex items-center justify-between px-4 py-3 border-b border-mist bg-cloud">
-                <div className="min-w-0">
-                  <p className="font-heading font-semibold text-zambia-green truncate">{lightbox.caption || 'Photo'}</p>
-                  {galleryDisplayTags(lightbox).length > 0 && (
-                    <div className="mt-1 flex flex-wrap gap-1">
-                      {galleryDisplayTags(lightbox).map((tag, ti) => (
-                        <span
-                          key={`lb-${ti}-${tag}`}
-                          className="rounded-full bg-copper-glow text-slate text-[10px] font-medium px-2 py-0.5 border border-mist"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setLightbox(null)}
-                  className="text-slate hover:text-redwood px-2 py-1 rounded"
-                  aria-label="Close"
-                >
-                  ✕
-                </button>
-              </div>
-              <div className="bg-black">
-                <img src={lightbox.image_url} alt={lightbox.caption || 'Gallery image'} className="w-full h-auto max-h-[80vh] object-contain" />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

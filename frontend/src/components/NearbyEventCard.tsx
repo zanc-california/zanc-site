@@ -9,7 +9,8 @@ const eventThemes = {
   run: 'bg-zambia-green/10 text-zambia-green',
 };
 
-export default function NearbyEventCard({ event }: { event: NearbyEvent }) {
+export default function NearbyEventCard({ event, headingLevel = 'h4' }: { event: NearbyEvent; headingLevel?: 'h3' | 'h4' }) {
+  const Heading = headingLevel;
   const Icon = eventIcons[event.kind];
   const date = new Date(event.startsAt);
   const month = date.toLocaleDateString('en-US', { month: 'short', timeZone: 'America/Los_Angeles' });
@@ -32,7 +33,7 @@ export default function NearbyEventCard({ event }: { event: NearbyEvent }) {
             <span className="block text-2xl font-heading font-bold leading-tight">{day}</span>
           </div>
         </div>
-        <h4 className="font-heading text-xl font-semibold text-zambia-green leading-snug">{event.title}</h4>
+        <Heading className="font-heading text-xl font-semibold text-zambia-green leading-snug">{event.title}</Heading>
         <p className="mt-2 text-xs text-slate">Hosted by {event.organizer}</p>
         <p className="mt-4 text-sm leading-relaxed text-slate">{event.description}</p>
         <dl className="mt-5 space-y-3 text-sm text-slate">

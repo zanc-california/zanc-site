@@ -21,6 +21,7 @@ import {
 import { ENROLLMENT_WINDOW_LABEL, getEnrollmentStatus } from '../data/insuranceProgram';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { WOODLAND_PRESS_RELEASE } from '../data/woodlandPressRelease2026';
+import { INDEPENDENCE_RECAP, INDEPENDENCE_RECAP_HERO } from '../data/independence2026Recap';
 
 type StaticNewsArticle = {
   id: string;
@@ -34,6 +35,15 @@ type StaticNewsArticle = {
 
 /** Site-authored micro-articles (News + All tabs): latest recap, related updates, then the archive. */
 const STATIC_NEWS_ARTICLES: StaticNewsArticle[] = [
+  {
+    id: 'independence-2026-recap',
+    title: INDEPENDENCE_RECAP.title,
+    excerpt: INDEPENDENCE_RECAP.excerpt,
+    date: `${INDEPENDENCE_RECAP.date} · Photos: Nirav Solanki`,
+    imageUrl: INDEPENDENCE_RECAP_HERO.image_url,
+    bodyParagraphs: [],
+    articlePath: '/independence',
+  },
   {
     id: WOODLAND_PRESS_RELEASE.slug,
     title: WOODLAND_PRESS_RELEASE.title,
@@ -53,20 +63,18 @@ const STATIC_NEWS_ARTICLES: StaticNewsArticle[] = [
       'On September 28, ZANC President Mabvuto Kaela and Rajen Ranchhod, Honorary Consul of the Republic of Zambia in California, visited Sacramento City Hall for a 30-minute introductory discussion with Vice Mayor Karina Talamantes’ office.',
       'The conversation introduced Zambia, its strengths and its regional context, and explored the proposed Sacramento–Lusaka capital-to-capital initiative. Areas raised included agriculture and food systems, education and youth exchange, trade and investment, tourism and culture, and cooperation between public institutions.',
       'The proposal suggests exploring a suitable cooperation framework, identifying a city point of contact and bringing regional partners together for a roundtable. It also raises the possibility of a Sacramento–Zambia Business, Agriculture & Investment Forum in 2027. These remain proposals for further discussion; no formal partnership or forum has been agreed.',
-      'We also invited the Vice Mayor’s team to our October 24 Independence celebration in Woodland. They will check their schedules, and attendance remains unconfirmed. Thank you to the Vice Mayor’s office for making time to learn about Zambia and meet with our community representatives.',
+      'The visit also opened a connection with the Vice Mayor’s team ahead of our October 24 Independence celebration. Thank you to the office for making time to learn about Zambia and meet with our community representatives.',
     ],
   },
   {
     id: 'sf-flag-raising-community-2026',
-    title: 'Zambia’s flag at San Francisco City Hall: a moment to share',
-    excerpt: 'Join us on October 23 at 11:30 AM as we celebrate Zambia’s independence, our community’s presence in Northern California and the relationships we hope to build.',
-    date: 'Looking ahead · October 23, 2026',
-    imageUrl: '/images/postings/sf-flag-raising-2026-confirmed.png',
+    title: 'Zambia’s flag at San Francisco City Hall: a moment to remember',
+    excerpt: 'Our October 23 flag raising marked Zambia’s 62nd independence anniversary, followed by a proclamation recognizing Zambian-American friendship and heritage on October 24, 2026.',
+    date: 'Recap · October 23, 2026',
     bodyParagraphs: [
-      'Zambians and friends of Zambia are invited to San Francisco City Hall on Friday, October 23, 2026 at 11:30 AM for a civic flag-raising marking Zambia’s 62nd independence anniversary. The gathering takes place at 1 Dr. Carlton B. Goodlett Place, San Francisco, the day before our community celebration in Woodland.',
-      'For ZANC, this is an opportunity to celebrate our heritage in the civic life of the region we call home. For our children and younger community members, seeing Zambia’s flag at City Hall can make that connection tangible: pride in where our families come from, alongside a sense of belonging and contribution here in Northern California.',
-      'For Zambia, the occasion offers a chance to introduce more neighbors to our country, its people and its culture. Our hope is that the conversations begun around this celebration can grow into sustained cultural exchange, educational connections and introductions between people with shared interests in business and community service. Those possibilities depend on relationships and follow-through beyond the ceremony.',
-      'ZANC is supporting the invitation from Rajen Ranchhod, Zambia’s Honorary Consul in California. We thank the City of San Francisco and its Protocol Office for working with us on the occasion, and encourage our community and friends to come together in the spirit of One Zambia, One Nation.',
+      'Zambians and friends of Zambia gathered at San Francisco City Hall on Friday, October 23, 2026 for a civic flag raising marking Zambia’s 62nd independence anniversary.',
+      'A City proclamation designated October 24, 2026 as “Zambian-American Friendship and Heritage Day” in San Francisco. It recognized the contributions of Zambians and Zambian-Americans and the friendship between our communities.',
+      'Thank you to Honorary Consul Rajen Ranchhod, the City’s Protocol Office and everyone who joined the occasion. The flag raising preceded Saturday’s community celebration in Woodland.',
     ],
   },
   {
@@ -267,7 +275,7 @@ function EventProgramCard({ ev, headingLevel = 'h3' }: { ev: CommunityEvent; hea
             to={ev.detailPath}
             className="inline-flex items-center gap-1 text-sm font-semibold text-copper hover:text-redwood hover:underline"
           >
-            Full event details, hotel &amp; how to take part →
+            {ev.type === 'past' ? 'Read the recap →' : 'Full event details, hotel & how to take part →'}
           </Link>
         </div>
       )}
@@ -331,7 +339,7 @@ const News = () => {
   useDocumentMeta({
     title: 'Events & News',
     description:
-      'The ZANC community calendar — upcoming events including the Zambian Independence Celebration on October 24, 2026, ' +
+      'The ZANC community calendar — upcoming events, Independence 2026 photos and celebration highlights, ' +
       'past event recaps, community programmes, and association news.',
     path: '/news',
   });
@@ -353,7 +361,24 @@ const News = () => {
   const nearbyEvents = getUpcomingNearbyEvents().filter((event) => eventLaneFilter === 'all' || event.lanes.includes(eventLaneFilter));
   const archivedPlans = getArchivedPlans();
   // Includes events that have aged out of "upcoming" on their own, so nothing vanishes from the site.
-  const pastEvents = getPastEvents();
+  const allPastEvents = getPastEvents();
+  const pastEvents = allPastEvents.filter((event) => event.type === 'past');
+  const earlierListings = allPastEvents.filter((event) => event.type !== 'past');
+  const earlierListingsBlock = earlierListings.length > 0 ? (
+    <details className="mt-6 rounded-xl border border-mist bg-white p-5 sm:p-6">
+      <summary className="cursor-pointer font-heading font-semibold text-zambia-green">Earlier calendar listings ({earlierListings.length})</summary>
+      <p className="mt-3 text-sm leading-relaxed text-slate">These dates have passed. The listings are kept for reference; they are separate from our completed-event recaps.</p>
+      <div className="mt-4 divide-y divide-mist">
+        {earlierListings.map((event) => (
+          <article key={event.anchorId} id={event.anchorId} className="scroll-mt-28 py-4 first:pt-0 last:pb-0">
+            <h4 className="font-semibold text-zambia-green">{event.title}</h4>
+            <p className="mt-1 text-xs text-slate">{event.dateLabel} · {event.location}</p>
+            <p className="mt-2 text-sm leading-relaxed text-slate">{event.description}</p>
+          </article>
+        ))}
+      </div>
+    </details>
+  ) : null;
   const archivedPlansBlock = (
     <details id="archived-plans" className="rounded-xl border border-mist bg-white p-5 sm:p-6">
       <summary className="cursor-pointer font-heading font-semibold text-zambia-green">
@@ -526,9 +551,7 @@ const News = () => {
           ))}
       </div>
       {loading ? <p className="text-center text-sm text-slate mt-6">Loading more stories from the community archive…</p> : null}
-      {!loading && STATIC_NEWS_ARTICLES.length === 0 && newsItems.length === 0 ? (
-        <div className="text-center py-10 text-slate">No news yet. Check back soon!</div>
-      ) : null}
+
     </>
   );
 
@@ -695,6 +718,7 @@ const News = () => {
                   ))}
                 </div>
               </div>
+              {earlierListingsBlock}
               {archivedPlansBlock}
             </div>
           )}
@@ -717,6 +741,7 @@ const News = () => {
                   <EventProgramCard key={ev.anchorId ?? ev.title} ev={ev} />
                 ))}
               </div>
+              {earlierListingsBlock}
               {archivedPlansBlock}
             </div>
           )}

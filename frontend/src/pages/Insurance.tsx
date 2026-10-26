@@ -265,9 +265,6 @@ const Insurance = () => {
                         zancsac@gmail.com
                       </a>
                     </li>
-                    <li>
-                      <span className="font-medium text-zambia-green">Phone:</span> To be announced
-                    </li>
                   </ul>
                 </div>
               </div>

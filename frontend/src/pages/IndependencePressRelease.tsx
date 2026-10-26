@@ -28,6 +28,10 @@ const IndependencePressRelease = () => {
     <div className="bg-white py-8 md:py-12">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <Link to="/news" className="text-sm font-medium text-bay-blue underline underline-offset-4">← Events & News</Link>
+        <p className="mt-5 rounded-lg border border-mist bg-cloud p-4 text-sm leading-relaxed text-slate">
+          This is the original pre-event announcement. The October 24 celebration has taken place.{' '}
+          <Link to="/independence" className="font-semibold text-bay-blue underline underline-offset-4">Read the recap and view photos →</Link>
+        </p>
         <article aria-labelledby="press-release-title" className="mt-8">
           <header>
             <p className="text-xs font-heading uppercase tracking-widest text-redwood">FOR IMMEDIATE RELEASE</p>
@@ -62,7 +66,7 @@ const IndependencePressRelease = () => {
           </section>
         </article>
         <div className="mt-10 border-t border-mist pt-6">
-          <Link to="/independence" className="inline-flex rounded-md bg-zambia-green px-5 py-3 font-semibold text-white hover:bg-zambia-green-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zambia-green">Event details and reservations</Link>
+          <Link to="/independence" className="inline-flex rounded-md bg-zambia-green px-5 py-3 font-semibold text-white hover:bg-zambia-green-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zambia-green">Celebration recap and photos</Link>
         </div>
       </div>
     </div>
