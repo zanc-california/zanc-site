@@ -59,6 +59,34 @@ export default function Independence() {
         </div>
       </section>
 
+      <section id="community-message" className="scroll-mt-24 border-t border-mist bg-white py-10 md:py-14" aria-labelledby="community-message-title">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+          <h2 id="community-message-title" className="mb-5 text-sm font-heading uppercase tracking-[0.12em] text-redwood">From the President’s address</h2>
+          <figure>
+            <a href="/images/independence-2026/bring-what-you-can-quote-1484.webp" target="_blank" rel="noopener noreferrer"
+              aria-label="View full-size quote artwork (opens in a new tab)"
+              className="block overflow-hidden rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zambia-green">
+              <img src="/images/independence-2026/bring-what-you-can-quote-1484.webp"
+                srcSet="/images/independence-2026/bring-what-you-can-quote-800.webp 800w, /images/independence-2026/bring-what-you-can-quote-1484.webp 1484w"
+                sizes="(min-width: 1024px) 976px, 100vw" width={1484} height={1060} loading="lazy" decoding="async"
+                alt="Mabvuto Kaela at the podium, paired with his community message in an AI-assisted quote design."
+                className="h-auto w-full" />
+            </a>
+            <blockquote className="sr-only">
+              <p>Bring what you can. Help shape what we become.</p>
+              <footer>Mabvuto Kaela, President, ZANC — Independence 2026 address, Woodland, October 24, 2026.</footer>
+            </blockquote>
+            <figcaption className="mt-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+              <div>
+                <PhotoCredit credit={INDEPENDENCE_PHOTOGRAPHER} className="text-slate" />
+                <p className="mt-1 text-xs text-slate">AI-assisted quote design · Select the artwork to view full size.</p>
+              </div>
+              <Link to="/get-involved" className="inline-flex min-h-11 items-center font-semibold text-bay-blue underline underline-offset-4">Help shape our next gathering →</Link>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
       <section id="celebration-photos" className="scroll-mt-24 border-y border-mist bg-cloud py-12 md:py-16" aria-labelledby="photos-title">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
