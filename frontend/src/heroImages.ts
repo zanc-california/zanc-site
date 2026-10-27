@@ -1,10 +1,47 @@
-/** Responsive derivatives of existing gallery photos. Originals remain in /images/gallery. */
-export const heroImages = [
-  { name: 'gathering', width: 1280, alt: 'Community friends gathered together in a living room', title: 'A place to belong', caption: 'Community friends gathering', position: '50% 50%' },
-  { name: 'roadshow-music', width: 1000, alt: 'A musician performing with a guitar for guests at the Zambia–US Roadshow', title: 'Culture brings us together', caption: 'Music at the Zambia–US Roadshow · 2025', position: '60% 50%' },
-  { name: 'roadshow-community', width: 1280, alt: 'Roadshow guests posing beneath balloons in Zambian flag colors', title: 'Connections that grow', caption: 'Community at the Zambia–US Roadshow · 2025', position: '50% 50%' },
-].map((photo) => ({
-  ...photo,
-  src: `/images/community/${photo.name}-1280.webp`,
-  srcSet: `/images/community/${photo.name}-640.webp 640w, /images/community/${photo.name}-1280.webp ${photo.width}w`,
-}));
+import { INDEPENDENCE_2026_PHOTOS } from './data/independence2026Recap';
+
+type HeroImage = {
+  src: string;
+  srcSet: string;
+  width: number;
+  height: number;
+  alt: string;
+  title: string;
+  caption: string;
+  position: string;
+  credit?: { name: string; url: string };
+};
+
+const celebrationSlides = [
+  ['178', 'Friendship across communities'],
+  ['184', 'Culture brings us together'],
+  ['166', 'A meal shared. A community connected.'],
+] as const;
+
+/** Reuse the optimized recap images and their original photographer credits. */
+export const heroImages: HeroImage[] = [
+  ...celebrationSlides.map(([number, title]) => {
+    const photo = INDEPENDENCE_2026_PHOTOS.find((entry) => entry.id === `independence-2026-${number}`)!;
+    return {
+      src: photo.image_url,
+      srcSet: `${photo.thumbnail_url} 640w, ${photo.image_url} 1600w`,
+      width: 1600,
+      height: 1143,
+      alt: photo.alt,
+      title,
+      caption: 'Zambia’s 62nd Independence Celebration · Woodland · October 24, 2026',
+      position: '50% 50%',
+      credit: photo.credit,
+    };
+  }),
+  {
+    src: '/images/community/gathering-1280.webp',
+    srcSet: '/images/community/gathering-640.webp 640w, /images/community/gathering-1280.webp 1280w',
+    width: 1280,
+    height: 960,
+    alt: 'Community friends gathered together in a living room',
+    title: 'A place to belong',
+    caption: 'Community friends gathering',
+    position: '50% 50%',
+  },
+];

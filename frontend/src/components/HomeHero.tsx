@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react';
 import { heroImages } from '../heroImages';
+import PhotoCredit from './PhotoCredit';
 
 export default function HomeHero({ onSubscribe }: { onSubscribe: () => void }) {
   const [active, setActive] = useState(0);
@@ -74,29 +75,32 @@ export default function HomeHero({ onSubscribe }: { onSubscribe: () => void }) {
               select(active + (event.key === 'ArrowRight' ? 1 : -1));
             }
           }}>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-black/20 shadow-xl ring-1 ring-white/20">
+          <div className="relative aspect-[7/5] overflow-hidden rounded-2xl bg-black/20 shadow-xl ring-1 ring-white/20">
             {heroImages.map((photo, index) => (
               <div key={photo.src} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${heroImages.length}: ${photo.title}`} aria-hidden={index !== active}
                 className={`absolute inset-0 transition-opacity duration-700 motion-reduce:transition-none ${index === active ? 'opacity-100' : 'opacity-0'}`}>
                 <img src={photo.src} srcSet={photo.srcSet} sizes="(min-width: 1280px) 614px, (min-width: 1024px) 50vw, 100vw" alt={photo.alt}
-                  width={1280} height={960} {...{ fetchpriority: index === 0 ? 'high' : 'low' }}
+                  width={photo.width} height={photo.height} {...{ fetchpriority: index === 0 ? 'high' : 'low' }}
                   onLoad={() => setReady((loaded) => loaded.includes(index) ? loaded : [...loaded, index])}
                   className="h-full w-full object-cover" style={{ objectPosition: photo.position }} />
               </div>
             ))}
           </div>
           <div className="mt-4" aria-live={playing ? 'off' : 'polite'} aria-atomic="true">
-            <p className="font-heading text-lg font-semibold">{heroImages[active].title}</p>
+            <p className="min-h-14 font-heading text-lg font-semibold sm:min-h-7">{heroImages[active].title}</p>
             <p className="mt-1 min-h-10 text-sm leading-5 text-white/75">{heroImages[active].caption}</p>
+            <div className="mt-1 min-h-5">
+              {heroImages[active].credit && <PhotoCredit credit={heroImages[active].credit} className="text-white/80" />}
+            </div>
           </div>
           <div className="mt-2 flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-0 sm:gap-2">
               <button type="button" className={controlClass} onClick={() => setPlaying((value) => !value)} aria-label={playing ? 'Pause slideshow' : 'Play slideshow'}>
                 {playing ? <Pause size={17} aria-hidden="true" /> : <Play size={17} aria-hidden="true" />}
               </button>
               {heroImages.map((photo, index) => (
                 <button key={photo.src} type="button" onClick={() => select(index)} aria-label={`Show photo ${index + 1}: ${photo.title}`} aria-current={index === active ? 'true' : undefined}
-                  className="flex h-11 w-8 items-center justify-center rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-white">
+                  className="flex h-11 w-7 sm:w-8 items-center justify-center rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-white">
                   <span aria-hidden="true" className={`h-1.5 rounded-full ${index === active ? 'w-7 bg-copper-glow' : 'w-2 bg-white/40'}`} />
                 </button>
               ))}
