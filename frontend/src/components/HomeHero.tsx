@@ -85,12 +85,27 @@ export default function HomeHero({ onSubscribe }: { onSubscribe: () => void }) {
                   className="h-full w-full object-cover" style={{ objectPosition: photo.position }} />
               </div>
             ))}
+            {heroImages[active].recapPath && (
+              <Link to={heroImages[active].recapPath} aria-label="Read the Independence celebration recap"
+                className="absolute inset-0 flex items-end justify-end rounded-2xl p-3 text-white hover:bg-black/10 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-copper-glow">
+                <span className="inline-flex min-h-10 items-center gap-2 rounded-md bg-black/70 px-3 py-2 text-sm font-semibold !text-white">
+                  Read event recap <ArrowRight size={16} aria-hidden="true" />
+                </span>
+              </Link>
+            )}
           </div>
           <div className="mt-4" aria-live={playing ? 'off' : 'polite'} aria-atomic="true">
             <p className="min-h-14 font-heading text-lg font-semibold sm:min-h-7">{heroImages[active].title}</p>
             <p className="mt-1 min-h-10 text-sm leading-5 text-white/75">{heroImages[active].caption}</p>
             <div className="mt-1 min-h-5">
               {heroImages[active].credit && <PhotoCredit credit={heroImages[active].credit} className="text-white/80" />}
+            </div>
+            <div className="mt-1 min-h-11">
+              {heroImages[active].galleryPath && (
+                <Link to={heroImages[active].galleryPath} className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold !text-white underline underline-offset-4 hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                  View event gallery <ArrowRight size={16} aria-hidden="true" />
+                </Link>
+              )}
             </div>
           </div>
           <div className="mt-2 flex items-center justify-between gap-2">

@@ -1,4 +1,4 @@
-import { INDEPENDENCE_2026_PHOTOS } from './data/independence2026Recap';
+import { INDEPENDENCE_2026_PHOTOS, INDEPENDENCE_RECAP } from './data/independence2026Recap';
 
 type HeroImage = {
   src: string;
@@ -10,6 +10,8 @@ type HeroImage = {
   caption: string;
   position: string;
   credit?: { name: string; url: string };
+  recapPath?: string;
+  galleryPath?: string;
 };
 
 const celebrationSlides = [
@@ -32,6 +34,8 @@ export const heroImages: HeroImage[] = [
       caption: 'Zambia’s 62nd Independence Celebration · Woodland · October 24, 2026',
       position: '50% 50%',
       credit: photo.credit,
+      recapPath: '/independence',
+      galleryPath: INDEPENDENCE_RECAP.galleryPath,
     };
   }),
   {
